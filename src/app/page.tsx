@@ -1,92 +1,76 @@
+import Link from "next/link"
+import Image from "next/image"
 import { Navbar } from "@/components/ui/navbar"
+import { Footer } from "@/components/ui/footer"
 import { Button } from "@/components/ui/button"
 import { ProductCard } from "@/components/ui/product-card"
+import { HeroSection } from "@/components/home/hero"
+import { OccasionStrip } from "@/components/home/occasion-strip"
+import { WhyChooseUs } from "@/components/home/why-choose-us"
+import { Testimonials } from "@/components/home/testimonials"
+import { Newsletter } from "@/components/home/newsletter"
+import { getFeaturedProducts, getCategories } from "@/lib/data"
 
-export default function DesignSystemPreview() {
+export default async function HomePage() {
+  const [products, categories] = await Promise.all([
+    getFeaturedProducts(),
+    getCategories(),
+  ])
+
   return (
-    <div className="min-h-screen bg-background">
-      <Navbar />
-      
-      <main className="container mx-auto px-4 py-12 space-y-24">
-        {/* Header section */}
-        <section className="text-center space-y-6 max-w-3xl mx-auto">
-          <h1 className="text-4xl md:text-6xl font-serif text-foreground">
-            Fleur & Co. Design System
-          </h1>
-          <p className="text-lg text-muted-foreground">
-            A premium, organic design system built with Tailwind CSS v4, Framer Motion, and Next.js 15.
-          </p>
-        </section>
+    <div className="min-h-screen bg-background flex flex-col">
+      <Navbar transparent />
 
-        {/* Colors */}
-        <section className="space-y-8">
-          <h2 className="text-2xl font-serif border-b pb-2">Color Palette</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-            {[
-              { name: "Primary", bg: "bg-primary", text: "text-primary-foreground" },
-              { name: "Secondary", bg: "bg-secondary", text: "text-secondary-foreground" },
-              { name: "Accent", bg: "bg-accent", text: "text-accent-foreground" },
-              { name: "Forest", bg: "bg-forest", text: "text-forest-foreground" },
-              { name: "Rose", bg: "bg-rose", text: "text-rose-foreground" },
-              { name: "Muted", bg: "bg-muted", text: "text-muted-foreground" },
-            ].map((color) => (
-              <div key={color.name} className={`h-24 rounded-2xl flex flex-col items-center justify-center shadow-sm ${color.bg} ${color.text}`}>
-                <span className="font-medium text-sm">{color.name}</span>
+      <main className="flex-1">
+        {/* Hero */}
+        <HeroSection />
+
+        {/* Shop by Occasion */}
+        <OccasionStrip categories={categories} />
+
+        {/* Featured Products */}
+        <section className="section-padding">
+          <div className="container mx-auto px-4 md:px-8">
+            <div className="flex flex-col md:flex-row justify-between items-end mb-12">
+              <div className="space-y-3">
+                <span className="text-xs uppercase tracking-[0.2em] text-gold font-medium">Curated for You</span>
+                <h2 className="text-3xl md:text-4xl font-serif text-foreground">Featured Arrangements</h2>
               </div>
-            ))}
+              <Link
+                href="/shop"
+                className="mt-4 md:mt-0 text-sm font-medium text-forest hover:text-forest/80 underline underline-offset-4 transition-colors"
+              >
+                View All →
+              </Link>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
+              {products.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  id={product.id}
+                  name={product.name}
+                  slug={product.slug}
+                  price={product.base_price}
+                  compareAtPrice={product.compare_at_price}
+                  image={product.image}
+                  category={product.category}
+                />
+              ))}
+            </div>
           </div>
         </section>
 
-        {/* Buttons */}
-        <section className="space-y-8">
-          <h2 className="text-2xl font-serif border-b pb-2">Buttons</h2>
-          <div className="flex flex-wrap gap-4 items-center">
-            <Button variant="default">Primary Button</Button>
-            <Button variant="secondary">Secondary Button</Button>
-            <Button variant="accent">Accent Button</Button>
-            <Button variant="outline">Outline Button</Button>
-            <Button variant="ghost">Ghost Button</Button>
-            <Button variant="link">Link Button</Button>
-          </div>
-        </section>
+        {/* Why Choose Us */}
+        <WhyChooseUs />
 
-        {/* Product Cards */}
-        <section className="space-y-8">
-          <h2 className="text-2xl font-serif border-b pb-2">Product Cards</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            <ProductCard
-              id="1"
-              name="Crimson Elegance"
-              price={8500}
-              compareAtPrice={10000}
-              category="Flower Bouquet"
-              image="https://images.unsplash.com/photo-1591886960571-74d43a9d4166?q=80&w=600&auto=format&fit=crop"
-            />
-            <ProductCard
-              id="2"
-              name="White Whisper"
-              price={6500}
-              category="Occasions"
-              image="https://images.unsplash.com/photo-1563241527-3004b7be0ffd?q=80&w=600&auto=format&fit=crop"
-            />
-            <ProductCard
-              id="3"
-              name="Pastel Dream"
-              price={7200}
-              category="Custom Bouquets"
-              image="https://images.unsplash.com/photo-1582794543139-8ac9cb0f7b11?q=80&w=600&auto=format&fit=crop"
-            />
-            <ProductCard
-              id="4"
-              name="Golden Hour"
-              price={5500}
-              compareAtPrice={6000}
-              category="Flower Deals"
-              image="https://images.unsplash.com/photo-1526047932273-341f2a7631f9?q=80&w=600&auto=format&fit=crop"
-            />
-          </div>
-        </section>
+        {/* Testimonials */}
+        <Testimonials />
+
+        {/* Newsletter */}
+        <Newsletter />
       </main>
+
+      <Footer />
     </div>
   )
 }

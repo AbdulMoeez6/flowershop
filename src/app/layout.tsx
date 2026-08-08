@@ -1,36 +1,38 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
   subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | Fleur & Co.",
-    default: "Fleur & Co. | Premium Florist in Islamabad",
+    template: "%s | Flower Shop Islamabad",
+    default: "Flower Shop Islamabad | Premium Florist in Pakistan",
   },
-  description: "Luxury flower delivery in Islamabad and Rawalpindi. Same-day delivery of premium floral arrangements, bouquets, and occasion flowers.",
-  metadataBase: new URL("https://flowershopislamabad.com"),
+  description: "Luxury flower delivery in Islamabad, Rawalpindi, Lahore, and Karachi. Same-day delivery of premium floral arrangements, bouquets, and occasion flowers.",
+  metadataBase: new URL("https://flowershopislamabad.com"), // Setting back to their original domain
   openGraph: {
-    title: "Fleur & Co. | Premium Florist",
-    description: "Luxury flower delivery in Islamabad and Rawalpindi.",
+    title: "Flower Shop Islamabad | Premium Florist",
+    description: "Luxury flower delivery in Islamabad, Rawalpindi, Lahore, and Karachi.",
     url: "https://flowershopislamabad.com",
-    siteName: "Fleur & Co.",
+    siteName: "Flower Shop Islamabad",
     locale: "en_PK",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Fleur & Co. | Premium Florist",
-    description: "Luxury flower delivery in Islamabad and Rawalpindi.",
+    title: "Flower Shop Islamabad | Premium Florist",
+    description: "Luxury flower delivery in Islamabad, Rawalpindi, Lahore, and Karachi.",
   },
   alternates: {
     canonical: "/",
@@ -41,23 +43,24 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Florist",
-    "name": "Fleur & Co.",
+    "name": "Flower Shop Islamabad",
     "url": "https://flowershopislamabad.com",
-    "description": "Premium Florist in Islamabad and Rawalpindi offering luxury flower delivery.",
+    "description": "Premium Florist in Pakistan offering luxury flower delivery.",
     "address": {
       "@type": "PostalAddress",
+      "streetAddress": "Office No 4, 1st Floor, VIP Plaza, I-8 Markaz",
       "addressLocality": "Islamabad",
       "addressRegion": "ICT",
       "addressCountry": "PK"
     },
-    "telephone": "+92-123-4567890",
+    "telephone": "+92-344-5130554",
     "priceRange": "$$"
   };
 
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${inter.variable} ${playfair.variable} h-full antialiased`}
     >
       <head>
         <script

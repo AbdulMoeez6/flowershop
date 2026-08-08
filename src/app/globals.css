@@ -1,37 +1,82 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #f8e1df;
-  --color-primary-foreground: #4a3c31;
+  /* ── Brand Colors ── */
+  --color-primary: #2d4a32;
+  --color-primary-foreground: #ffffff;
   --color-secondary: #f4f0ec;
   --color-secondary-foreground: #2d372e;
-  --color-accent: #dcaea4;
+  --color-accent: #c9a96e;
   --color-accent-foreground: #ffffff;
-  --color-background: #fffdfc;
+  --color-background: #faf8f5;
   --color-foreground: #1c1a19;
-  
+
   --color-forest: #2d4a32;
   --color-forest-foreground: #ffffff;
-  
+
   --color-rose: #d69894;
   --color-rose-foreground: #ffffff;
-  
-  --color-muted: #f4f4f4;
+
+  --color-cream: #f8f3ee;
+  --color-cream-foreground: #4a3c31;
+
+  --color-gold: #c9a96e;
+  --color-gold-foreground: #ffffff;
+
+  --color-muted: #f4f4f2;
   --color-muted-foreground: #737373;
-  
+
   --color-card: #ffffff;
   --color-card-foreground: #1c1a19;
-  
+
   --color-border: #e6dfdb;
-  --color-ring: #dcaea4;
-  
+  --color-input: #e6dfdb;
+  --color-ring: #c9a96e;
+
+  --color-destructive: #e74c3c;
+  --color-destructive-foreground: #ffffff;
+
+  /* ── Radius ── */
   --radius-sm: 0.25rem;
   --radius-md: 0.5rem;
   --radius-lg: 1rem;
   --radius-xl: 1.5rem;
+  --radius-2xl: 2rem;
+
+  /* ── Animations ── */
+  --animate-fade-in: fade-in 0.6s ease-out;
+  --animate-fade-up: fade-up 0.6s ease-out;
+  --animate-slide-in-left: slide-in-left 0.5s ease-out;
+  --animate-slide-in-right: slide-in-right 0.5s ease-out;
+  --animate-scale-in: scale-in 0.3s ease-out;
 }
 
-/* Base resets & typography */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-in-left {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* ── Base Resets & Typography ── */
 @layer base {
   * {
     border-color: var(--color-border);
@@ -39,19 +84,92 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
-    font-family: ui-sans-serif, system-ui, sans-serif;
+    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
-  
+
   /* Serif headings for luxury feel */
   h1, h2, h3, h4, h5, h6 {
-    font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-    font-weight: 300;
+    font-family: 'Playfair Display', ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+
+  /* Form elements */
+  input, textarea, select {
+    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
   }
 }
 
-/* Glassmorphism utilities */
+/* ── Utility Classes ── */
 @layer utilities {
   .glass {
     @apply bg-white/70 backdrop-blur-md border border-white/20 shadow-sm;
   }
+
+  .glass-dark {
+    @apply bg-black/30 backdrop-blur-md border border-white/10;
+  }
+
+  .font-serif {
+    font-family: 'Playfair Display', ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  }
+
+  .font-sans {
+    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  }
+
+  /* Text gradient */
+  .text-gradient {
+    background: linear-gradient(135deg, var(--color-forest), var(--color-gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Section container */
+  .section-padding {
+    @apply py-16 md:py-24;
+  }
+
+  /* Premium input style */
+  .input-premium {
+    @apply flex h-11 w-full rounded-lg border border-input bg-background px-4 py-2 text-sm
+    transition-all duration-200
+    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/30 focus-visible:border-gold
+    placeholder:text-muted-foreground/60;
+  }
+
+  /* Scroll-based nav background */
+  .nav-scrolled {
+    @apply bg-background/95 backdrop-blur-lg shadow-sm border-b border-border/60;
+  }
+
+  .nav-transparent {
+    @apply bg-transparent border-b border-transparent;
+  }
+}
+
+/* ── Smooth scroll ── */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ── Custom scrollbar ── */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-muted-foreground);
 }

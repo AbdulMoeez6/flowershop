@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils"
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   asChild?: boolean
-  variant?: "default" | "secondary" | "outline" | "ghost" | "link" | "accent"
+  variant?: "default" | "secondary" | "outline" | "ghost" | "link" | "accent" | "destructive"
   size?: "default" | "sm" | "lg" | "icon"
 }
 
@@ -15,18 +15,19 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <Comp
         className={cn(
-          "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
+          "inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40 disabled:pointer-events-none disabled:opacity-50 cursor-pointer active:scale-[0.98]",
           {
-            "bg-primary text-primary-foreground shadow hover:bg-primary/90": variant === "default",
+            "bg-forest text-forest-foreground shadow-md hover:bg-forest/90 hover:shadow-lg": variant === "default",
             "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80": variant === "secondary",
-            "bg-accent text-accent-foreground shadow-sm hover:bg-accent/90": variant === "accent",
-            "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground": variant === "outline",
-            "hover:bg-accent hover:text-accent-foreground": variant === "ghost",
-            "text-primary underline-offset-4 hover:underline": variant === "link",
-            "h-9 px-4 py-2": size === "default",
+            "bg-gold text-gold-foreground shadow-md hover:bg-gold/90 hover:shadow-lg": variant === "accent",
+            "border border-border bg-background shadow-sm hover:bg-muted hover:text-foreground": variant === "outline",
+            "hover:bg-muted/80 hover:text-foreground": variant === "ghost",
+            "text-forest underline-offset-4 hover:underline": variant === "link",
+            "bg-destructive text-destructive-foreground shadow-md hover:bg-destructive/90": variant === "destructive",
+            "h-10 px-5 py-2": size === "default",
             "h-8 rounded-md px-3 text-xs": size === "sm",
-            "h-10 rounded-md px-8": size === "lg",
-            "h-9 w-9": size === "icon",
+            "h-12 rounded-lg px-8 text-base": size === "lg",
+            "h-10 w-10": size === "icon",
           },
           className
         )}
