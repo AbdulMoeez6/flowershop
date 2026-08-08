@@ -51,6 +51,10 @@ export default function AdminLayout({
         return
       }
 
+      // Check if email is in the admin emails env list
+      const adminEmails = process.env.NEXT_PUBLIC_ADMIN_EMAILS?.split(",") || []
+      const isAdminEmail = user.email && adminEmails.includes(user.email)
+
       // Check role from profiles table
       const { data: profile } = await supabase
         .from("profiles")
@@ -59,9 +63,20 @@ export default function AdminLayout({
         .single()
 
       if (profile?.role !== "admin") {
-        // Non-admin trying to access admin area → redirect
-        router.push("/account")
-        return
+        if (isAdminEmail) {
+          // Auto-promote to admin in DB so RLS policies work
+          // Using upsert in case the profile row hasn't been created yet
+          await supabase.from("profiles").upsert({ 
+            id: user.id, 
+            role: "admin",
+            full_name: user.user_metadata?.full_name || "Admin",
+            created_at: new Date().toISOString()
+          })
+        } else {
+          // Non-admin trying to access admin area → redirect
+          router.push("/account")
+          return
+        }
       }
 
       setAuthorized(true)

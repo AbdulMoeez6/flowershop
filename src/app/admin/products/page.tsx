@@ -33,6 +33,8 @@ export default function AdminProductsPage() {
   const [search, setSearch] = useState("")
   const [showModal, setShowModal] = useState(false)
   const [editingProduct, setEditingProduct] = useState<Product | null>(null)
+  const [productToDelete, setProductToDelete] = useState<Product | null>(null)
+  const [formError, setFormError] = useState<string | null>(null)
 
   // Form state
   const [formName, setFormName] = useState("")
@@ -71,6 +73,7 @@ export default function AdminProductsPage() {
     setFormDescription("")
     setFormFile(null)
     setFormFilePreview("")
+    setFormError(null)
     setShowModal(true)
   }
 
@@ -82,10 +85,12 @@ export default function AdminProductsPage() {
     setFormDescription(product.short_description || "")
     setFormFile(null)
     setFormFilePreview(product.product_images?.[0]?.url || "")
+    setFormError(null)
     setShowModal(true)
   }
 
   const handleSave = async () => {
+    setFormError(null)
     setSaving(true)
     const slug = formName.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "")
 
@@ -107,7 +112,7 @@ export default function AdminProductsPage() {
           }
         }
       } catch (e) {
-        alert("Image upload failed");
+        setFormError("Image upload failed");
         setSaving(false);
         return;
       }
@@ -124,33 +129,55 @@ export default function AdminProductsPage() {
 
     if (editingProduct) {
       // Update
-      await supabase.from("products").update(productData).eq("id", editingProduct.id)
+      const { error: updateError } = await supabase.from("products").update(productData).eq("id", editingProduct.id)
+      
+      if (updateError) {
+        setFormError("Failed to update product: " + updateError.message)
+        setSaving(false)
+        return
+      }
 
       // Update image
       if (finalImageUrl) {
         await supabase.from("product_images").delete().eq("product_id", editingProduct.id)
-        await supabase.from("product_images").insert({
+        const { error: imageError } = await supabase.from("product_images").insert({
           product_id: editingProduct.id,
           url: finalImageUrl,
           alt_text: formName,
           sort_order: 0,
         })
+        if (imageError) {
+          setFormError("Product saved, but failed to save image: " + imageError.message);
+          setSaving(false);
+          return;
+        }
       }
     } else {
       // Create
-      const { data: newProduct } = await supabase
+      const { data: newProduct, error: insertError } = await supabase
         .from("products")
         .insert(productData)
         .select("id")
         .single()
+        
+      if (insertError) {
+        setFormError("Failed to create product: " + insertError.message)
+        setSaving(false)
+        return
+      }
 
       if (newProduct && finalImageUrl) {
-        await supabase.from("product_images").insert({
+        const { error: imageError } = await supabase.from("product_images").insert({
           product_id: newProduct.id,
           url: finalImageUrl,
           alt_text: formName,
           sort_order: 0,
         })
+        if (imageError) {
+          setFormError("Product created, but failed to save image: " + imageError.message);
+          setSaving(false);
+          return;
+        }
       }
     }
 
@@ -159,9 +186,7 @@ export default function AdminProductsPage() {
     fetchProducts()
   }
 
-  const handleDelete = async (product: Product) => {
-    if (!confirm("Are you sure you want to delete this product?")) return
-    
+  const confirmDelete = async (product: Product) => {
     if (product.product_images?.[0]?.url) {
       const publicId = getCloudinaryPublicId(product.product_images[0].url);
       if (publicId) {
@@ -170,6 +195,7 @@ export default function AdminProductsPage() {
     }
 
     await supabase.from("products").delete().eq("id", product.id)
+    setProductToDelete(null)
     fetchProducts()
   }
 
@@ -277,7 +303,7 @@ export default function AdminProductsPage() {
                           <Edit className="w-4 h-4" />
                         </button>
                         <button
-                          onClick={() => handleDelete(product)}
+                          onClick={() => setProductToDelete(product)}
                           className="p-2 text-muted-foreground hover:text-rose transition-colors rounded-md hover:bg-rose/5"
                           aria-label="Delete product"
                         >
@@ -305,6 +331,11 @@ export default function AdminProductsPage() {
               </button>
             </div>
             <div className="p-6 space-y-4">
+              {formError && (
+                <div className="p-3 bg-rose/10 text-rose text-sm rounded-md border border-rose/20">
+                  {formError}
+                </div>
+              )}
               <div className="space-y-1.5">
                 <label className="text-sm font-medium">Product Name</label>
                 <input value={formName} onChange={(e) => setFormName(e.target.value)} className="input-premium" placeholder="Crimson Elegance" />
@@ -350,6 +381,27 @@ export default function AdminProductsPage() {
                   {saving ? "Saving..." : editingProduct ? "Update Product" : "Create Product"}
                 </Button>
               </div>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {productToDelete && (
+        <>
+          <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50" onClick={() => setProductToDelete(null)} />
+          <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 bg-card rounded-2xl shadow-xl border border-border w-full max-w-sm p-6 text-center">
+            <h3 className="font-serif text-xl mb-2">Delete Product</h3>
+            <p className="text-muted-foreground text-sm mb-6">
+              Are you sure you want to delete <span className="font-medium">"{productToDelete.name}"</span>? This action cannot be undone.
+            </p>
+            <div className="flex gap-3">
+              <Button variant="outline" onClick={() => setProductToDelete(null)} className="flex-1 rounded-lg">
+                Cancel
+              </Button>
+              <Button onClick={() => confirmDelete(productToDelete)} className="flex-1 rounded-lg bg-rose hover:bg-rose/90 text-white border-0">
+                Delete
+              </Button>
             </div>
           </div>
         </>
