@@ -25,7 +25,7 @@ export function Newsletter() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="bg-gradient-to-br from-forest to-forest/90 rounded-3xl p-8 md:p-16 text-center relative overflow-hidden"
+          className="bg-gradient-to-br from-primary to-primary/90 rounded-3xl p-8 md:p-16 text-center relative overflow-hidden"
         >
           {/* Decorative circles */}
           <div className="absolute -top-20 -right-20 w-60 h-60 rounded-full bg-gold/10 blur-2xl" />

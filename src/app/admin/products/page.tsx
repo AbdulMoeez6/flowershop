@@ -297,7 +297,7 @@ export default function AdminProductsPage() {
                       <div className="flex justify-end gap-1">
                         <button
                           onClick={() => openEditModal(product)}
-                          className="p-2 text-muted-foreground hover:text-forest transition-colors rounded-md hover:bg-muted"
+                          className="p-2 text-muted-foreground hover:text-primary transition-colors rounded-md hover:bg-muted"
                           aria-label="Edit product"
                         >
                           <Edit className="w-4 h-4" />
@@ -361,7 +361,7 @@ export default function AdminProductsPage() {
                       setFormFilePreview(URL.createObjectURL(e.target.files[0]));
                     }
                   }}
-                  className="w-full text-sm text-muted-foreground file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-medium file:bg-forest/10 file:text-forest hover:file:bg-forest/20 cursor-pointer"
+                  className="w-full text-sm text-muted-foreground file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-medium file:bg-primary/10 file:text-primary hover:file:bg-primary/20 cursor-pointer"
                 />
                 {formFilePreview && (
                   <div className="mt-2 relative w-24 h-24 rounded-lg overflow-hidden border border-border">

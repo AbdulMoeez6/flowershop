@@ -154,7 +154,7 @@ export default function AdminOrdersPage() {
                     <td className="px-6 py-4 text-right">
                       <button
                         onClick={() => setSelectedOrder(order)}
-                        className="p-2 text-muted-foreground hover:text-forest transition-colors rounded-md hover:bg-muted"
+                        className="p-2 text-muted-foreground hover:text-primary transition-colors rounded-md hover:bg-muted"
                         aria-label="View order details"
                       >
                         <Eye className="w-4 h-4" />
@@ -219,8 +219,8 @@ export default function AdminOrdersPage() {
                       onClick={() => updateOrderStatus(selectedOrder.id, s)}
                       className={`px-4 py-2 rounded-lg text-xs font-medium border transition-colors capitalize ${
                         selectedOrder.order_status === s
-                          ? "border-forest bg-forest/10 text-forest"
-                          : "border-border hover:border-forest/40 text-muted-foreground"
+                          ? "border-primary bg-primary/10 text-primary"
+                          : "border-border hover:border-primary/40 text-muted-foreground"
                       }`}
                     >
                       {s}

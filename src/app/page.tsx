@@ -38,7 +38,7 @@ export default async function HomePage() {
               </div>
               <Link
                 href="/shop"
-                className="mt-4 md:mt-0 text-sm font-medium text-forest hover:text-forest/80 underline underline-offset-4 transition-colors"
+                className="mt-4 md:mt-0 text-sm font-medium text-primary hover:text-primary/80 underline underline-offset-4 transition-colors"
               >
                 View All →
               </Link>

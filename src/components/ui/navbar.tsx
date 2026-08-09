@@ -80,7 +80,7 @@ export function Navbar({ transparent = false }: NavbarProps) {
                 className={`text-sm font-medium transition-colors relative py-1 ${
                   showSolid
                     ? pathname === link.href
-                      ? "text-forest"
+                      ? "text-primary"
                       : "text-foreground/70 hover:text-foreground"
                     : "text-white/80 hover:text-white"
                 }`}
@@ -176,7 +176,7 @@ export function Navbar({ transparent = false }: NavbarProps) {
                     onClick={() => setMobileOpen(false)}
                     className={`block py-3 px-4 rounded-lg text-base font-medium transition-colors ${
                       pathname === link.href
-                        ? "bg-forest/10 text-forest"
+                        ? "bg-primary/10 text-primary"
                         : "text-foreground/70 hover:bg-muted hover:text-foreground"
                     }`}
                   >

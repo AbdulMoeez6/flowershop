@@ -32,7 +32,7 @@ const features = [
 
 export function WhyChooseUs() {
   return (
-    <section className="section-padding bg-forest text-forest-foreground">
+    <section className="section-padding bg-primary text-primary-foreground">
       <div className="container mx-auto px-4 md:px-8">
         <div className="text-center space-y-3 mb-16">
           <span className="text-xs uppercase tracking-[0.2em] text-gold font-medium">

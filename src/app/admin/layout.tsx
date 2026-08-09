@@ -95,7 +95,7 @@ export default function AdminLayout({
     return (
       <div className="min-h-screen flex items-center justify-center bg-muted/30">
         <div className="text-center space-y-4">
-          <div className="w-10 h-10 border-3 border-forest border-t-transparent rounded-full animate-spin mx-auto" />
+          <div className="w-10 h-10 border-3 border-primary border-t-transparent rounded-full animate-spin mx-auto" />
           <p className="text-sm text-muted-foreground">Verifying access...</p>
         </div>
       </div>
@@ -122,7 +122,7 @@ export default function AdminLayout({
       {/* Desktop Sidebar */}
       <div className="w-64 bg-card border-r border-border flex-col hidden md:flex">
         <div className="h-16 flex items-center px-6 border-b border-border">
-          <Link href="/admin" className="font-serif text-xl font-bold text-forest">
+          <Link href="/admin" className="font-serif text-xl font-bold text-primary">
             Fleur Admin
           </Link>
         </div>
@@ -136,13 +136,13 @@ export default function AdminLayout({
                 href={item.href}
                 className={`flex items-center px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
                   isActive
-                    ? "bg-forest/10 text-forest"
+                    ? "bg-primary/10 text-primary"
                     : "text-muted-foreground hover:bg-muted hover:text-foreground"
                 }`}
               >
                 <item.icon
                   className={`mr-3 h-5 w-5 ${
-                    isActive ? "text-forest" : "text-muted-foreground"
+                    isActive ? "text-primary" : "text-muted-foreground"
                   }`}
                 />
                 {item.name}
@@ -168,7 +168,7 @@ export default function AdminLayout({
           <button onClick={() => setSidebarOpen(true)} aria-label="Open sidebar">
             <Menu className="h-5 w-5" />
           </button>
-          <span className="font-serif text-lg font-bold text-forest">Fleur Admin</span>
+          <span className="font-serif text-lg font-bold text-primary">Fleur Admin</span>
           <div className="w-5" />
         </header>
 
@@ -181,7 +181,7 @@ export default function AdminLayout({
             />
             <div className="fixed top-0 left-0 bottom-0 w-64 bg-card z-50 flex flex-col shadow-xl md:hidden">
               <div className="h-16 flex items-center justify-between px-6 border-b border-border">
-                <span className="font-serif text-xl font-bold text-forest">Fleur Admin</span>
+                <span className="font-serif text-xl font-bold text-primary">Fleur Admin</span>
                 <button onClick={() => setSidebarOpen(false)} aria-label="Close sidebar">
                   <X className="h-5 w-5" />
                 </button>
@@ -196,7 +196,7 @@ export default function AdminLayout({
                       onClick={() => setSidebarOpen(false)}
                       className={`flex items-center px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
                         isActive
-                          ? "bg-forest/10 text-forest"
+                          ? "bg-primary/10 text-primary"
                           : "text-muted-foreground hover:bg-muted hover:text-foreground"
                       }`}
                     >

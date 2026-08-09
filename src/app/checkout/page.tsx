@@ -84,7 +84,7 @@ export default function CheckoutPage() {
               Thank you for your order. Your order number is:
             </p>
             <div className="bg-cream rounded-xl p-6 inline-block">
-              <span className="text-2xl font-serif font-bold text-forest">
+              <span className="text-2xl font-serif font-bold text-primary">
                 {orderResult.orderNumber}
               </span>
             </div>
@@ -141,7 +141,7 @@ export default function CheckoutPage() {
             {/* Contact */}
             <section className="space-y-4">
               <h2 className="text-lg font-medium flex items-center gap-2">
-                <span className="w-7 h-7 rounded-full bg-forest text-white text-xs flex items-center justify-center font-bold">1</span>
+                <span className="w-7 h-7 rounded-full bg-primary text-white text-xs flex items-center justify-center font-bold">1</span>
                 Contact Information
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -166,7 +166,7 @@ export default function CheckoutPage() {
             {/* Delivery */}
             <section className="space-y-4">
               <h2 className="text-lg font-medium flex items-center gap-2">
-                <span className="w-7 h-7 rounded-full bg-forest text-white text-xs flex items-center justify-center font-bold">2</span>
+                <span className="w-7 h-7 rounded-full bg-primary text-white text-xs flex items-center justify-center font-bold">2</span>
                 Delivery Details
               </h2>
               <div className="space-y-4">
@@ -212,21 +212,21 @@ export default function CheckoutPage() {
             {/* Payment */}
             <section className="space-y-4">
               <h2 className="text-lg font-medium flex items-center gap-2">
-                <span className="w-7 h-7 rounded-full bg-forest text-white text-xs flex items-center justify-center font-bold">3</span>
+                <span className="w-7 h-7 rounded-full bg-primary text-white text-xs flex items-center justify-center font-bold">3</span>
                 Payment Method
               </h2>
               <div className="space-y-3">
-                <label className="flex items-center gap-4 border border-border p-4 rounded-xl cursor-pointer hover:bg-cream/50 transition-colors has-[:checked]:border-forest has-[:checked]:bg-forest/5">
-                  <input type="radio" value="cod" {...register("paymentMethod")} className="w-4 h-4 accent-forest" />
-                  <Truck className="h-5 w-5 text-forest" />
+                <label className="flex items-center gap-4 border border-border p-4 rounded-xl cursor-pointer hover:bg-cream/50 transition-colors has-[:checked]:border-primary has-[:checked]:bg-primary/5">
+                  <input type="radio" value="cod" {...register("paymentMethod")} className="w-4 h-4 accent-primary" />
+                  <Truck className="h-5 w-5 text-primary" />
                   <div>
                     <span className="font-medium text-sm">Cash on Delivery</span>
                     <p className="text-xs text-muted-foreground">Pay when your flowers arrive</p>
                   </div>
                 </label>
-                <label className="flex items-center gap-4 border border-border p-4 rounded-xl cursor-pointer hover:bg-cream/50 transition-colors has-[:checked]:border-forest has-[:checked]:bg-forest/5">
-                  <input type="radio" value="bank" {...register("paymentMethod")} className="w-4 h-4 accent-forest" />
-                  <CreditCard className="h-5 w-5 text-forest" />
+                <label className="flex items-center gap-4 border border-border p-4 rounded-xl cursor-pointer hover:bg-cream/50 transition-colors has-[:checked]:border-primary has-[:checked]:bg-primary/5">
+                  <input type="radio" value="bank" {...register("paymentMethod")} className="w-4 h-4 accent-primary" />
+                  <CreditCard className="h-5 w-5 text-primary" />
                   <div>
                     <span className="font-medium text-sm">Bank Transfer / EasyPaisa</span>
                     <p className="text-xs text-muted-foreground">Transfer details will be shared after order</p>
@@ -263,7 +263,7 @@ export default function CheckoutPage() {
                         placeholder="blur"
                         blurDataURL={BLUR_DATA_URL}
                       />
-                      <div className="absolute -top-1 -right-1 bg-forest text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full font-bold">
+                      <div className="absolute -top-1 -right-1 bg-primary text-white text-[10px] w-5 h-5 flex items-center justify-center rounded-full font-bold">
                         {item.quantity}
                       </div>
                     </div>

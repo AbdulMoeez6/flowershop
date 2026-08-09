@@ -2,7 +2,7 @@
 
 @theme {
   /* ── Brand Colors ── */
-  --color-primary: #2d4a32;
+  --color-primary: #b76e79; /* Aesthetic Dusty Rose */
   --color-primary-foreground: #ffffff;
   --color-secondary: #f4f0ec;
   --color-secondary-foreground: #2d372e;
@@ -10,9 +10,6 @@
   --color-accent-foreground: #ffffff;
   --color-background: #faf8f5;
   --color-foreground: #1c1a19;
-
-  --color-forest: #2d4a32;
-  --color-forest-foreground: #ffffff;
 
   --color-rose: #d69894;
   --color-rose-foreground: #ffffff;
@@ -122,7 +119,7 @@
 
   /* Text gradient */
   .text-gradient {
-    background: linear-gradient(135deg, var(--color-forest), var(--color-gold));
+    background: linear-gradient(135deg, var(--color-primary), var(--color-gold));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;

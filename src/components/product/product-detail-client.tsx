@@ -144,8 +144,8 @@ export function ProductDetailClient({ product }: { product: ProductData }) {
                     onClick={() => setSelectedVariant(variant)}
                     className={`px-5 py-3 rounded-lg border text-sm font-medium transition-all duration-200 ${
                       selectedVariant?.id === variant.id
-                        ? "border-forest bg-forest/5 text-forest ring-1 ring-forest/20"
-                        : "border-border hover:border-forest/40 text-muted-foreground hover:text-foreground"
+                        ? "border-primary bg-primary/5 text-primary ring-1 ring-primary/20"
+                        : "border-border hover:border-primary/40 text-muted-foreground hover:text-foreground"
                     }`}
                   >
                     {variant.name}
@@ -219,21 +219,21 @@ export function ProductDetailClient({ product }: { product: ProductData }) {
           {/* Info badges */}
           <div className="bg-cream rounded-xl p-6 mt-8 space-y-4 text-sm">
             <div className="flex items-start gap-3">
-              <Truck className="w-5 h-5 text-forest shrink-0 mt-0.5" />
+              <Truck className="w-5 h-5 text-primary shrink-0 mt-0.5" />
               <div>
                 <p className="font-medium text-foreground">Same Day Delivery</p>
                 <p className="text-muted-foreground">Order before 6:00 PM for delivery in Islamabad & Rawalpindi.</p>
               </div>
             </div>
             <div className="flex items-start gap-3">
-              <Shield className="w-5 h-5 text-forest shrink-0 mt-0.5" />
+              <Shield className="w-5 h-5 text-primary shrink-0 mt-0.5" />
               <div>
                 <p className="font-medium text-foreground">Freshness Guaranteed</p>
                 <p className="text-muted-foreground">3-day freshness guarantee on all arrangements.</p>
               </div>
             </div>
             <div className="flex items-start gap-3">
-              <Clock className="w-5 h-5 text-forest shrink-0 mt-0.5" />
+              <Clock className="w-5 h-5 text-primary shrink-0 mt-0.5" />
               <div>
                 <p className="font-medium text-foreground">Scheduled Delivery</p>
                 <p className="text-muted-foreground">Choose your preferred date and 2-hour time slot.</p>

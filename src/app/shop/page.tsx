@@ -58,8 +58,8 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
                 href={buildUrl({ category: undefined, page: undefined })}
                 className={`px-4 py-2 rounded-full text-sm font-medium border transition-colors ${
                   !params.category
-                    ? "bg-forest text-white border-forest"
-                    : "border-border text-muted-foreground hover:text-foreground hover:border-forest/40"
+                    ? "bg-primary text-white border-primary"
+                    : "border-border text-muted-foreground hover:text-foreground hover:border-primary/40"
                 }`}
               >
                 All
@@ -70,8 +70,8 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
                   href={buildUrl({ category: cat.slug, page: undefined })}
                   className={`px-4 py-2 rounded-full text-sm font-medium border transition-colors ${
                     params.category === cat.slug
-                      ? "bg-forest text-white border-forest"
-                      : "border-border text-muted-foreground hover:text-foreground hover:border-forest/40"
+                      ? "bg-primary text-white border-primary"
+                      : "border-border text-muted-foreground hover:text-foreground hover:border-primary/40"
                   }`}
                 >
                   {cat.name}
@@ -95,7 +95,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
                 href={buildUrl({ sort: sort.value || undefined, page: undefined })}
                 className={`text-xs px-3 py-1.5 rounded-md transition-colors ${
                   (params.sort ?? "") === sort.value
-                    ? "bg-forest/10 text-forest font-medium"
+                    ? "bg-primary/10 text-primary font-medium"
                     : "text-muted-foreground hover:text-foreground hover:bg-muted"
                 }`}
               >
@@ -124,7 +124,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
         ) : (
           <div className="text-center py-20">
             <p className="text-lg text-muted-foreground">No products found in this category.</p>
-            <Link href="/shop" className="text-sm text-forest underline underline-offset-4 mt-4 inline-block">
+            <Link href="/shop" className="text-sm text-primary underline underline-offset-4 mt-4 inline-block">
               View all products
             </Link>
           </div>
@@ -139,7 +139,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
                 href={buildUrl({ page: String(page) })}
                 className={`w-10 h-10 rounded-lg flex items-center justify-center text-sm font-medium transition-colors ${
                   page === currentPage
-                    ? "bg-forest text-white"
+                    ? "bg-primary text-white"
                     : "bg-muted text-foreground hover:bg-muted-foreground/10"
                 }`}
               >

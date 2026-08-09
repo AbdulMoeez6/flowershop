@@ -121,7 +121,7 @@ export function ProductCard({
         )}
         <Link
           href={productHref}
-          className="font-serif text-lg font-medium text-foreground hover:text-forest transition-colors leading-snug"
+          className="font-serif text-lg font-medium text-foreground hover:text-primary transition-colors leading-snug"
         >
           {name}
         </Link>

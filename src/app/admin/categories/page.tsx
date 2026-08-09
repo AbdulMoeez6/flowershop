@@ -109,7 +109,7 @@ export default function AdminCategoriesPage() {
                     </span>
                   </td>
                   <td className="px-6 py-4 text-right">
-                    <button onClick={() => openEdit(cat)} className="p-2 text-muted-foreground hover:text-forest rounded-md hover:bg-muted"><Edit className="w-4 h-4" /></button>
+                    <button onClick={() => openEdit(cat)} className="p-2 text-muted-foreground hover:text-primary rounded-md hover:bg-muted"><Edit className="w-4 h-4" /></button>
                     <button onClick={() => handleDelete(cat.id)} className="p-2 text-muted-foreground hover:text-rose rounded-md hover:bg-rose/5"><Trash2 className="w-4 h-4" /></button>
                   </td>
                 </tr>

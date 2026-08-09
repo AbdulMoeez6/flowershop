@@ -58,7 +58,7 @@ export function OccasionStrip({ categories }: { categories: Category[] }) {
                     </div>
                   )}
                 </div>
-                <span className="text-sm font-medium text-foreground group-hover:text-forest transition-colors">
+                <span className="text-sm font-medium text-foreground group-hover:text-primary transition-colors">
                   {cat.name}
                 </span>
               </Link>
