@@ -2,36 +2,37 @@
 
 @theme {
   /* ── Brand Colors ── */
-  --color-primary: #b76e79; /* Aesthetic Dusty Rose */
-  --color-primary-foreground: #ffffff;
-  --color-secondary: #f4f0ec;
-  --color-secondary-foreground: #2d372e;
+  --color-white: #fdf2f5; /* Very Light Pink overriding default white */
+  --color-primary: #c28b91; /* Lighter Matte Rose */
+  --color-primary-foreground: #fdf2f5;
+  --color-secondary: #fce8eb;
+  --color-secondary-foreground: #2d2424;
   --color-accent: #c9a96e;
-  --color-accent-foreground: #ffffff;
-  --color-background: #faf8f5;
-  --color-foreground: #1c1a19;
+  --color-accent-foreground: #fdf2f5;
+  --color-background: #fdf2f5;
+  --color-foreground: #3a2e2e;
 
   --color-rose: #d69894;
-  --color-rose-foreground: #ffffff;
+  --color-rose-foreground: #fdf2f5;
 
-  --color-cream: #f8f3ee;
-  --color-cream-foreground: #4a3c31;
+  --color-cream: #faeaed;
+  --color-cream-foreground: #4a3b3b;
 
   --color-gold: #c9a96e;
-  --color-gold-foreground: #ffffff;
+  --color-gold-foreground: #fdf2f5;
 
-  --color-muted: #f4f4f2;
-  --color-muted-foreground: #737373;
+  --color-muted: #f7e6e9;
+  --color-muted-foreground: #8a7a7a;
 
-  --color-card: #ffffff;
-  --color-card-foreground: #1c1a19;
+  --color-card: #fdf2f5;
+  --color-card-foreground: #3a2e2e;
 
-  --color-border: #e6dfdb;
-  --color-input: #e6dfdb;
+  --color-border: #ebd6d9;
+  --color-input: #ebd6d9;
   --color-ring: #c9a96e;
 
   --color-destructive: #e74c3c;
-  --color-destructive-foreground: #ffffff;
+  --color-destructive-foreground: #fdf2f5;
 
   /* ── Radius ── */
   --radius-sm: 0.25rem;

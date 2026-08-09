@@ -12,11 +12,11 @@ export function HeroSection() {
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1487530811176-3780de880c2d?q=80&w=1920&auto=format&fit=crop')`,
+          backgroundImage: `url('https://images.unsplash.com/photo-1526047932273-341f2a7631f9?q=80&w=1920&auto=format&fit=crop')`,
         }}
       />
-      {/* Gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/60" />
+      {/* Gradient overlay - stronger at the top to ensure the navbar is always visible */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black/70" />
 
       {/* Content */}
       <div className="relative z-10 text-center px-4 max-w-3xl mx-auto">

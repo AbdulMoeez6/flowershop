@@ -13,6 +13,7 @@ const navLinks = [
   { href: "/shop?category=bouquets", label: "Collections" },
   { href: "/shop?category=occasions", label: "Occasions" },
   { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" },
 ]
 
 interface NavbarProps {
@@ -72,7 +73,7 @@ export function Navbar({ transparent = false }: NavbarProps) {
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center space-x-8 flex-1">
+          <nav className="hidden md:flex items-center justify-center space-x-8 flex-1">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
