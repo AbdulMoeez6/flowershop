@@ -8,7 +8,7 @@ import { HeroSection } from "@/components/home/hero"
 import { OccasionStrip } from "@/components/home/occasion-strip"
 import { WhyChooseUs } from "@/components/home/why-choose-us"
 import { Testimonials } from "@/components/home/testimonials"
-import { Newsletter } from "@/components/home/newsletter"
+import { FAQs } from "@/components/home/faqs"
 import { getFeaturedProducts, getCategories } from "@/lib/data"
 
 export default async function HomePage() {
@@ -66,8 +66,8 @@ export default async function HomePage() {
         {/* Testimonials */}
         <Testimonials />
 
-        {/* Newsletter */}
-        <Newsletter />
+        {/* FAQs */}
+        <FAQs />
       </main>
 
       <Footer />

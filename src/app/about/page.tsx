@@ -88,6 +88,72 @@ export default function AboutPage() {
           </div>
         </section>
 
+        {/* Our Process Section */}
+        <section className="py-16 px-4 bg-white">
+          <div className="container mx-auto max-w-6xl text-center">
+            <motion.span 
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-xs uppercase tracking-[0.2em] text-gold font-medium mb-4 block"
+            >
+              How We Work
+            </motion.span>
+            <motion.h2 
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="text-3xl md:text-4xl font-serif text-foreground mb-16"
+            >
+              From Farm to Vase
+            </motion.h2>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="space-y-4"
+              >
+                <div className="w-16 h-16 mx-auto bg-primary/10 rounded-full flex items-center justify-center text-primary text-2xl font-serif">1</div>
+                <h4 className="text-xl font-serif text-foreground">Sourcing</h4>
+                <p className="text-muted-foreground text-sm leading-relaxed">
+                  We hand-pick the freshest seasonal blooms daily from trusted local farms and international auctions to guarantee uncompromised quality.
+                </p>
+              </motion.div>
+              
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.1 }}
+                className="space-y-4"
+              >
+                <div className="w-16 h-16 mx-auto bg-primary/10 rounded-full flex items-center justify-center text-primary text-2xl font-serif">2</div>
+                <h4 className="text-xl font-serif text-foreground">Designing</h4>
+                <p className="text-muted-foreground text-sm leading-relaxed">
+                  Our artisan florists carefully condition each stem and arrange them into breathtaking compositions tailored for your special occasion.
+                </p>
+              </motion.div>
+
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 }}
+                className="space-y-4"
+              >
+                <div className="w-16 h-16 mx-auto bg-primary/10 rounded-full flex items-center justify-center text-primary text-2xl font-serif">3</div>
+                <h4 className="text-xl font-serif text-foreground">Delivering</h4>
+                <p className="text-muted-foreground text-sm leading-relaxed">
+                  Your luxury arrangement is carefully packaged and hand-delivered directly to the recipient's door to ensure it arrives in pristine condition.
+                </p>
+              </motion.div>
+            </div>
+          </div>
+        </section>
+
         {/* Stats / Values */}
         <section className="py-20 bg-primary/5 border-y border-primary/10">
           <div className="container mx-auto max-w-5xl px-4">
