@@ -11,11 +11,11 @@ const footerLinks = {
     { label: "Plants", href: "/shop?category=plants" },
   ],
   occasions: [
-    { label: "Birthday", href: "/shop?occasion=birthday" },
-    { label: "Anniversary", href: "/shop?occasion=anniversary" },
-    { label: "Wedding", href: "/shop?occasion=wedding" },
-    { label: "Valentine's Day", href: "/shop?occasion=valentines" },
-    { label: "Sympathy", href: "/shop?occasion=sympathy" },
+    { label: "Birthday", href: "/occasions#birthday" },
+    { label: "Anniversary", href: "/occasions#anniversary" },
+    { label: "Wedding", href: "/occasions#wedding" },
+    { label: "Valentine's Day", href: "/occasions#valentines" },
+    { label: "Sympathy", href: "/occasions#sympathy" },
   ],
   company: [
     { label: "About Us", href: "/about" },

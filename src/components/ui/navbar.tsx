@@ -11,8 +11,8 @@ import { useCartStore } from "@/store/useCartStore"
 
 const navLinks = [
   { href: "/shop", label: "Shop" },
-  { href: "/shop?category=bouquets", label: "Collections" },
-  { href: "/shop?category=occasions", label: "Occasions" },
+  { href: "/collections", label: "Collections" },
+  { href: "/occasions", label: "Occasions" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ]
