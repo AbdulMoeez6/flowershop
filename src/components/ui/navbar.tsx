@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import Image from "next/image"
 import { Search, ShoppingBag, Menu, User, X, Heart } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
@@ -24,7 +24,10 @@ interface NavbarProps {
 export function Navbar({ transparent = false }: NavbarProps) {
   const [scrolled, setScrolled] = React.useState(false)
   const [mobileOpen, setMobileOpen] = React.useState(false)
+  const [searchOpen, setSearchOpen] = React.useState(false)
+  const [searchQuery, setSearchQuery] = React.useState("")
   const pathname = usePathname()
+  const router = useRouter()
   const items = useCartStore((s) => s.items)
   const itemCount = items.reduce((acc, item) => acc + item.quantity, 0)
 
@@ -35,7 +38,16 @@ export function Navbar({ transparent = false }: NavbarProps) {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  const showSolid = scrolled || !transparent
+  const showSolid = scrolled || !transparent || searchOpen
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (searchQuery.trim()) {
+      router.push(`/shop?q=${encodeURIComponent(searchQuery.trim())}`)
+      setSearchOpen(false)
+      setSearchQuery("")
+    }
+  }
 
   return (
     <>
@@ -100,6 +112,7 @@ export function Navbar({ transparent = false }: NavbarProps) {
               variant="ghost"
               size="icon"
               className={showSolid ? "" : "text-white/80 hover:text-white hover:bg-white/10"}
+              onClick={() => setSearchOpen(true)}
             >
               <Search className="h-5 w-5" />
               <span className="sr-only">Search</span>
@@ -131,6 +144,34 @@ export function Navbar({ transparent = false }: NavbarProps) {
             </Link>
           </div>
         </div>
+
+        {/* Search Overlay */}
+        <AnimatePresence>
+          {searchOpen && (
+            <motion.div 
+              initial={{ opacity: 0, y: -10 }} 
+              animate={{ opacity: 1, y: 0 }} 
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2 }}
+              className="absolute inset-0 bg-background/95 backdrop-blur-md z-[60] flex items-center px-4 md:px-8 border-b border-border/40"
+            >
+              <form onSubmit={handleSearchSubmit} className="flex-1 max-w-3xl mx-auto flex items-center">
+                <Search className="w-5 h-5 text-muted-foreground mr-3" />
+                <input 
+                  type="text" 
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search for flowers, occasions, bouquets..." 
+                  className="flex-1 bg-transparent border-none outline-none text-foreground placeholder:text-muted-foreground/50 h-full py-4 text-lg"
+                  autoFocus
+                />
+                <Button variant="ghost" size="icon" type="button" onClick={() => setSearchOpen(false)}>
+                  <X className="w-5 h-5" />
+                </Button>
+              </form>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </header>
 
       {/* Mobile Slide-in Drawer */}

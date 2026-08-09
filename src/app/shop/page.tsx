@@ -5,7 +5,7 @@ import { getAllProducts, getCategories } from "@/lib/data"
 import Link from "next/link"
 
 interface ShopPageProps {
-  searchParams: Promise<{ category?: string; sort?: string; page?: string }>
+  searchParams: Promise<{ category?: string; sort?: string; page?: string; q?: string }>
 }
 
 export default async function ShopPage({ searchParams }: ShopPageProps) {
@@ -18,6 +18,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
     getAllProducts({
       category: params.category,
       sort: params.sort,
+      search: params.q,
       limit,
       offset,
     }),
@@ -29,7 +30,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
   // Build URL helper
   function buildUrl(overrides: Record<string, string | undefined>) {
     const p = new URLSearchParams()
-    const merged = { category: params.category, sort: params.sort, page: params.page, ...overrides }
+    const merged = { category: params.category, sort: params.sort, page: params.page, q: params.q, ...overrides }
     for (const [k, v] of Object.entries(merged)) {
       if (v) p.set(k, v)
     }
@@ -44,9 +45,13 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-4">
           <div className="space-y-2">
-            <h1 className="text-4xl md:text-5xl font-serif text-foreground">The Collection</h1>
+            <h1 className="text-4xl md:text-5xl font-serif text-foreground">
+              {params.q ? `Search Results for "${params.q}"` : "The Collection"}
+            </h1>
             <p className="text-muted-foreground max-w-xl">
-              Browse our curated selection of fresh, premium blooms crafted for every occasion.
+              {params.q 
+                ? `Showing ${total} products matching your search.`
+                : "Browse our curated selection of fresh, premium blooms crafted for every occasion."}
             </p>
           </div>
 

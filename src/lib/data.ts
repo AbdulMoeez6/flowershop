@@ -90,6 +90,7 @@ export async function getCategories() {
 export async function getAllProducts(options?: {
   category?: string
   sort?: string
+  search?: string
   limit?: number
   offset?: number
 }): Promise<{ products: ProductData[]; total: number }> {
@@ -106,6 +107,10 @@ export async function getAllProducts(options?: {
           product_categories (categories (name, slug))
         `, { count: "exact" })
         .eq("is_active", true)
+
+      if (options?.search) {
+        query = query.ilike("name", `%${options.search}%`)
+      }
 
       // Sort
       if (options?.sort === "price-asc") {
