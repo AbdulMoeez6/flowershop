@@ -4,6 +4,15 @@ import { useEffect, useState } from "react"
 import { createClient } from "@/utils/supabase/client"
 import { Button } from "@/components/ui/button"
 import { Plus, Edit, Trash2, X } from "lucide-react"
+import Image from "next/image"
+import { uploadImage, deleteImage } from "@/app/actions/cloudinary"
+
+function getCloudinaryPublicId(url: string) {
+  if (!url || !url.includes("cloudinary.com")) return null;
+  const parts = url.split("/upload/");
+  if (parts.length < 2) return null;
+  return parts[1].replace(/^v\d+\//, "").replace(/\.[^/.]+$/, "");
+}
 
 interface Category {
   id: string
@@ -24,7 +33,10 @@ export default function AdminCategoriesPage() {
   const [formName, setFormName] = useState("")
   const [formDescription, setFormDescription] = useState("")
   const [formImageUrl, setFormImageUrl] = useState("")
+  const [formFile, setFormFile] = useState<File | null>(null)
+  const [formFilePreview, setFormFilePreview] = useState("")
   const [saving, setSaving] = useState(false)
+  const [formError, setFormError] = useState<string | null>(null)
 
   const fetchCategories = async () => {
     setLoading(true)
@@ -41,6 +53,7 @@ export default function AdminCategoriesPage() {
   const openCreate = () => {
     setEditing(null)
     setFormName(""); setFormDescription(""); setFormImageUrl("")
+    setFormFile(null); setFormFilePreview(""); setFormError(null)
     setShowModal(true)
   }
 
@@ -49,13 +62,51 @@ export default function AdminCategoriesPage() {
     setFormName(cat.name)
     setFormDescription(cat.description ?? "")
     setFormImageUrl(cat.image_url ?? "")
+    setFormFilePreview(cat.image_url ?? "")
+    setFormFile(null)
+    setFormError(null)
     setShowModal(true)
   }
 
   const handleSave = async () => {
     setSaving(true)
+    setFormError(null)
     const slug = formName.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "")
-    const data = { name: formName, slug, description: formDescription || null, image_url: formImageUrl || null, is_active: true }
+    let finalImageUrl = formFilePreview;
+
+    if (formFile) {
+      const formData = new FormData();
+      formData.append("file", formFile);
+      try {
+        const uploaded = await uploadImage(formData) as { url: string; public_id: string };
+        finalImageUrl = uploaded.url;
+        
+        if (editing && editing.image_url) {
+          const oldPublicId = getCloudinaryPublicId(editing.image_url);
+          if (oldPublicId) {
+            await deleteImage(oldPublicId);
+          }
+        }
+      } catch (e) {
+        setFormError("Image upload failed");
+        setSaving(false);
+        return;
+      }
+    } else if (formImageUrl && formImageUrl !== (editing?.image_url || "")) {
+      finalImageUrl = formImageUrl;
+      if (editing && editing.image_url) {
+        const oldPublicId = getCloudinaryPublicId(editing.image_url);
+        if (oldPublicId) {
+          await deleteImage(oldPublicId);
+        }
+      }
+    } else if (formImageUrl) {
+      finalImageUrl = formImageUrl;
+    } else {
+      finalImageUrl = "";
+    }
+
+    const data = { name: formName, slug, description: formDescription || null, image_url: finalImageUrl || null, is_active: true }
 
     if (editing) {
       await supabase.from("categories").update(data).eq("id", editing.id)
@@ -137,8 +188,41 @@ export default function AdminCategoriesPage() {
                 <textarea value={formDescription} onChange={(e) => setFormDescription(e.target.value)} rows={2} className="input-premium !h-auto" />
               </div>
               <div className="space-y-1.5">
-                <label className="text-sm font-medium">Image URL</label>
-                <input value={formImageUrl} onChange={(e) => setFormImageUrl(e.target.value)} className="input-premium" />
+                <label className="text-sm font-medium">Category Image</label>
+                <div className="grid grid-cols-1 gap-3">
+                  <input
+                    type="text"
+                    placeholder="Paste Image URL here..."
+                    value={formImageUrl}
+                    onChange={(e) => {
+                      setFormImageUrl(e.target.value);
+                      setFormFile(null);
+                      setFormFilePreview(e.target.value);
+                    }}
+                    className="input-premium"
+                  />
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-muted-foreground uppercase font-medium">OR Upload:</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => {
+                        if (e.target.files && e.target.files[0]) {
+                          setFormFile(e.target.files[0]);
+                          setFormImageUrl("");
+                          setFormFilePreview(URL.createObjectURL(e.target.files[0]));
+                        }
+                      }}
+                      className="w-full text-sm text-muted-foreground file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-medium file:bg-primary/10 file:text-primary hover:file:bg-primary/20 cursor-pointer"
+                    />
+                  </div>
+                </div>
+                {formFilePreview && (
+                  <div className="mt-2 relative w-24 h-24 rounded-lg overflow-hidden border border-border bg-cream flex items-center justify-center text-xs text-muted-foreground">
+                    <Image src={formFilePreview} alt="Preview" fill className="object-cover" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+                    {!formFile && formImageUrl && <span className="text-center px-2">Invalid URL</span>}
+                  </div>
+                )}
               </div>
               <div className="flex gap-3 pt-4">
                 <Button variant="outline" onClick={() => setShowModal(false)} className="flex-1 rounded-lg">Cancel</Button>

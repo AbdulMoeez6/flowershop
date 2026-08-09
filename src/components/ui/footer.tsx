@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image"
 import { MapPin, Phone, Mail, Clock } from "lucide-react"
 
 const footerLinks = {
@@ -34,9 +35,9 @@ export function Footer() {
           {/* Brand column */}
           <div className="space-y-6">
             <Link href="/" className="inline-block flex items-center space-x-2">
-              <span className="text-pink-400">
-                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 7.5a4.5 4.5 0 1 1 3.18.5"/><path d="M12 7.5A4.5 4.5 0 1 0 8.82 8"/><path d="M12 7.5V14"/><path d="M12 14a4.5 4.5 0 1 1 4.5 4.5 4.5 4.5 0 0 1-4.5-4.5"/><path d="M12 14a4.5 4.5 0 1 0-4.5 4.5A4.5 4.5 0 0 0 12 14"/></svg>
-              </span>
+              <div className="relative w-10 h-10 overflow-hidden rounded-full border border-white/20 shadow-sm">
+                <Image src="/logo.png" alt="Flower Shop Islamabad" fill className="object-cover" />
+              </div>
               <span className="font-serif text-2xl font-semibold text-white">Flower Shop Islamabad</span>
             </Link>
             <p className="text-white/70 text-sm leading-relaxed max-w-xs">

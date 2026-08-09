@@ -43,6 +43,7 @@ export default function AdminProductsPage() {
   const [formDescription, setFormDescription] = useState("")
   
   const [formFile, setFormFile] = useState<File | null>(null)
+  const [formImageUrl, setFormImageUrl] = useState<string>("")
   const [formFilePreview, setFormFilePreview] = useState<string>("")
   const [saving, setSaving] = useState(false)
 
@@ -72,6 +73,7 @@ export default function AdminProductsPage() {
     setFormStock("")
     setFormDescription("")
     setFormFile(null)
+    setFormImageUrl("")
     setFormFilePreview("")
     setFormError(null)
     setShowModal(true)
@@ -84,7 +86,9 @@ export default function AdminProductsPage() {
     setFormStock(String(product.stock))
     setFormDescription(product.short_description || "")
     setFormFile(null)
-    setFormFilePreview(product.product_images?.[0]?.url || "")
+    const existingUrl = product.product_images?.[0]?.url || ""
+    setFormImageUrl(existingUrl)
+    setFormFilePreview(existingUrl)
     setFormError(null)
     setShowModal(true)
   }
@@ -116,6 +120,18 @@ export default function AdminProductsPage() {
         setSaving(false);
         return;
       }
+    } else if (formImageUrl && formImageUrl !== (editingProduct?.product_images?.[0]?.url || "")) {
+      finalImageUrl = formImageUrl;
+      // Delete old image if we are replacing a cloudinary image with an external URL
+      if (editingProduct && editingProduct.product_images?.[0]?.url) {
+        const oldUrl = editingProduct.product_images[0].url;
+        const oldPublicId = getCloudinaryPublicId(oldUrl);
+        if (oldPublicId) {
+          await deleteImage(oldPublicId);
+        }
+      }
+    } else if (formImageUrl) {
+      finalImageUrl = formImageUrl;
     }
 
     const productData = {
@@ -352,20 +368,38 @@ export default function AdminProductsPage() {
               </div>
               <div className="space-y-1.5">
                 <label className="text-sm font-medium">Product Image</label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => {
-                    if (e.target.files && e.target.files[0]) {
-                      setFormFile(e.target.files[0]);
-                      setFormFilePreview(URL.createObjectURL(e.target.files[0]));
-                    }
-                  }}
-                  className="w-full text-sm text-muted-foreground file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-medium file:bg-primary/10 file:text-primary hover:file:bg-primary/20 cursor-pointer"
-                />
+                <div className="grid grid-cols-1 gap-3">
+                  <input
+                    type="text"
+                    placeholder="Paste Image URL here..."
+                    value={formImageUrl}
+                    onChange={(e) => {
+                      setFormImageUrl(e.target.value);
+                      setFormFile(null); // Clear file if URL is pasted
+                      setFormFilePreview(e.target.value);
+                    }}
+                    className="input-premium"
+                  />
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-muted-foreground uppercase font-medium">OR Upload File:</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => {
+                        if (e.target.files && e.target.files[0]) {
+                          setFormFile(e.target.files[0]);
+                          setFormImageUrl(""); // Clear URL if file is chosen
+                          setFormFilePreview(URL.createObjectURL(e.target.files[0]));
+                        }
+                      }}
+                      className="w-full text-sm text-muted-foreground file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-medium file:bg-primary/10 file:text-primary hover:file:bg-primary/20 cursor-pointer"
+                    />
+                  </div>
+                </div>
                 {formFilePreview && (
-                  <div className="mt-2 relative w-24 h-24 rounded-lg overflow-hidden border border-border">
-                    <Image src={formFilePreview} alt="Preview" fill className="object-cover" />
+                  <div className="mt-2 relative w-24 h-24 rounded-lg overflow-hidden border border-border bg-cream flex items-center justify-center text-xs text-muted-foreground">
+                    <Image src={formFilePreview} alt="Preview" fill className="object-cover" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+                    {!formFile && formImageUrl && <span className="text-center px-2">Invalid URL</span>}
                   </div>
                 )}
               </div>
