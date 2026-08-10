@@ -71,8 +71,8 @@ export function Navbar({ transparent = false }: NavbarProps) {
           </Button>
 
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2 mr-8">
-            <div className="relative w-10 h-10 overflow-hidden rounded-full border border-white/20 shadow-sm">
+          <Link href="/" className="flex items-center space-x-3 mr-8">
+            <div className="relative w-14 h-14 md:w-16 md:h-16 overflow-hidden rounded-full border border-white/20 shadow-sm">
               <Image src="/logo.png" alt="Flower Shop Islamabad" fill className="object-cover" />
             </div>
             <span
@@ -195,8 +195,8 @@ export function Navbar({ transparent = false }: NavbarProps) {
               className="fixed top-0 left-0 bottom-0 w-80 bg-background z-[70] shadow-2xl flex flex-col"
             >
               <div className="flex items-center justify-between p-6 border-b border-border">
-                <div className="flex items-center space-x-2">
-                  <div className="relative w-8 h-8 overflow-hidden rounded-full border border-primary/20 shadow-sm">
+                <div className="flex items-center space-x-3">
+                  <div className="relative w-12 h-12 overflow-hidden rounded-full border border-primary/20 shadow-sm">
                     <Image src="/logo.png" alt="Flower Shop Islamabad" fill className="object-cover" />
                   </div>
                   <span className="font-serif text-xl font-semibold">Flower Shop Islamabad</span>

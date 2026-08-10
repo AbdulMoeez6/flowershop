@@ -1,22 +1,49 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import Link from "next/link"
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { ChevronDown } from "lucide-react"
 
+const images = [
+  "/1.jpeg",
+  "/2.jpeg",
+  "/3.jpeg",
+]
+
 export function HeroSection() {
+  const [currentIndex, setCurrentIndex] = useState(0)
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % images.length)
+    }, 5000)
+    return () => clearInterval(timer)
+  }, [])
+
   return (
-    <section className="relative h-screen min-h-[600px] max-h-[900px] flex items-center justify-center overflow-hidden">
-      {/* Background image */}
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1526047932273-341f2a7631f9?q=80&w=1920&auto=format&fit=crop')`,
-        }}
-      />
+    <section className="relative h-screen min-h-[600px] max-h-[900px] flex items-center justify-center overflow-hidden bg-black">
+      {/* Background images */}
+      <AnimatePresence initial={false}>
+        <motion.div
+          key={currentIndex}
+          initial={{ opacity: 0, scale: 1.1 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ 
+            opacity: { duration: 1.5, ease: "easeInOut" },
+            scale: { duration: 8, ease: "linear" }
+          }}
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: `url('${images[currentIndex]}')`,
+          }}
+        />
+      </AnimatePresence>
+      
       {/* Gradient overlay - stronger at the top to ensure the navbar is always visible */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black/70" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black/70 pointer-events-none" />
 
       {/* Content */}
       <div className="relative z-10 text-center px-4 max-w-3xl mx-auto">
