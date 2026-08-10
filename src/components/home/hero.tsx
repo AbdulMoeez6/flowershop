@@ -28,14 +28,14 @@ export function HeroSection() {
       <AnimatePresence initial={false}>
         <motion.div
           key={currentIndex}
-          initial={{ opacity: 0, scale: 1.1 }}
-          animate={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, scale: 1.15 }}
+          animate={{ opacity: 1, scale: 1.05 }}
           exit={{ opacity: 0 }}
           transition={{ 
             opacity: { duration: 1.5, ease: "easeInOut" },
             scale: { duration: 8, ease: "linear" }
           }}
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          className="absolute -inset-4 bg-cover bg-center bg-no-repeat blur-[2px] md:blur-[3px]"
           style={{
             backgroundImage: `url('${images[currentIndex]}')`,
           }}
@@ -53,15 +53,15 @@ export function HeroSection() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="space-y-6"
         >
-          <span className="inline-block text-gold text-xs md:text-sm uppercase tracking-[0.3em] font-medium">
+          <span className="inline-block text-gold text-xs md:text-sm uppercase tracking-[0.3em] font-medium drop-shadow-md">
             Premium Florist in Pakistan
           </span>
-          <h1 className="text-4xl sm:text-5xl md:text-7xl font-serif text-white leading-[1.1] tracking-tight">
+          <h1 className="text-4xl sm:text-5xl md:text-7xl font-serif text-white leading-[1.1] tracking-tight drop-shadow-xl">
             2000+ Happy Customers
             <br />
-            <span className="italic text-2xl md:text-4xl mt-2 block">in islamabad, rawalpindi, lahore, karachi</span>
+            <span className="italic text-2xl md:text-4xl mt-3 block drop-shadow-lg text-primary">in islamabad, rawalpindi, lahore, karachi</span>
           </h1>
-          <p className="text-white/70 text-base md:text-lg max-w-xl mx-auto leading-relaxed">
+          <p className="text-secondary/90 text-base md:text-lg max-w-xl mx-auto leading-relaxed drop-shadow-md font-medium">
             Handcrafted floral arrangements delivered same-day. Made with love, for every moment that matters.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
@@ -76,7 +76,7 @@ export function HeroSection() {
               asChild
               variant="outline"
               size="lg"
-              className="rounded-full px-10 py-6 text-base font-medium border-white/30 text-white hover:bg-white/10 hover:border-white/50"
+              className="rounded-full px-10 py-6 text-base font-medium border-white/30 bg-transparent text-white hover:bg-white/10 hover:border-white/50 hover:text-white shadow-xl"
             >
               <Link href="/shop?category=occasions">Shop by Occasion</Link>
             </Button>
