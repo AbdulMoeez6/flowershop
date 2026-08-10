@@ -57,7 +57,7 @@ export function HeroSection() {
             Premium Florist in Pakistan
           </span>
           <h1 className="text-4xl sm:text-5xl md:text-7xl font-serif text-white leading-[1.1] tracking-tight">
-            2000+ Happy Customer
+            2000+ Happy Customers
             <br />
             <span className="italic text-2xl md:text-4xl mt-2 block">in islamabad, rawalpindi, lahore, karachi</span>
           </h1>
