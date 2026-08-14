@@ -258,3 +258,49 @@ export async function getProductBySlug(slug: string): Promise<ProductData | null
 
   return null
 }
+
+export async function getLocalizedProducts(categorySlug: string, citySlug: string): Promise<ProductData[]> {
+  if (isSupabaseConfigured()) {
+    try {
+      const { createClient } = await import("@/utils/supabase/server")
+      const supabase = await createClient()
+
+      // In Supabase, testing an array contains requires the array to be wrapped in {}
+      // We will fetch where is_active is true, and it matches the category,
+      // AND (available_nationwide is true OR available_cities @> '{citySlug}')
+      const { data, error } = await supabase
+        .from("products")
+        .select(`
+          id, name, slug, short_description, base_price, compare_at_price, stock,
+          available_nationwide, available_cities,
+          product_images (url, alt_text, sort_order),
+          product_categories!inner (
+            categories!inner (name, slug)
+          )
+        `)
+        .eq("is_active", true)
+        .eq("product_categories.categories.slug", categorySlug)
+        .or(`available_nationwide.eq.true,available_cities.cs.{${citySlug}}`)
+        .order("created_at", { ascending: false })
+
+      if (!error && data && data.length > 0) {
+        return data.map((p: any) => ({
+          id: p.id,
+          name: p.name,
+          slug: p.slug,
+          short_description: p.short_description ?? "",
+          base_price: Number(p.base_price),
+          compare_at_price: p.compare_at_price ? Number(p.compare_at_price) : null,
+          stock: p.stock ?? 0,
+          image: p.product_images?.[0]?.url ?? "",
+          category: p.product_categories?.[0]?.categories?.name ?? "",
+        }))
+      } else if (error) {
+        console.error("Supabase Error fetching localized products:", error);
+      }
+    } catch {
+      // Supabase unreachable — fall through
+    }
+  }
+  return []
+}
