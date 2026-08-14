@@ -70,6 +70,36 @@ export function Navbar({ transparent = false }: NavbarProps) {
             : "bg-transparent border-b border-transparent"
         }`}
       >
+        {/* Announcement Banner */}
+        {pathname === "/" && (
+          <div className="bg-primary text-primary-foreground py-2 overflow-hidden w-full flex shadow-sm">
+            <motion.div 
+              className="whitespace-nowrap flex items-center min-w-max"
+              animate={{ x: ["0%", "-50%"] }}
+              transition={{ repeat: Infinity, duration: 25, ease: "linear" }}
+            >
+              {/* First Set */}
+              <div className="flex shrink-0">
+                <span className="font-medium text-sm px-8 tracking-wide">
+                  Enjoy fast, reliable, and premium same-day flower delivery across Islamabad and Rawalpindi! Order now to make someone's day special!
+                </span>
+                <span className="font-medium text-sm px-8 tracking-wide">
+                  Enjoy fast, reliable, and premium same-day flower delivery across Islamabad and Rawalpindi! Order now to make someone's day special!
+                </span>
+              </div>
+              {/* Second Set (Duplicate for seamless loop) */}
+              <div className="flex shrink-0">
+                <span className="font-medium text-sm px-8 tracking-wide">
+                  Enjoy fast, reliable, and premium same-day flower delivery across Islamabad and Rawalpindi! Order now to make someone's day special!
+                </span>
+                <span className="font-medium text-sm px-8 tracking-wide">
+                  Enjoy fast, reliable, and premium same-day flower delivery across Islamabad and Rawalpindi! Order now to make someone's day special!
+                </span>
+              </div>
+            </motion.div>
+          </div>
+        )}
+
         <div className="container mx-auto flex h-16 md:h-20 items-center px-4 md:px-8">
           {/* Mobile hamburger */}
           <Button
