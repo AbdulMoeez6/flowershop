@@ -26,6 +26,7 @@ export function Navbar({ transparent = false }: NavbarProps) {
   const [mobileOpen, setMobileOpen] = React.useState(false)
   const [searchOpen, setSearchOpen] = React.useState(false)
   const [searchQuery, setSearchQuery] = React.useState("")
+  const [occasions, setOccasions] = React.useState<{id: string, name: string, slug: string}[]>([])
   const pathname = usePathname()
   const router = useRouter()
   const items = useCartStore((s) => s.items)
@@ -36,6 +37,17 @@ export function Navbar({ transparent = false }: NavbarProps) {
     window.addEventListener("scroll", handleScroll, { passive: true })
     handleScroll()
     return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  React.useEffect(() => {
+    // Fetch occasions dynamically on mount
+    import("@/app/actions/categories").then((mod) => {
+      mod.fetchOccasions().then((data) => {
+        if (data && data.length > 0) {
+          setOccasions(data)
+        }
+      })
+    })
   }, [])
 
   const showSolid = scrolled || !transparent || searchOpen
@@ -86,24 +98,68 @@ export function Navbar({ transparent = false }: NavbarProps) {
 
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center justify-center space-x-8 flex-1">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`text-sm font-medium transition-colors relative py-1 ${
-                  showSolid
-                    ? pathname === link.href
-                      ? "text-primary"
-                      : "text-foreground/70 hover:text-foreground"
-                    : "text-white/80 hover:text-white"
-                }`}
-              >
-                {link.label}
-                {pathname === link.href && (
-                  <span className="absolute -bottom-0.5 left-0 right-0 h-0.5 bg-gold rounded-full" />
-                )}
-              </Link>
-            ))}
+            {navLinks.map((link) => {
+              if (link.label === "Occasions") {
+                return (
+                  <div key={link.href} className="relative group">
+                    <Link
+                      href={link.href}
+                      className={`flex items-center text-sm font-medium transition-colors relative py-1 ${
+                        showSolid
+                          ? pathname.startsWith(link.href)
+                            ? "text-primary"
+                            : "text-foreground/70 hover:text-foreground"
+                          : "text-white/80 hover:text-white"
+                      }`}
+                    >
+                      {link.label}
+                      <svg className="w-4 h-4 ml-1 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                      {pathname.startsWith(link.href) && (
+                        <span className="absolute -bottom-0.5 left-0 right-0 h-0.5 bg-gold rounded-full" />
+                      )}
+                    </Link>
+                    
+                    {/* Dropdown Menu */}
+                    {occasions.length > 0 && (
+                      <div className="absolute top-full left-1/2 -translate-x-1/2 pt-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                        <div className="bg-background shadow-lg rounded-md border border-border/40 py-2 min-w-[200px]">
+                          {occasions.map((occ) => (
+                            <Link
+                              key={occ.id}
+                              href={`/shop?category=${occ.slug}`}
+                              className="block px-4 py-2 text-sm text-foreground/80 hover:bg-muted hover:text-primary transition-colors"
+                            >
+                              {occ.name}
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )
+              }
+
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`text-sm font-medium transition-colors relative py-1 ${
+                    showSolid
+                      ? pathname === link.href
+                        ? "text-primary"
+                        : "text-foreground/70 hover:text-foreground"
+                      : "text-white/80 hover:text-white"
+                  }`}
+                >
+                  {link.label}
+                  {pathname === link.href && (
+                    <span className="absolute -bottom-0.5 left-0 right-0 h-0.5 bg-gold rounded-full" />
+                  )}
+                </Link>
+              )
+            })}
           </nav>
 
           {/* Right-side icons */}

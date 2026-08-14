@@ -2,20 +2,22 @@ import Link from "next/link"
 import Image from "next/image"
 import { Navbar } from "@/components/ui/navbar"
 import { Footer } from "@/components/ui/footer"
-import { Button } from "@/components/ui/button"
-import { ProductCard } from "@/components/ui/product-card"
 import { HeroSection } from "@/components/home/hero"
-import { OccasionStrip } from "@/components/home/occasion-strip"
+import { CategoryStrip } from "@/components/home/category-strip"
+import { CategorySection } from "@/components/home/category-section"
 import { WhyChooseUs } from "@/components/home/why-choose-us"
 import { Testimonials } from "@/components/home/testimonials"
 import { FAQs } from "@/components/home/faqs"
-import { getFeaturedProducts, getCategories } from "@/lib/data"
+import { getCategories, getProductsByCategorySlug } from "@/lib/data"
 
 export default async function HomePage() {
-  const [products, categories] = await Promise.all([
-    getFeaturedProducts(),
-    getCategories(),
-  ])
+  const categories = await getCategories()
+  
+  // Fetch products for all categories in parallel
+  const categoryProductsPromises = categories.map((cat: any) => 
+    getProductsByCategorySlug(cat.slug, 4)
+  )
+  const productsArrays = await Promise.all(categoryProductsPromises)
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -25,40 +27,20 @@ export default async function HomePage() {
         {/* Hero */}
         <HeroSection />
 
-        {/* Shop by Occasion */}
-        <OccasionStrip categories={categories} />
+        {/* Shop by Category Strip */}
+        <CategoryStrip categories={categories} />
 
-        {/* Featured Products */}
-        <section className="section-padding">
-          <div className="container mx-auto px-4 md:px-8">
-            <div className="flex flex-col md:flex-row justify-between items-end mb-12">
-              <div className="space-y-3">
-                <span className="text-xs uppercase tracking-[0.2em] text-gold font-medium">Curated for You</span>
-                <h2 className="text-3xl md:text-4xl font-serif text-foreground">Featured Arrangements</h2>
-              </div>
-              <Link
-                href="/shop"
-                className="mt-4 md:mt-0 text-sm font-medium text-primary hover:text-primary/80 underline underline-offset-4 transition-colors"
-              >
-                View All →
-              </Link>
-            </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
-              {products.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  id={product.id}
-                  name={product.name}
-                  slug={product.slug}
-                  price={product.base_price}
-                  compareAtPrice={product.compare_at_price}
-                  image={product.image}
-                  category={product.category}
-                />
-              ))}
-            </div>
-          </div>
-        </section>
+        {/* Dynamic Category Sections */}
+        <div className="bg-background">
+          {categories.map((cat: any, index: number) => (
+            <CategorySection
+              key={cat.id}
+              title={cat.name}
+              slug={cat.slug}
+              products={productsArrays[index]}
+            />
+          ))}
+        </div>
 
         {/* Why Choose Us */}
         <WhyChooseUs />

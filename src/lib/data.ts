@@ -66,16 +66,62 @@ export async function getFeaturedProducts(): Promise<ProductData[]> {
   return []
 }
 
-export async function getCategories() {
+export async function getProductsByCategorySlug(slug: string, limit: number = 4): Promise<ProductData[]> {
   if (isSupabaseConfigured()) {
     try {
       const { createClient } = await import("@/utils/supabase/server")
       const supabase = await createClient()
       const { data, error } = await supabase
+        .from("products")
+        .select(`
+          id, name, slug, short_description, base_price, compare_at_price, stock,
+          product_images (url, alt_text, sort_order),
+          product_categories!inner (
+            categories!inner (name, slug)
+          )
+        `)
+        .eq("is_active", true)
+        .eq("product_categories.categories.slug", slug)
+        .order("created_at", { ascending: false })
+        .limit(limit)
+
+      if (!error && data && data.length > 0) {
+        return data.map((p: any) => ({
+          id: p.id,
+          name: p.name,
+          slug: p.slug,
+          short_description: p.short_description ?? "",
+          base_price: Number(p.base_price),
+          compare_at_price: p.compare_at_price ? Number(p.compare_at_price) : null,
+          stock: p.stock ?? 0,
+          image: p.product_images?.[0]?.url ?? "",
+          category: p.product_categories?.[0]?.categories?.name ?? "",
+        }))
+      }
+    } catch {
+      // Supabase unreachable — fall through
+    }
+  }
+  return []
+}
+
+export async function getCategories(options?: { isOccasion?: boolean }) {
+  if (isSupabaseConfigured()) {
+    try {
+      const { createClient } = await import("@/utils/supabase/server")
+      const supabase = await createClient()
+      
+      let query = supabase
         .from("categories")
         .select("id, name, slug, description, image_url")
         .eq("is_active", true)
-        .order("name")
+        
+      // If they add an is_occasion column later, this will filter by it
+      if (options?.isOccasion !== undefined) {
+        query = query.eq("is_occasion", options.isOccasion)
+      }
+        
+      const { data, error } = await query.order("name")
 
       if (!error && data && data.length > 0) {
         return data
