@@ -68,6 +68,12 @@ export function ProductDetailClient({ product }: { product: ProductData }) {
               placeholder="blur"
               blurDataURL={BLUR_DATA_URL}
             />
+            {/* CSS Watermark */}
+            <div className="absolute bottom-4 right-5 pointer-events-none opacity-70 z-10">
+              <span className="text-white text-sm md:text-base font-bold tracking-wide drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">
+                flowershop islamabad
+              </span>
+            </div>
           </div>
           {images.length > 1 && (
             <div className="flex gap-3 overflow-x-auto pb-2">

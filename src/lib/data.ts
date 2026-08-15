@@ -2,6 +2,8 @@
  * Data access layer — fetches from Supabase.
  */
 
+import { getWatermarkedUrl } from "@/lib/utils"
+
 // Helper: Check if Supabase is configured with real credentials
 function isSupabaseConfigured(): boolean {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL ?? ""
@@ -55,7 +57,7 @@ export async function getFeaturedProducts(): Promise<ProductData[]> {
           base_price: Number(p.base_price),
           compare_at_price: p.compare_at_price ? Number(p.compare_at_price) : null,
           stock: p.stock ?? 0,
-          image: p.product_images?.[0]?.url ?? "",
+          image: getWatermarkedUrl(p.product_images?.[0]?.url),
           category: p.product_categories?.[0]?.categories?.name ?? "",
         }))
       }
@@ -94,7 +96,7 @@ export async function getProductsByCategorySlug(slug: string, limit: number = 4)
           base_price: Number(p.base_price),
           compare_at_price: p.compare_at_price ? Number(p.compare_at_price) : null,
           stock: p.stock ?? 0,
-          image: p.product_images?.[0]?.url ?? "",
+          image: getWatermarkedUrl(p.product_images?.[0]?.url),
           category: p.product_categories?.[0]?.categories?.name ?? "",
         }))
       }
@@ -127,7 +129,10 @@ export async function getCategories(options?: { isOccasion?: boolean, isCollecti
       const { data, error } = await query.order("name")
 
       if (!error && data && data.length > 0) {
-        return data
+        return data.map((c: any) => ({
+          ...c,
+          image_url: getWatermarkedUrl(c.image_url)
+        }))
       }
     } catch {
       // fall through
@@ -186,7 +191,7 @@ export async function getAllProducts(options?: {
           base_price: Number(p.base_price),
           compare_at_price: p.compare_at_price ? Number(p.compare_at_price) : null,
           stock: p.stock ?? 0,
-          image: p.product_images?.[0]?.url ?? "",
+          image: getWatermarkedUrl(p.product_images?.[0]?.url),
           category: p.product_categories?.[0]?.categories?.name ?? "",
         }))
 
@@ -232,7 +237,7 @@ export async function getProductBySlug(slug: string): Promise<ProductData | null
       if (!error && data) {
         const images = (data.product_images ?? [])
           .sort((a: any, b: any) => (a.sort_order ?? 0) - (b.sort_order ?? 0))
-          .map((img: any) => img.url)
+          .map((img: any) => getWatermarkedUrl(img.url))
 
         return {
           id: data.id,
@@ -299,7 +304,7 @@ export async function getLocalizedProducts(citySlug: string, categorySlug?: stri
           base_price: Number(p.base_price),
           compare_at_price: p.compare_at_price ? Number(p.compare_at_price) : null,
           stock: p.stock ?? 0,
-          image: p.product_images?.[0]?.url ?? "",
+          image: getWatermarkedUrl(p.product_images?.[0]?.url),
           category: p.product_categories?.[0]?.categories?.name ?? "",
         }))
         

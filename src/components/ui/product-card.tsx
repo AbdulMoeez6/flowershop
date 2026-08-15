@@ -110,6 +110,13 @@ export function ProductCard({
             -{discount}%
           </div>
         )}
+
+        {/* CSS Watermark */}
+        <div className="absolute bottom-2 right-3 pointer-events-none opacity-70 z-10">
+          <span className="text-white text-[10px] md:text-xs font-bold tracking-wide drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">
+            flowershop islamabad
+          </span>
+        </div>
       </Link>
 
       {/* Text content */}
