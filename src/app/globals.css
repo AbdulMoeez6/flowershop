@@ -59,8 +59,10 @@
   --radius-2xl: 2rem;
 
   /* ── Fonts ── */
-  --font-parisienne: var(--font-parisienne);
-  --font-tenor-sans: var(--font-tenor-sans);
+  --font-parisienne: "Parisienne", cursive;
+  --font-tenor-sans: "Tenor Sans", sans-serif;
+  --font-manrope: "Manrope", sans-serif;
+  --font-cormorant: "Cormorant Garamond", serif;
 
   /* ── Animations ── */
   --animate-fade-in: fade-in 0.6s ease-out;

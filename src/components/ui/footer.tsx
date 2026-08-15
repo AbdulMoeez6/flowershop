@@ -24,6 +24,14 @@ const footerLinks = {
     { label: "Terms of Service", href: "/policies/terms" },
     { label: "Delivery Policy", href: "/policies/delivery" },
   ],
+  delivery: [
+    { label: "Islamabad", href: "/delivery/islamabad" },
+    { label: "Rawalpindi", href: "/delivery/rawalpindi" },
+    { label: "Lahore", href: "/delivery/lahore" },
+    { label: "Karachi", href: "/delivery/karachi" },
+    { label: "Peshawar", href: "/delivery/peshawar" },
+    { label: "Faisalabad", href: "/delivery/faisalabad" },
+  ],
 }
 
 export function Footer() {
@@ -31,7 +39,7 @@ export function Footer() {
     <footer className="bg-primary text-primary-foreground">
       {/* Main footer */}
       <div className="container mx-auto px-4 md:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8">
           {/* Brand column */}
           <div className="space-y-6">
             <Link href="/" className="inline-flex items-center space-x-3">
@@ -100,6 +108,23 @@ export function Footer() {
             <h3 className="font-serif text-lg font-medium text-white mb-5">Occasions</h3>
             <ul className="space-y-3">
               {footerLinks.occasions.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="text-sm text-white/60 hover:text-white transition-colors"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Delivery links */}
+          <div>
+            <h3 className="font-serif text-lg font-medium text-white mb-5">Locations</h3>
+            <ul className="space-y-3">
+              {footerLinks.delivery.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
+import Image from "next/image"
 import {
   LayoutDashboard,
   Package,
@@ -122,8 +123,18 @@ export default function AdminLayout({
       {/* Desktop Sidebar */}
       <div className="w-64 bg-card border-r border-border flex-col hidden md:flex">
         <div className="h-16 flex items-center px-6 border-b border-border">
-          <Link href="/admin" className="font-serif text-xl font-bold text-primary">
-            Fleur Admin
+          <Link href="/admin" className="inline-flex items-center space-x-3">
+            <div className="relative w-8 h-8 overflow-hidden rounded-full border border-primary/20 shadow-sm shrink-0">
+              <Image src="/logo.png" alt="Flower Shop Islamabad" fill className="object-cover" />
+            </div>
+            <div className="flex flex-col justify-center">
+              <span className="font-[family-name:var(--font-parisienne)] text-[22px] leading-[1.1] text-foreground">
+                Flower Shop
+              </span>
+              <span className="font-[family-name:var(--font-tenor-sans)] text-[10px] tracking-[0.2em] uppercase mt-[2px] text-muted-foreground">
+                Admin
+              </span>
+            </div>
           </Link>
         </div>
 
@@ -168,7 +179,19 @@ export default function AdminLayout({
           <button onClick={() => setSidebarOpen(true)} aria-label="Open sidebar">
             <Menu className="h-5 w-5" />
           </button>
-          <span className="font-serif text-lg font-bold text-primary">Fleur Admin</span>
+          <div className="inline-flex items-center space-x-2">
+            <div className="relative w-8 h-8 overflow-hidden rounded-full border border-primary/20 shadow-sm shrink-0">
+              <Image src="/logo.png" alt="Flower Shop Islamabad" fill className="object-cover" />
+            </div>
+            <div className="flex flex-col justify-center">
+              <span className="font-[family-name:var(--font-parisienne)] text-[18px] leading-[1.1] text-foreground">
+                Flower Shop
+              </span>
+              <span className="font-[family-name:var(--font-tenor-sans)] text-[8px] tracking-[0.2em] uppercase mt-[2px] text-muted-foreground">
+                Admin
+              </span>
+            </div>
+          </div>
           <div className="w-5" />
         </header>
 
@@ -181,7 +204,19 @@ export default function AdminLayout({
             />
             <div className="fixed top-0 left-0 bottom-0 w-64 bg-card z-50 flex flex-col shadow-xl md:hidden">
               <div className="h-16 flex items-center justify-between px-6 border-b border-border">
-                <span className="font-serif text-xl font-bold text-primary">Fleur Admin</span>
+                <div className="inline-flex items-center space-x-2">
+                  <div className="relative w-8 h-8 overflow-hidden rounded-full border border-primary/20 shadow-sm shrink-0">
+                    <Image src="/logo.png" alt="Flower Shop Islamabad" fill className="object-cover" />
+                  </div>
+                  <div className="flex flex-col justify-center">
+                    <span className="font-[family-name:var(--font-parisienne)] text-[20px] leading-[1.1] text-foreground">
+                      Flower Shop
+                    </span>
+                    <span className="font-[family-name:var(--font-tenor-sans)] text-[9px] tracking-[0.2em] uppercase mt-[2px] text-muted-foreground">
+                      Admin
+                    </span>
+                  </div>
+                </div>
                 <button onClick={() => setSidebarOpen(false)} aria-label="Close sidebar">
                   <X className="h-5 w-5" />
                 </button>

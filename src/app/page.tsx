@@ -7,6 +7,7 @@ import { CategoryStrip } from "@/components/home/category-strip"
 import { CategorySection } from "@/components/home/category-section"
 import { WhyChooseUs } from "@/components/home/why-choose-us"
 import { Testimonials } from "@/components/home/testimonials"
+import { DeliveryLocations } from "@/components/home/delivery-locations"
 import { FAQs } from "@/components/home/faqs"
 import { getCategories, getProductsByCategorySlug } from "@/lib/data"
 
@@ -47,6 +48,9 @@ export default async function HomePage() {
 
         {/* Testimonials */}
         <Testimonials />
+
+        {/* Delivery Locations */}
+        <DeliveryLocations />
 
         {/* FAQs */}
         <FAQs />

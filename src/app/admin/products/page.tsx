@@ -15,6 +15,8 @@ interface Product {
   stock: number
   is_active: boolean
   short_description: string
+  available_nationwide: boolean
+  available_cities: string[]
   product_images: { url: string }[]
   product_categories: { categories: { name: string } }[]
 }
@@ -41,6 +43,8 @@ export default function AdminProductsPage() {
   const [formPrice, setFormPrice] = useState("")
   const [formStock, setFormStock] = useState("")
   const [formDescription, setFormDescription] = useState("")
+  const [formNationwide, setFormNationwide] = useState(true)
+  const [formCities, setFormCities] = useState<string[]>([])
   
   const [formFile, setFormFile] = useState<File | null>(null)
   const [formImageUrl, setFormImageUrl] = useState<string>("")
@@ -53,6 +57,7 @@ export default function AdminProductsPage() {
       .from("products")
       .select(`
         id, name, slug, base_price, stock, is_active, short_description,
+        available_nationwide, available_cities,
         product_images (url),
         product_categories (categories (name))
       `)
@@ -72,6 +77,8 @@ export default function AdminProductsPage() {
     setFormPrice("")
     setFormStock("")
     setFormDescription("")
+    setFormNationwide(true)
+    setFormCities([])
     setFormFile(null)
     setFormImageUrl("")
     setFormFilePreview("")
@@ -85,6 +92,8 @@ export default function AdminProductsPage() {
     setFormPrice(String(product.base_price))
     setFormStock(String(product.stock))
     setFormDescription(product.short_description || "")
+    setFormNationwide(product.available_nationwide ?? true)
+    setFormCities(product.available_cities ?? [])
     setFormFile(null)
     const existingUrl = product.product_images?.[0]?.url || ""
     setFormImageUrl(existingUrl)
@@ -141,6 +150,8 @@ export default function AdminProductsPage() {
       stock: Number(formStock),
       short_description: formDescription,
       is_active: true,
+      available_nationwide: formNationwide,
+      available_cities: formNationwide ? [] : formCities,
     }
 
     if (editingProduct) {
@@ -406,6 +417,33 @@ export default function AdminProductsPage() {
               <div className="space-y-1.5">
                 <label className="text-sm font-medium">Short Description</label>
                 <textarea value={formDescription} onChange={(e) => setFormDescription(e.target.value)} rows={3} className="input-premium !h-auto" placeholder="A breathtaking arrangement..." />
+              </div>
+              <div className="space-y-3 pt-2 border-t border-border mt-4">
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input type="checkbox" checked={formNationwide} onChange={(e) => setFormNationwide(e.target.checked)} className="rounded border-border text-primary focus:ring-primary h-4 w-4" />
+                  <span className="text-sm font-medium">Available Nationwide (All Cities)</span>
+                </label>
+                {!formNationwide && (
+                  <div className="space-y-2 pl-6">
+                    <p className="text-xs text-muted-foreground uppercase font-medium">Select Available Cities</p>
+                    <div className="grid grid-cols-2 gap-2">
+                      {['islamabad', 'rawalpindi', 'lahore', 'karachi', 'peshawar', 'faisalabad'].map((city) => (
+                        <label key={city} className="flex items-center gap-2 cursor-pointer hover:bg-muted/30 p-1.5 rounded transition-colors">
+                          <input 
+                            type="checkbox" 
+                            checked={formCities.includes(city)} 
+                            onChange={(e) => {
+                              if (e.target.checked) setFormCities([...formCities, city]);
+                              else setFormCities(formCities.filter(c => c !== city));
+                            }} 
+                            className="rounded border-border text-primary focus:ring-primary h-4 w-4" 
+                          />
+                          <span className="text-sm capitalize">{city}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
               <div className="flex gap-3 pt-4">
                 <Button variant="outline" onClick={() => setShowModal(false)} className="flex-1 rounded-lg">

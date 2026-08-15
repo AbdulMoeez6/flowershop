@@ -1,36 +1,6 @@
 import type { Metadata } from "next";
-import { Manrope, Cormorant_Garamond, Parisienne, Tenor_Sans } from "next/font/google";
 import "./globals.css";
 import { WhatsappButton } from "@/components/ui/whatsapp-button";
-
-const manrope = Manrope({
-  variable: "--font-manrope",
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  display: "swap",
-});
-
-const cormorant = Cormorant_Garamond({
-  variable: "--font-cormorant",
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  style: ["normal", "italic"],
-  display: "swap",
-});
-
-const parisienne = Parisienne({
-  variable: "--font-parisienne",
-  subsets: ["latin"],
-  weight: ["400"],
-  display: "swap",
-});
-
-const tenorSans = Tenor_Sans({
-  variable: "--font-tenor-sans",
-  subsets: ["latin"],
-  weight: ["400"],
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: {
@@ -78,9 +48,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en"
-      className={`${manrope.variable} ${cormorant.variable} ${parisienne.variable} ${tenorSans.variable} h-full antialiased`}
+      className="h-full antialiased font-sans"
     >
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Manrope:wght@400;500;600&family=Parisienne&family=Tenor+Sans&display=swap"
+          rel="stylesheet"
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

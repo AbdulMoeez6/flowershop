@@ -21,6 +21,8 @@ interface Category {
   description: string | null
   image_url: string | null
   is_active: boolean
+  is_occasion?: boolean
+  is_collection?: boolean
 }
 
 export default function AdminCategoriesPage() {
@@ -35,6 +37,8 @@ export default function AdminCategoriesPage() {
   const [formImageUrl, setFormImageUrl] = useState("")
   const [formFile, setFormFile] = useState<File | null>(null)
   const [formFilePreview, setFormFilePreview] = useState("")
+  const [formIsOccasion, setFormIsOccasion] = useState(false)
+  const [formIsCollection, setFormIsCollection] = useState(false)
   const [saving, setSaving] = useState(false)
   const [formError, setFormError] = useState<string | null>(null)
 
@@ -54,6 +58,7 @@ export default function AdminCategoriesPage() {
     setEditing(null)
     setFormName(""); setFormDescription(""); setFormImageUrl("")
     setFormFile(null); setFormFilePreview(""); setFormError(null)
+    setFormIsOccasion(false); setFormIsCollection(false)
     setShowModal(true)
   }
 
@@ -63,6 +68,8 @@ export default function AdminCategoriesPage() {
     setFormDescription(cat.description ?? "")
     setFormImageUrl(cat.image_url ?? "")
     setFormFilePreview(cat.image_url ?? "")
+    setFormIsOccasion(cat.is_occasion ?? false)
+    setFormIsCollection(cat.is_collection ?? false)
     setFormFile(null)
     setFormError(null)
     setShowModal(true)
@@ -106,7 +113,15 @@ export default function AdminCategoriesPage() {
       finalImageUrl = "";
     }
 
-    const data = { name: formName, slug, description: formDescription || null, image_url: finalImageUrl || null, is_active: true }
+    const data = { 
+      name: formName, 
+      slug, 
+      description: formDescription || null, 
+      image_url: finalImageUrl || null, 
+      is_active: true,
+      is_occasion: formIsOccasion,
+      is_collection: formIsCollection
+    }
 
     if (editing) {
       await supabase.from("categories").update(data).eq("id", editing.id)
@@ -152,7 +167,13 @@ export default function AdminCategoriesPage() {
             ) : (
               categories.map((cat) => (
                 <tr key={cat.id} className="hover:bg-muted/10 transition-colors">
-                  <td className="px-6 py-4 font-medium">{cat.name}</td>
+                  <td className="px-6 py-4 font-medium">
+                    <div className="flex items-center gap-2">
+                      {cat.name}
+                      {cat.is_occasion && <span className="px-1.5 py-0.5 text-[10px] font-medium bg-secondary text-secondary-foreground rounded uppercase tracking-wider">Occasion</span>}
+                      {cat.is_collection && <span className="px-1.5 py-0.5 text-[10px] font-medium bg-accent text-accent-foreground rounded uppercase tracking-wider">Collection</span>}
+                    </div>
+                  </td>
                   <td className="px-6 py-4 text-muted-foreground">{cat.slug}</td>
                   <td className="px-6 py-4">
                     <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ring-1 ring-inset ${cat.is_active ? "bg-green-50 text-green-700 ring-green-600/20" : "bg-red-50 text-red-700 ring-red-600/20"}`}>
@@ -223,6 +244,16 @@ export default function AdminCategoriesPage() {
                     {!formFile && formImageUrl && <span className="text-center px-2">Invalid URL</span>}
                   </div>
                 )}
+              </div>
+              <div className="flex gap-6 py-2 border-t border-border mt-4 pt-4">
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input type="checkbox" checked={formIsOccasion} onChange={(e) => setFormIsOccasion(e.target.checked)} className="rounded border-border text-primary focus:ring-primary h-4 w-4" />
+                  <span className="text-sm font-medium">Mark as Occasion</span>
+                </label>
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input type="checkbox" checked={formIsCollection} onChange={(e) => setFormIsCollection(e.target.checked)} className="rounded border-border text-primary focus:ring-primary h-4 w-4" />
+                  <span className="text-sm font-medium">Mark as Collection</span>
+                </label>
               </div>
               <div className="flex gap-3 pt-4">
                 <Button variant="outline" onClick={() => setShowModal(false)} className="flex-1 rounded-lg">Cancel</Button>
