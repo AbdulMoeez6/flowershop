@@ -117,13 +117,22 @@ export function Navbar({ transparent = false }: NavbarProps) {
             <div className="relative w-14 h-14 md:w-16 md:h-16 overflow-hidden rounded-full border border-white/20 shadow-sm">
               <Image src="/logo.png" alt="Flower Shop Islamabad" fill className="object-cover" />
             </div>
-            <span
-              className={`font-serif text-xl md:text-2xl font-semibold tracking-tight transition-colors ${
-                showSolid ? "text-foreground" : "text-white"
-              }`}
-            >
-              Flower Shop Islamabad
-            </span>
+            <div className="flex flex-col justify-center">
+              <span
+                className={`font-[family-name:var(--font-parisienne)] text-[22px] md:text-[30px] leading-[1.1] transition-colors ${
+                  showSolid ? "text-[#3A2A2C]" : "text-white"
+                }`}
+              >
+                Flower Shop
+              </span>
+              <span
+                className={`font-[family-name:var(--font-tenor-sans)] text-[10px] md:text-[11.5px] tracking-[0.25em] md:tracking-[0.3em] uppercase mt-[2px] md:mt-[3px] transition-colors ${
+                  showSolid ? "text-[#8A7A72]" : "text-white/90"
+                }`}
+              >
+                Islamabad
+              </span>
+            </div>
           </Link>
 
           {/* Desktop Nav */}
@@ -285,7 +294,14 @@ export function Navbar({ transparent = false }: NavbarProps) {
                   <div className="relative w-12 h-12 overflow-hidden rounded-full border border-primary/20 shadow-sm">
                     <Image src="/logo.png" alt="Flower Shop Islamabad" fill className="object-cover" />
                   </div>
-                  <span className="font-serif text-xl font-semibold">Flower Shop Islamabad</span>
+                  <div className="flex flex-col justify-center">
+                    <span className="font-[family-name:var(--font-parisienne)] text-[22px] leading-[1.1] text-[#3A2A2C]">
+                      Flower Shop
+                    </span>
+                    <span className="font-[family-name:var(--font-tenor-sans)] text-[10px] tracking-[0.25em] uppercase mt-[2px] text-[#8A7A72]">
+                      Islamabad
+                    </span>
+                  </div>
                 </div>
                 <Button
                   variant="ghost"

@@ -34,11 +34,18 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Brand column */}
           <div className="space-y-6">
-            <Link href="/" className="inline-block flex items-center space-x-2">
-              <div className="relative w-10 h-10 overflow-hidden rounded-full border border-white/20 shadow-sm">
+            <Link href="/" className="inline-flex items-center space-x-3">
+              <div className="relative w-14 h-14 md:w-16 md:h-16 overflow-hidden rounded-full border border-white/20 shadow-sm shrink-0">
                 <Image src="/logo.png" alt="Flower Shop Islamabad" fill className="object-cover" />
               </div>
-              <span className="font-serif text-2xl font-semibold text-white">Flower Shop Islamabad</span>
+              <div className="flex flex-col justify-center">
+                <span className="font-[family-name:var(--font-parisienne)] text-[22px] md:text-[30px] leading-[1.1] text-white">
+                  Flower Shop
+                </span>
+                <span className="font-[family-name:var(--font-tenor-sans)] text-[10px] md:text-[11.5px] tracking-[0.25em] md:tracking-[0.3em] uppercase mt-[2px] md:mt-[3px] text-white/90">
+                  Islamabad
+                </span>
+              </div>
             </Link>
             <p className="text-white/70 text-sm leading-relaxed max-w-xs">
               We are the best flower delivery service in Islamabad, Rawalpindi, Lahore and Karachi. We have been providing the best quality flowers for many years.

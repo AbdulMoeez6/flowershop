@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Manrope, Cormorant_Garamond } from "next/font/google";
+import { Manrope, Cormorant_Garamond, Parisienne, Tenor_Sans } from "next/font/google";
 import "./globals.css";
 import { WhatsappButton } from "@/components/ui/whatsapp-button";
 
@@ -15,6 +15,20 @@ const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
   weight: ["400", "500", "600"],
   style: ["normal", "italic"],
+  display: "swap",
+});
+
+const parisienne = Parisienne({
+  variable: "--font-parisienne",
+  subsets: ["latin"],
+  weight: ["400"],
+  display: "swap",
+});
+
+const tenorSans = Tenor_Sans({
+  variable: "--font-tenor-sans",
+  subsets: ["latin"],
+  weight: ["400"],
   display: "swap",
 });
 
@@ -64,7 +78,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en"
-      className={`${manrope.variable} ${cormorant.variable} h-full antialiased`}
+      className={`${manrope.variable} ${cormorant.variable} ${parisienne.variable} ${tenorSans.variable} h-full antialiased`}
     >
       <head>
         <script

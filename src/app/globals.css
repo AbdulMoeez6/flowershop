@@ -58,6 +58,10 @@
   --radius-xl: 1.5rem;
   --radius-2xl: 2rem;
 
+  /* ── Fonts ── */
+  --font-parisienne: var(--font-parisienne);
+  --font-tenor-sans: var(--font-tenor-sans);
+
   /* ── Animations ── */
   --animate-fade-in: fade-in 0.6s ease-out;
   --animate-fade-up: fade-up 0.6s ease-out;
