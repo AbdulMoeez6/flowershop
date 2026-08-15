@@ -24,7 +24,7 @@ const checkoutSchema = z.object({
   city: z.string().min(2, "City is required"),
   deliveryDate: z.string().min(1, "Please select a delivery date"),
   deliveryTimeSlot: z.string().optional(),
-  paymentMethod: z.enum(["cod", "bank"]),
+  paymentMethod: z.enum(["easypaisa"]),
   notes: z.string().optional(),
 })
 
@@ -44,7 +44,7 @@ export default function CheckoutPage() {
   } = useForm<CheckoutValues>({
     resolver: zodResolver(checkoutSchema),
     defaultValues: {
-      paymentMethod: "cod",
+      paymentMethod: "easypaisa",
       city: "Islamabad",
     },
   })
@@ -216,20 +216,17 @@ export default function CheckoutPage() {
                 Payment Method
               </h2>
               <div className="space-y-3">
-                <label className="flex items-center gap-4 border border-border p-4 rounded-xl cursor-pointer hover:bg-cream/50 transition-colors has-[:checked]:border-primary has-[:checked]:bg-primary/5">
-                  <input type="radio" value="cod" {...register("paymentMethod")} className="w-4 h-4 accent-primary" />
-                  <Truck className="h-5 w-5 text-primary" />
-                  <div>
-                    <span className="font-medium text-sm">Cash on Delivery</span>
-                    <p className="text-xs text-muted-foreground">Pay when your flowers arrive</p>
-                  </div>
-                </label>
-                <label className="flex items-center gap-4 border border-border p-4 rounded-xl cursor-pointer hover:bg-cream/50 transition-colors has-[:checked]:border-primary has-[:checked]:bg-primary/5">
-                  <input type="radio" value="bank" {...register("paymentMethod")} className="w-4 h-4 accent-primary" />
-                  <CreditCard className="h-5 w-5 text-primary" />
-                  <div>
+                <label className="flex items-start gap-4 border border-primary p-4 rounded-xl cursor-pointer hover:bg-cream/50 transition-colors bg-primary/5">
+                  <input type="radio" value="easypaisa" {...register("paymentMethod")} className="w-4 h-4 accent-primary mt-1" />
+                  <CreditCard className="h-5 w-5 text-primary mt-0.5 shrink-0" />
+                  <div className="flex-1">
                     <span className="font-medium text-sm">Bank Transfer / EasyPaisa</span>
-                    <p className="text-xs text-muted-foreground">Transfer details will be shared after order</p>
+                    <p className="text-sm text-muted-foreground mt-2 leading-relaxed">
+                      Please pay the total amount and send the screenshot of your payment through WhatsApp to confirm your order.
+                    </p>
+                    <a href="https://wa.me/923055244465" target="_blank" rel="noopener noreferrer" className="text-sm text-primary hover:underline font-medium mt-3 inline-block">
+                      Send screenshot via WhatsApp (+92 305 5244465)
+                    </a>
                   </div>
                 </label>
               </div>

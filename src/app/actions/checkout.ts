@@ -10,7 +10,7 @@ const checkoutSchema = z.object({
   city: z.string().min(2, "City is required"),
   deliveryDate: z.string().min(1, "Please select a delivery date"),
   deliveryTimeSlot: z.string().optional(),
-  paymentMethod: z.enum(["cod", "bank"]),
+  paymentMethod: z.enum(["bank"]),
   notes: z.string().optional(),
   items: z.array(
     z.object({

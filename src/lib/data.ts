@@ -105,7 +105,7 @@ export async function getProductsByCategorySlug(slug: string, limit: number = 4)
   return []
 }
 
-export async function getCategories(options?: { isOccasion?: boolean }) {
+export async function getCategories(options?: { isOccasion?: boolean, isCollection?: boolean }) {
   if (isSupabaseConfigured()) {
     try {
       const { createClient } = await import("@/utils/supabase/server")
@@ -116,9 +116,12 @@ export async function getCategories(options?: { isOccasion?: boolean }) {
         .select("id, name, slug, description, image_url")
         .eq("is_active", true)
         
-      // If they add an is_occasion column later, this will filter by it
       if (options?.isOccasion !== undefined) {
         query = query.eq("is_occasion", options.isOccasion)
+      }
+      
+      if (options?.isCollection !== undefined) {
+        query = query.eq("is_collection", options.isCollection)
       }
         
       const { data, error } = await query.order("name")
