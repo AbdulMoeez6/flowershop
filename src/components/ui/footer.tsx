@@ -38,10 +38,10 @@ export function Footer() {
   return (
     <footer className="bg-primary text-primary-foreground">
       {/* Main footer */}
-      <div className="container mx-auto px-4 md:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8">
+      <div className="container mx-auto px-4 md:px-8 py-12 lg:py-16">
+        <div className="grid grid-cols-2 lg:grid-cols-5 gap-x-6 gap-y-10 lg:gap-8">
           {/* Brand column */}
-          <div className="space-y-6">
+          <div className="col-span-2 lg:col-span-1 space-y-6">
             <Link href="/" className="inline-flex items-center space-x-3">
               <div className="relative w-14 h-14 md:w-16 md:h-16 overflow-hidden rounded-full border border-white/20 shadow-sm shrink-0 bg-white">
                 <Image src="/logo.png" alt="Flower Shop Islamabad" fill className="object-contain p-1" quality={100} sizes="64px" />
