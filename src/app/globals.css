@@ -1,38 +1,55 @@
 @import "tailwindcss";
 
 @theme {
-  /* ── Brand Colors ── */
-  --color-white: #fdf2f5; /* Very Light Pink overriding default white */
-  --color-primary: #c28b91; /* Lighter Matte Rose */
-  --color-primary-foreground: #fdf2f5;
-  --color-secondary: #fce8eb;
-  --color-secondary-foreground: #2d2424;
-  --color-accent: #c9a96e;
-  --color-accent-foreground: #fdf2f5;
-  --color-background: #fdf2f5;
-  --color-foreground: #3a2e2e;
+  /* ── Brand Colors (Premium Boutique Floral) ── */
+  --color-white: #fbf6f1; /* Warm ivory/cream replacing white */
+  --color-black: #241a1d; /* Deep neutral near-black */
+  
+  /* Primary: Deep muted rose/burgundy for main CTAs */
+  --color-primary: #7a2e3a; 
+  --color-primary-foreground: #fbf6f1;
+  
+  /* Secondary: Warm blush/dusty rose */
+  --color-secondary: #d9a7a0;
+  --color-secondary-foreground: #241a1d;
+  
+  /* Accent: Sage/eucalyptus green */
+  --color-accent: #8a9a7e; 
+  --color-accent-foreground: #fbf6f1;
+  
+  /* Backgrounds & Text */
+  --color-background: #fbf6f1; /* Warm ivory background */
+  --color-foreground: #241a1d; /* Deep neutral text */
 
-  --color-rose: #d69894;
-  --color-rose-foreground: #fdf2f5;
+  /* Gold/Champagne accent */
+  --color-gold: #c9a24b;
+  --color-gold-foreground: #241a1d;
 
-  --color-cream: #faeaed;
-  --color-cream-foreground: #4a3b3b;
+  /* Rose mapping (matches primary) */
+  --color-rose: #7a2e3a;
+  --color-rose-foreground: #fbf6f1;
 
-  --color-gold: #c9a96e;
-  --color-gold-foreground: #fdf2f5;
+  /* Cream: Alternate ivory for subtle contrast */
+  --color-cream: #faf3ed; 
+  --color-cream-foreground: #241a1d;
 
-  --color-muted: #f7e6e9;
-  --color-muted-foreground: #8a7a7a;
+  /* Muted: Soft blush for tags/badges */
+  --color-muted: #e8c4be;
+  --color-muted-foreground: #7a2e3a;
 
-  --color-card: #fdf2f5;
-  --color-card-foreground: #3a2e2e;
+  /* Card: Ivory */
+  --color-card: #fbf6f1;
+  --color-card-foreground: #241a1d;
 
-  --color-border: #ebd6d9;
-  --color-input: #ebd6d9;
-  --color-ring: #c9a96e;
+  /* Borders & Inputs */
+  --color-border: #d9a7a0; /* Blush border */
+  --color-input: #d9a7a0; 
+  --color-ring: #c9a24b; /* Gold focus ring */
 
-  --color-destructive: #e74c3c;
-  --color-destructive-foreground: #fdf2f5;
+  /* Success & Error */
+  --color-success: #5b7a5b; /* Soft forest green */
+  --color-destructive: #b5583e; /* Muted terracotta */
+  --color-destructive-foreground: #fbf6f1;
 
   /* ── Radius ── */
   --radius-sm: 0.25rem;

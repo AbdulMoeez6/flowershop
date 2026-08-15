@@ -23,7 +23,7 @@ export function HeroSection() {
   }, [])
 
   return (
-    <section className="relative h-screen min-h-[600px] max-h-[900px] flex items-center justify-center overflow-hidden bg-black">
+    <section className="relative h-screen min-h-[600px] max-h-[900px] flex items-center justify-center overflow-hidden bg-background">
       {/* Background images */}
       <AnimatePresence initial={false}>
         <motion.div
@@ -35,40 +35,40 @@ export function HeroSection() {
             opacity: { duration: 1.5, ease: "easeInOut" },
             scale: { duration: 8, ease: "linear" }
           }}
-          className="absolute -inset-4 bg-cover bg-center bg-no-repeat blur-[2px] md:blur-[3px]"
+          className="absolute -inset-4 bg-cover bg-center bg-no-repeat"
           style={{
             backgroundImage: `url('${images[currentIndex]}')`,
           }}
         />
       </AnimatePresence>
       
-      {/* Gradient overlay - stronger at the top to ensure the navbar is always visible */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black/70 pointer-events-none" />
+      {/* Subtle top gradient just for the navigation bar visibility */}
+      <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-black/50 to-transparent pointer-events-none" />
 
-      {/* Content */}
-      <div className="relative z-10 text-center px-4 max-w-3xl mx-auto">
+      {/* Content in a glass card for legibility */}
+      <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="space-y-6"
+          className="space-y-6 bg-background/90 backdrop-blur-md p-8 md:p-12 rounded-3xl shadow-2xl border border-white/30"
         >
-          <span className="inline-block text-gold text-xs md:text-sm uppercase tracking-[0.3em] font-medium drop-shadow-md">
+          <span className="inline-block text-gold text-xs md:text-sm uppercase tracking-[0.3em] font-medium drop-shadow-sm">
             Premium Florist in Pakistan
           </span>
-          <h1 className="text-4xl sm:text-5xl md:text-7xl font-serif text-white leading-[1.1] tracking-tight drop-shadow-xl">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-serif text-foreground leading-[1.1] tracking-tight drop-shadow-sm">
             2000+ Happy Customers
             <br />
-            <span className="italic text-2xl md:text-4xl mt-3 block drop-shadow-lg text-primary">in islamabad, rawalpindi, lahore, karachi</span>
+            <span className="italic text-2xl md:text-3xl mt-3 block text-primary drop-shadow-sm">in islamabad, rawalpindi, lahore, karachi</span>
           </h1>
-          <p className="text-secondary/90 text-base md:text-lg max-w-xl mx-auto leading-relaxed drop-shadow-md font-medium">
+          <p className="text-foreground/80 text-base md:text-lg max-w-xl mx-auto leading-relaxed font-medium drop-shadow-sm">
             Handcrafted floral arrangements delivered same-day. Made with love, for every moment that matters.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
             <Button
               asChild
               size="lg"
-              className="rounded-full px-10 py-6 text-base font-medium bg-gold hover:bg-gold/90 text-white shadow-xl hover:shadow-2xl transition-all"
+              className="rounded-full px-10 py-6 text-base font-medium bg-primary hover:bg-gold hover:text-gold-foreground text-primary-foreground shadow-xl hover:shadow-2xl transition-all"
             >
               <Link href="/shop">Shop Now</Link>
             </Button>
@@ -76,7 +76,7 @@ export function HeroSection() {
               asChild
               variant="outline"
               size="lg"
-              className="rounded-full px-10 py-6 text-base font-medium border-white/30 bg-transparent text-white hover:bg-white/10 hover:border-white/50 hover:text-white shadow-xl"
+              className="rounded-full px-10 py-6 text-base font-medium border-primary/30 bg-transparent text-primary hover:bg-primary/10 hover:border-primary/50 hover:text-primary shadow-xl"
             >
               <Link href="/shop?category=occasions">Shop by Occasion</Link>
             </Button>
@@ -86,7 +86,7 @@ export function HeroSection() {
 
       {/* Scroll indicator */}
       <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/50"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/70"
         animate={{ y: [0, 8, 0] }}
         transition={{ duration: 2, repeat: Infinity }}
       >

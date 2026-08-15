@@ -72,15 +72,15 @@ export default async function CollectionsPage() {
         </section>
 
         {/* Call to Action */}
-        <section className="bg-primary text-white py-24 text-center">
+        <section className="bg-secondary text-secondary-foreground py-24 text-center">
           <div className="container mx-auto px-4 space-y-6">
-            <h2 className="text-4xl font-serif">Not sure what to choose?</h2>
-            <p className="text-white/80 max-w-xl mx-auto">
+            <h2 className="text-4xl font-serif text-foreground">Not sure what to choose?</h2>
+            <p className="text-secondary-foreground/80 max-w-xl mx-auto">
               Let our expert florists create a custom arrangement tailored exactly to your preferences.
             </p>
             <Link
               href="/contact"
-              className="inline-block mt-4 px-8 py-3 bg-white text-primary rounded-full font-medium hover:bg-gold hover:text-white transition-colors"
+              className="inline-block mt-4 px-8 py-3 bg-primary text-primary-foreground rounded-full font-medium hover:bg-gold hover:text-gold-foreground shadow-md hover:shadow-lg transition-all"
             >
               Get in Touch
             </Link>

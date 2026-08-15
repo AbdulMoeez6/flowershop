@@ -32,13 +32,13 @@ const features = [
 
 export function WhyChooseUs() {
   return (
-    <section className="section-padding bg-primary text-primary-foreground">
+    <section className="section-padding bg-background text-foreground">
       <div className="container mx-auto px-4 md:px-8">
         <div className="text-center space-y-3 mb-16">
-          <span className="text-xs uppercase tracking-[0.2em] text-gold font-medium">
+          <span className="text-xs uppercase tracking-[0.2em] text-primary font-medium">
             The Fleur & Co. Difference
           </span>
-          <h2 className="text-3xl md:text-4xl font-serif text-white">
+          <h2 className="text-3xl md:text-4xl font-serif text-foreground">
             Why Choose Us
           </h2>
         </div>
@@ -51,13 +51,13 @@ export function WhyChooseUs() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: idx * 0.1 }}
-              className="text-center space-y-4"
+              className="text-center space-y-4 bg-cream p-6 rounded-2xl shadow-sm border border-border/30 hover:shadow-md transition-shadow"
             >
-              <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-white/10 border border-white/10">
+              <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-background border border-border">
                 <feature.icon className="h-6 w-6 text-gold" />
               </div>
-              <h3 className="font-serif text-xl text-white">{feature.title}</h3>
-              <p className="text-white/60 text-sm leading-relaxed">
+              <h3 className="font-serif text-xl text-foreground">{feature.title}</h3>
+              <p className="text-muted-foreground text-sm leading-relaxed">
                 {feature.description}
               </p>
             </motion.div>
