@@ -114,8 +114,8 @@ export function Navbar({ transparent = false }: NavbarProps) {
 
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-3 mr-8">
-            <div className="relative w-14 h-14 md:w-16 md:h-16 overflow-hidden rounded-full border border-white/20 shadow-sm">
-              <Image src="/logo.png" alt="Flower Shop Islamabad" fill className="object-cover" />
+            <div className="relative w-14 h-14 md:w-16 md:h-16 overflow-hidden rounded-full border border-white/20 shadow-sm bg-white">
+              <Image src="/logo.png" alt="Flower Shop Islamabad" fill className="object-contain p-1" quality={100} priority sizes="64px" />
             </div>
             <div className="flex flex-col justify-center">
               <span
@@ -291,8 +291,8 @@ export function Navbar({ transparent = false }: NavbarProps) {
             >
               <div className="flex items-center justify-between p-6 border-b border-border">
                 <div className="flex items-center space-x-3">
-                  <div className="relative w-12 h-12 overflow-hidden rounded-full border border-primary/20 shadow-sm">
-                    <Image src="/logo.png" alt="Flower Shop Islamabad" fill className="object-cover" />
+                  <div className="relative w-12 h-12 overflow-hidden rounded-full border border-primary/20 shadow-sm bg-white">
+                    <Image src="/logo.png" alt="Flower Shop Islamabad" fill className="object-contain p-1" quality={100} sizes="48px" />
                   </div>
                   <div className="flex flex-col justify-center">
                     <span className="font-[family-name:var(--font-parisienne)] text-[22px] leading-[1.1] text-[#3A2A2C]">

@@ -43,8 +43,8 @@ export function Footer() {
           {/* Brand column */}
           <div className="space-y-6">
             <Link href="/" className="inline-flex items-center space-x-3">
-              <div className="relative w-14 h-14 md:w-16 md:h-16 overflow-hidden rounded-full border border-white/20 shadow-sm shrink-0">
-                <Image src="/logo.png" alt="Flower Shop Islamabad" fill className="object-cover" />
+              <div className="relative w-14 h-14 md:w-16 md:h-16 overflow-hidden rounded-full border border-white/20 shadow-sm shrink-0 bg-white">
+                <Image src="/logo.png" alt="Flower Shop Islamabad" fill className="object-contain p-1" quality={100} sizes="64px" />
               </div>
               <div className="flex flex-col justify-center">
                 <span className="font-[family-name:var(--font-parisienne)] text-[22px] md:text-[30px] leading-[1.1] text-white">

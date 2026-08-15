@@ -25,7 +25,7 @@ export function CategorySection({ title, slug, products }: CategorySectionProps)
   return (
     <section className="py-12 border-b border-border/40 last:border-b-0">
       <div className="container mx-auto px-4 md:px-8">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-8">
+        <div className="flex flex-row justify-between items-center mb-6 md:mb-8">
           <div className="space-y-2">
             <h2 className="text-2xl md:text-3xl font-serif text-foreground text-primary">
               {title}
@@ -33,7 +33,7 @@ export function CategorySection({ title, slug, products }: CategorySectionProps)
           </div>
           <Link
             href={`/shop?category=${slug}`}
-            className="mt-4 md:mt-0 text-sm font-medium text-white bg-primary px-6 py-2 rounded-md hover:bg-primary/90 transition-colors"
+            className="shrink-0 text-xs md:text-sm font-medium text-white bg-primary px-4 py-2 md:px-6 rounded-md hover:bg-primary/90 transition-colors"
           >
             View All
           </Link>

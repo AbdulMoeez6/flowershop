@@ -23,7 +23,7 @@ export function HeroSection() {
   }, [])
 
   return (
-    <section className="relative h-screen min-h-[600px] max-h-[900px] flex items-center justify-center overflow-hidden bg-black">
+    <section className="relative h-screen min-h-[600px] max-h-[900px] flex items-center justify-center overflow-hidden bg-black pt-24 md:pt-0">
       {/* Preload the first two images for performance */}
       <link rel="preload" href={images[0]} as="image" />
       <link rel="preload" href={images[1]} as="image" />
