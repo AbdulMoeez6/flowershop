@@ -18,17 +18,21 @@ export function HeroSection() {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % images.length)
-    }, 5000)
+    }, 6000)
     return () => clearInterval(timer)
   }, [])
 
   return (
-    <section className="relative h-screen min-h-[600px] max-h-[900px] flex items-center justify-center overflow-hidden bg-background">
+    <section className="relative h-screen min-h-[600px] max-h-[900px] flex items-center justify-center overflow-hidden bg-black">
+      {/* Preload the first two images for performance */}
+      <link rel="preload" href={images[0]} as="image" />
+      <link rel="preload" href={images[1]} as="image" />
+
       {/* Background images */}
       <AnimatePresence initial={false}>
         <motion.div
           key={currentIndex}
-          initial={{ opacity: 0, scale: 1.15 }}
+          initial={{ opacity: 0, scale: 1.1 }}
           animate={{ opacity: 1, scale: 1.05 }}
           exit={{ opacity: 0 }}
           transition={{ 
@@ -42,33 +46,33 @@ export function HeroSection() {
         />
       </AnimatePresence>
       
-      {/* Subtle top gradient just for the navigation bar visibility */}
-      <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-black/50 to-transparent pointer-events-none" />
+      {/* Dark gradient overlay for text legibility */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/50 pointer-events-none" />
 
-      {/* Content in a glass card for legibility */}
-      <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
+      {/* Hero Content - no card overlay */}
+      <div className="relative z-10 text-center px-4 w-full max-w-3xl mx-auto flex flex-col items-center">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="space-y-6 bg-background/90 backdrop-blur-md p-8 md:p-12 rounded-3xl shadow-2xl border border-white/30"
+          className="space-y-6"
         >
-          <span className="inline-block text-gold text-xs md:text-sm uppercase tracking-[0.3em] font-medium drop-shadow-sm">
+          <span className="inline-block text-gold text-sm md:text-base uppercase tracking-[0.3em] font-medium [text-shadow:0_2px_4px_rgba(0,0,0,0.8)]">
             Premium Florist in Pakistan
           </span>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-serif text-foreground leading-[1.1] tracking-tight drop-shadow-sm">
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif text-white leading-[1.1] tracking-tight [text-shadow:0_4px_12px_rgba(0,0,0,0.7)]">
             2000+ Happy Customers
             <br />
-            <span className="italic text-2xl md:text-3xl mt-3 block text-primary drop-shadow-sm">in islamabad, rawalpindi, lahore, karachi</span>
+            <span className="italic text-3xl md:text-4xl mt-4 block text-white/95 font-light [text-shadow:0_2px_8px_rgba(0,0,0,0.7)]">in islamabad, rawalpindi, lahore, karachi</span>
           </h1>
-          <p className="text-foreground/80 text-base md:text-lg max-w-xl mx-auto leading-relaxed font-medium drop-shadow-sm">
+          <p className="text-white/90 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed font-light [text-shadow:0_2px_6px_rgba(0,0,0,0.8)]">
             Handcrafted floral arrangements delivered same-day. Made with love, for every moment that matters.
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6">
             <Button
               asChild
               size="lg"
-              className="rounded-full px-10 py-6 text-base font-medium bg-primary hover:bg-gold hover:text-gold-foreground text-primary-foreground shadow-xl hover:shadow-2xl transition-all"
+              className="rounded-full px-10 py-7 text-base md:text-lg font-medium bg-primary hover:bg-primary/90 text-primary-foreground shadow-xl transition-all border-none"
             >
               <Link href="/shop">Shop Now</Link>
             </Button>
@@ -76,7 +80,7 @@ export function HeroSection() {
               asChild
               variant="outline"
               size="lg"
-              className="rounded-full px-10 py-6 text-base font-medium border-primary/30 bg-transparent text-primary hover:bg-primary/10 hover:border-primary/50 hover:text-primary shadow-xl"
+              className="rounded-full px-10 py-7 text-base md:text-lg font-medium border-white text-white hover:bg-white hover:text-primary bg-transparent shadow-xl transition-all"
             >
               <Link href="/shop?category=occasions">Shop by Occasion</Link>
             </Button>

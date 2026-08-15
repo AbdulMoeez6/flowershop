@@ -18,7 +18,7 @@ interface Product {
   available_nationwide: boolean
   available_cities: string[]
   product_images: { url: string }[]
-  product_categories: { categories: { name: string } }[]
+  product_categories: { categories: { id: string; name: string } }[]
 }
 
 function getCloudinaryPublicId(url: string) {
@@ -38,8 +38,11 @@ export default function AdminProductsPage() {
   const [productToDelete, setProductToDelete] = useState<Product | null>(null)
   const [formError, setFormError] = useState<string | null>(null)
 
+  const [categories, setCategories] = useState<{id: string, name: string}[]>([])
+
   // Form state
   const [formName, setFormName] = useState("")
+  const [formCategory, setFormCategory] = useState("")
   const [formPrice, setFormPrice] = useState("")
   const [formStock, setFormStock] = useState("")
   const [formDescription, setFormDescription] = useState("")
@@ -59,7 +62,7 @@ export default function AdminProductsPage() {
         id, name, slug, base_price, stock, is_active, short_description,
         available_nationwide, available_cities,
         product_images (url),
-        product_categories (categories (name))
+        product_categories (categories (id, name))
       `)
       .order("created_at", { ascending: false })
 
@@ -67,13 +70,20 @@ export default function AdminProductsPage() {
     setLoading(false)
   }
 
+  const fetchCategories = async () => {
+    const { data } = await supabase.from("categories").select("id, name").order("name")
+    if (data) setCategories(data)
+  }
+
   useEffect(() => {
     fetchProducts()
+    fetchCategories()
   }, [])
 
   const openCreateModal = () => {
     setEditingProduct(null)
     setFormName("")
+    setFormCategory("")
     setFormPrice("")
     setFormStock("")
     setFormDescription("")
@@ -89,6 +99,7 @@ export default function AdminProductsPage() {
   const openEditModal = (product: Product) => {
     setEditingProduct(product)
     setFormName(product.name)
+    setFormCategory(product.product_categories?.[0]?.categories?.id || "")
     setFormPrice(String(product.base_price))
     setFormStock(String(product.stock))
     setFormDescription(product.short_description || "")
@@ -164,6 +175,14 @@ export default function AdminProductsPage() {
         return
       }
 
+      await supabase.from("product_categories").delete().eq("product_id", editingProduct.id)
+      if (formCategory) {
+        await supabase.from("product_categories").insert({
+          product_id: editingProduct.id,
+          category_id: formCategory
+        })
+      }
+
       // Update image
       if (finalImageUrl) {
         await supabase.from("product_images").delete().eq("product_id", editingProduct.id)
@@ -191,6 +210,13 @@ export default function AdminProductsPage() {
         setFormError("Failed to create product: " + insertError.message)
         setSaving(false)
         return
+      }
+
+      if (newProduct && formCategory) {
+        await supabase.from("product_categories").insert({
+          product_id: newProduct.id,
+          category_id: formCategory
+        })
       }
 
       if (newProduct && finalImageUrl) {
@@ -363,9 +389,20 @@ export default function AdminProductsPage() {
                   {formError}
                 </div>
               )}
-              <div className="space-y-1.5">
-                <label className="text-sm font-medium">Product Name</label>
-                <input value={formName} onChange={(e) => setFormName(e.target.value)} className="input-premium" placeholder="Crimson Elegance" />
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <label className="text-sm font-medium">Product Name</label>
+                  <input value={formName} onChange={(e) => setFormName(e.target.value)} className="input-premium" placeholder="Crimson Elegance" />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-sm font-medium">Category</label>
+                  <select value={formCategory} onChange={(e) => setFormCategory(e.target.value)} className="input-premium bg-card">
+                    <option value="">Select a category</option>
+                    {categories.map((c) => (
+                      <option key={c.id} value={c.id}>{c.name}</option>
+                    ))}
+                  </select>
+                </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1.5">
