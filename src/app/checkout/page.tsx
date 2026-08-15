@@ -222,9 +222,32 @@ export default function CheckoutPage() {
                   <div className="flex-1">
                     <span className="font-medium text-sm">Bank Transfer / EasyPaisa</span>
                     <p className="text-sm text-muted-foreground mt-2 leading-relaxed">
-                      Please pay the total amount and send the screenshot of your payment through WhatsApp to confirm your order.
+                      Please pay the total amount to one of the accounts below and send the screenshot of your payment through WhatsApp to confirm your order.
                     </p>
-                    <a href="https://wa.me/923055244465" target="_blank" rel="noopener noreferrer" className="text-sm text-primary hover:underline font-medium mt-3 inline-block">
+                    
+                    <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-muted-foreground">
+                      <div className="bg-white p-3 rounded-md border border-border/50">
+                        <p className="font-semibold text-foreground mb-1">Meezan Bank</p>
+                        <p>Title: MUHAMMAD AMJAD</p>
+                        <p>Account: <span className="font-medium text-foreground select-all">03030111865270</span></p>
+                        <p>IBAN: <span className="text-xs select-all">PK27MEZN0003030111865270</span></p>
+                      </div>
+
+                      <div className="bg-white p-3 rounded-md border border-border/50">
+                        <p className="font-semibold text-foreground mb-1">HBL</p>
+                        <p>Title: AMJAD FLOWER SH</p>
+                        <p>Account: <span className="font-medium text-foreground select-all">24037918794403</span></p>
+                        <p>IBAN: <span className="text-xs select-all">PK36HABB0024037918794403</span></p>
+                      </div>
+
+                      <div className="bg-white p-3 rounded-md border border-border/50 sm:col-span-2">
+                        <p className="font-semibold text-foreground mb-1">Easypaisa</p>
+                        <p>Title: Mohammed Amjad</p>
+                        <p>Number: <span className="font-medium text-foreground select-all">03335122181</span></p>
+                      </div>
+                    </div>
+
+                    <a href="https://wa.me/923055244465" target="_blank" rel="noopener noreferrer" className="text-sm text-primary hover:underline font-medium mt-4 inline-block">
                       Send screenshot via WhatsApp (+92 305 5244465)
                     </a>
                   </div>
