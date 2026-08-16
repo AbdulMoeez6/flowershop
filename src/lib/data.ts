@@ -153,17 +153,25 @@ export async function getAllProducts(options?: {
       const { createClient } = await import("@/utils/supabase/server")
       const supabase = await createClient()
 
+      const categorySelect = options?.category
+        ? `product_categories!inner (categories!inner (name, slug))`
+        : `product_categories (categories (name, slug))`
+
       let query = supabase
         .from("products")
         .select(`
           id, name, slug, short_description, base_price, compare_at_price, stock,
           product_images (url, alt_text, sort_order),
-          product_categories (categories (name, slug))
+          ${categorySelect}
         `, { count: "exact" })
         .eq("is_active", true)
 
       if (options?.search) {
         query = query.ilike("name", `%${options.search}%`)
+      }
+
+      if (options?.category) {
+        query = query.eq("product_categories.categories.slug", options.category)
       }
 
       // Sort
@@ -195,18 +203,7 @@ export async function getAllProducts(options?: {
           category: p.product_categories?.[0]?.categories?.name ?? "",
         }))
 
-        // Filter by category client-side if needed (Supabase join filtering is complex)
-        let filtered = mapped
-        if (options?.category) {
-          filtered = mapped.filter((p: ProductData) =>
-            data.find((d: any) =>
-              d.id === p.id &&
-              d.product_categories?.some((pc: any) => pc.categories?.slug === options.category)
-            )
-          )
-        }
-
-        return { products: filtered, total: count ?? filtered.length }
+        return { products: mapped, total: count ?? mapped.length }
       }
     } catch {
       // fall through
