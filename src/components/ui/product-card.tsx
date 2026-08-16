@@ -8,6 +8,7 @@ import { ShoppingBag, Heart } from "lucide-react"
 import { Button } from "./button"
 import { cn } from "@/lib/utils"
 import { useCartStore } from "@/store/useCartStore"
+import { useSettings } from "@/components/providers/settings-provider"
 
 // Tiny 1x1 blurred placeholder (warm cream tone)
 const BLUR_DATA_URL =
@@ -40,6 +41,7 @@ export function ProductCard({
   const [imgSrc, setImgSrc] = React.useState(image)
   const [imgError, setImgError] = React.useState(false)
   const addItem = useCartStore((s) => s.addItem)
+  const settings = useSettings()
 
   const discount =
     compareAtPrice && compareAtPrice > price
@@ -142,6 +144,20 @@ export function ProductCard({
             </span>
           )}
         </div>
+        <Button
+          variant="default"
+          className="w-full mt-3 h-9 text-xs font-medium rounded-md bg-primary hover:bg-primary/90 text-white"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const msg = encodeURIComponent(
+              `Hi! I'd like to order "${name}" — Rs. ${price.toLocaleString()}`
+            )
+            window.open(`https://wa.me/${settings.whatsapp_number}?text=${msg}`, "_blank")
+          }}
+        >
+          Order via WhatsApp
+        </Button>
       </div>
     </motion.div>
   )

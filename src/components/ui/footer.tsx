@@ -1,6 +1,9 @@
+"use client"
+
 import Link from "next/link"
 import Image from "next/image"
 import { MapPin, Phone, Mail, Clock } from "lucide-react"
+import { useSettings } from "@/components/providers/settings-provider"
 
 const footerLinks = {
   shop: [
@@ -35,6 +38,8 @@ const footerLinks = {
 }
 
 export function Footer() {
+  const settings = useSettings()
+
   return (
     <footer className="bg-primary text-primary-foreground">
       {/* Main footer */}
@@ -60,7 +65,7 @@ export function Footer() {
             </p>
             <div className="flex gap-3">
               <a
-                href="https://instagram.com"
+                href={settings.instagram_url || "#"}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
@@ -73,7 +78,7 @@ export function Footer() {
                 </svg>
               </a>
               <a
-                href="https://facebook.com"
+                href={settings.facebook_url || "#"}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
@@ -147,14 +152,8 @@ export function Footer() {
               </li>
               <li className="flex items-center gap-3 text-sm text-white/60">
                 <Phone className="h-4 w-4 shrink-0 text-gold" />
-                <a href="tel:+923445130554" className="hover:text-white transition-colors">
-                  +92 344 5130554
-                </a>
-              </li>
-              <li className="flex items-center gap-3 text-sm text-white/60">
-                <Phone className="h-4 w-4 shrink-0 text-gold opacity-0" />
-                <a href="tel:+923335130554" className="hover:text-white transition-colors">
-                  +92 333 5130554
+                <a href={`tel:+${settings.whatsapp_number}`} className="hover:text-white transition-colors">
+                  +{settings.whatsapp_number}
                 </a>
               </li>
               <li className="flex items-center gap-3 text-sm text-white/60">

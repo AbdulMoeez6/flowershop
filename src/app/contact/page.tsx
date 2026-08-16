@@ -5,8 +5,10 @@ import { Footer } from "@/components/ui/footer"
 import { motion } from "framer-motion"
 import { MapPin, Phone, Mail, Clock, Send } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { useSettings } from "@/components/providers/settings-provider"
 
 export default function ContactPage() {
+  const settings = useSettings()
   return (
     <main className="min-h-screen bg-cream flex flex-col">
       <Navbar transparent={false} />
@@ -72,8 +74,8 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <p className="font-medium text-foreground mb-1">Phone & WhatsApp</p>
-                      <p className="text-sm text-muted-foreground">+92 305 5244465</p>
-                      <a href="https://wa.me/923055244465" target="_blank" rel="noopener noreferrer" className="text-sm text-primary hover:underline flex items-center gap-1 mt-1">
+                      <p className="text-sm text-muted-foreground">+{settings.whatsapp_number}</p>
+                      <a href={`https://wa.me/${settings.whatsapp_number}`} target="_blank" rel="noopener noreferrer" className="text-sm text-primary hover:underline flex items-center gap-1 mt-1">
                         Click to chat on WhatsApp
                       </a>
                     </div>

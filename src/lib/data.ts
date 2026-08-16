@@ -327,3 +327,43 @@ export async function getLocalizedProducts(citySlug: string, categorySlug?: stri
   }
   return []
 }
+
+export type SiteSettings = {
+  whatsapp_number: string
+  facebook_url: string
+  instagram_url: string
+}
+
+export async function getSettings(): Promise<SiteSettings> {
+  const defaultSettings = {
+    whatsapp_number: "923055244465",
+    facebook_url: "#",
+    instagram_url: "#",
+  }
+
+  if (isSupabaseConfigured()) {
+    try {
+      const { createClient } = await import("@/utils/supabase/server")
+      const supabase = await createClient()
+
+      const { data, error } = await supabase.from("settings").select("key, value")
+      
+      if (!error && data) {
+        const settings: any = {}
+        data.forEach(item => {
+          settings[item.key] = item.value
+        })
+        
+        return {
+          whatsapp_number: settings.whatsapp_number || defaultSettings.whatsapp_number,
+          facebook_url: settings.facebook_url || defaultSettings.facebook_url,
+          instagram_url: settings.instagram_url || defaultSettings.instagram_url,
+        }
+      }
+    } catch {
+      // Fall through to defaults
+    }
+  }
+
+  return defaultSettings
+}

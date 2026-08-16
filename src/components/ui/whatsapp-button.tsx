@@ -2,8 +2,11 @@
 
 import Link from "next/link"
 import { motion } from "framer-motion"
+import { useSettings } from "@/components/providers/settings-provider"
 
 export function WhatsappButton() {
+  const settings = useSettings()
+
   return (
     <motion.div 
       initial={{ scale: 0, opacity: 0 }}
@@ -12,7 +15,7 @@ export function WhatsappButton() {
       className="fixed bottom-6 right-6 z-50"
     >
       <Link 
-        href="https://wa.me/923055244465"
+        href={`https://wa.me/${settings.whatsapp_number}`}
         target="_blank"
         rel="noopener noreferrer"
         className="flex items-center justify-center w-14 h-14 bg-[#25D366] text-white rounded-full shadow-lg hover:shadow-2xl hover:scale-110 transition-all duration-300"

@@ -4,6 +4,7 @@ import { useState } from "react"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { useCartStore } from "@/store/useCartStore"
+import { useSettings } from "@/components/providers/settings-provider"
 import { Minus, Plus, ShoppingBag, Heart, Truck, Shield, Clock } from "lucide-react"
 import { motion } from "framer-motion"
 
@@ -32,6 +33,7 @@ export function ProductDetailClient({ product }: { product: ProductData }) {
   const [quantity, setQuantity] = useState(1)
   const [addedToCart, setAddedToCart] = useState(false)
   const addItem = useCartStore((s) => s.addItem)
+  const settings = useSettings()
 
   const effectivePrice = product.base_price + (selectedVariant?.price_adjustment ?? 0)
 
@@ -215,7 +217,7 @@ export function ProductDetailClient({ product }: { product: ProductData }) {
                 const msg = encodeURIComponent(
                   `Hi! I'd like to order "${product.name}" (${selectedVariant?.name ?? "Standard"}) — Rs. ${effectivePrice.toLocaleString()}`
                 )
-                window.open(`https://wa.me/921234567890?text=${msg}`, "_blank")
+                window.open(`https://wa.me/${settings.whatsapp_number}?text=${msg}`, "_blank")
               }}
             >
               Order via WhatsApp

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { WhatsappButton } from "@/components/ui/whatsapp-button";
+import { getSettings } from "@/lib/data";
+import { SettingsProvider } from "@/components/providers/settings-provider";
 
 export const metadata: Metadata = {
   title: {
@@ -27,7 +29,9 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const settings = await getSettings();
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Florist",
@@ -63,8 +67,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body className="min-h-full flex flex-col">
-        {children}
-        <WhatsappButton />
+        <SettingsProvider settings={settings}>
+          {children}
+          <WhatsappButton />
+        </SettingsProvider>
       </body>
     </html>
   );
