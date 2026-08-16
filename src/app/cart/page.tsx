@@ -4,6 +4,7 @@ import { useCartStore } from "@/store/useCartStore"
 import { Navbar } from "@/components/ui/navbar"
 import { Footer } from "@/components/ui/footer"
 import { Button } from "@/components/ui/button"
+import { useSettings } from "@/components/providers/settings-provider"
 import Image from "next/image"
 import Link from "next/link"
 import { Minus, Plus, Trash2, ShoppingBag } from "lucide-react"
@@ -13,6 +14,7 @@ const BLUR_DATA_URL =
 
 export default function CartPage() {
   const { items, updateQuantity, removeItem, getCartTotal } = useCartStore()
+  const settings = useSettings()
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -60,7 +62,9 @@ export default function CartPage() {
                     {item.variantName && (
                       <p className="text-xs text-muted-foreground mt-0.5">{item.variantName}</p>
                     )}
-                    <p className="text-sm font-semibold mt-1">Rs. {item.price.toLocaleString()}</p>
+                    {!settings.hide_prices && (
+                      <p className="text-sm font-semibold mt-1">Rs. {item.price.toLocaleString()}</p>
+                    )}
                   </div>
 
                   <div className="flex items-center gap-3 shrink-0">
@@ -104,7 +108,9 @@ export default function CartPage() {
                     <span className="text-muted-foreground">
                       Subtotal ({items.reduce((acc, i) => acc + i.quantity, 0)} items)
                     </span>
-                    <span className="font-medium">Rs. {getCartTotal().toLocaleString()}</span>
+                    <span className="font-medium">
+                      {settings.hide_prices ? "—" : `Rs. ${getCartTotal().toLocaleString()}`}
+                    </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Shipping</span>
@@ -112,13 +118,34 @@ export default function CartPage() {
                   </div>
                   <div className="border-t border-border pt-3 flex justify-between font-semibold text-lg">
                     <span>Total</span>
-                    <span>Rs. {getCartTotal().toLocaleString()}</span>
+                    <span>
+                      {settings.hide_prices ? "—" : `Rs. ${getCartTotal().toLocaleString()}`}
+                    </span>
                   </div>
                 </div>
 
-                <Button asChild className="w-full h-12 text-base font-medium rounded-lg">
-                  <Link href="/checkout">Proceed to Checkout</Link>
-                </Button>
+                {settings.hide_prices ? (
+                  <div className="space-y-4">
+                    <p className="text-sm text-rose font-medium text-center bg-rose/10 py-2 rounded-lg">
+                      Online checkout is temporarily disabled.
+                    </p>
+                    <Button
+                      variant="accent"
+                      className="w-full h-12 bg-[#25D366] text-white hover:bg-[#1ebe57] border-0 shadow-sm font-medium rounded-lg"
+                      onClick={() => {
+                        const productList = items.map(i => `${i.quantity}x ${i.name}`).join(", ")
+                        const msg = encodeURIComponent(`Hi! I'd like to order these items from my cart: ${productList}`)
+                        window.open(`https://wa.me/${settings.whatsapp_number}?text=${msg}`, "_blank")
+                      }}
+                    >
+                      Order via WhatsApp
+                    </Button>
+                  </div>
+                ) : (
+                  <Button asChild className="w-full h-12 text-base font-medium rounded-lg">
+                    <Link href="/checkout">Proceed to Checkout</Link>
+                  </Button>
+                )}
 
                 <p className="text-center text-xs text-muted-foreground mt-4">
                   Taxes and delivery charges calculated at checkout.

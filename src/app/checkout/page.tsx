@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
 import { useCartStore } from "@/store/useCartStore"
+import { useSettings } from "@/components/providers/settings-provider"
 import { Navbar } from "@/components/ui/navbar"
 import { Footer } from "@/components/ui/footer"
 import { Button } from "@/components/ui/button"
@@ -32,6 +33,7 @@ type CheckoutValues = z.infer<typeof checkoutSchema>
 
 export default function CheckoutPage() {
   const { items, getCartTotal, clearCart } = useCartStore()
+  const settings = useSettings()
   const [orderResult, setOrderResult] = useState<{
     success: boolean
     orderNumber?: string
@@ -101,6 +103,23 @@ export default function CheckoutPage() {
             </div>
           </div>
         </main>
+        <Footer />
+      </div>
+    )
+  }
+
+  // ── Hide Prices Blocker ──
+  if (settings.hide_prices) {
+    return (
+      <div className="min-h-screen bg-background flex flex-col">
+        <Navbar />
+        <div className="flex-1 flex flex-col items-center justify-center p-4 space-y-4">
+          <ShoppingBag className="h-16 w-16 text-muted-foreground/30" />
+          <p className="text-lg font-serif text-foreground text-center">Online checkout is temporarily disabled while we update our prices.</p>
+          <Button asChild className="rounded-full px-8">
+            <Link href="/shop">Browse Flowers</Link>
+          </Button>
+        </div>
         <Footer />
       </div>
     )

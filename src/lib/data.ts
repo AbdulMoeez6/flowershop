@@ -329,6 +329,7 @@ export type SiteSettings = {
   whatsapp_number: string
   facebook_url: string
   instagram_url: string
+  hide_prices: boolean
 }
 
 export async function getSettings(): Promise<SiteSettings> {
@@ -336,6 +337,7 @@ export async function getSettings(): Promise<SiteSettings> {
     whatsapp_number: "923055244465",
     facebook_url: "#",
     instagram_url: "#",
+    hide_prices: true,
   }
 
   if (isSupabaseConfigured()) {
@@ -355,6 +357,7 @@ export async function getSettings(): Promise<SiteSettings> {
           whatsapp_number: settings.whatsapp_number || defaultSettings.whatsapp_number,
           facebook_url: settings.facebook_url || defaultSettings.facebook_url,
           instagram_url: settings.instagram_url || defaultSettings.instagram_url,
+          hide_prices: settings.hide_prices !== undefined ? String(settings.hide_prices) === "true" : defaultSettings.hide_prices,
         }
       }
     } catch {

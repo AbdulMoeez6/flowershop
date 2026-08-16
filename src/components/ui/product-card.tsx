@@ -96,18 +96,20 @@ export function ProductCard({
           >
             <Heart className="h-4 w-4" />
           </Button>
-          <Button
-            variant="default"
-            className="rounded-full shadow-lg h-10 px-5 text-sm"
-            onClick={handleAddToCart}
-          >
-            <ShoppingBag className="mr-1.5 h-4 w-4" />
-            Add to Cart
-          </Button>
+          {!settings.hide_prices && (
+            <Button
+              variant="default"
+              className="rounded-full shadow-lg h-10 px-5 text-sm"
+              onClick={handleAddToCart}
+            >
+              <ShoppingBag className="mr-1.5 h-4 w-4" />
+              Add to Cart
+            </Button>
+          )}
         </div>
 
         {/* Sale badge */}
-        {discount && (
+        {!settings.hide_prices && discount && (
           <div className="absolute top-3 left-3 rounded-full bg-rose text-white px-3 py-1 text-xs font-semibold shadow-md">
             -{discount}%
           </div>
@@ -134,16 +136,18 @@ export function ProductCard({
         >
           {name}
         </Link>
-        <div className="flex items-center gap-2">
-          <span className="text-sm font-semibold text-foreground">
-            Rs. {price.toLocaleString()}
-          </span>
-          {compareAtPrice && compareAtPrice > price && (
-            <span className="text-xs text-muted-foreground line-through">
-              Rs. {compareAtPrice.toLocaleString()}
+        {!settings.hide_prices && (
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-semibold text-foreground">
+              Rs. {price.toLocaleString()}
             </span>
-          )}
-        </div>
+            {compareAtPrice && compareAtPrice > price && (
+              <span className="text-xs text-muted-foreground line-through">
+                Rs. {compareAtPrice.toLocaleString()}
+              </span>
+            )}
+          </div>
+        )}
         <Button
           variant="default"
           className="w-full mt-3 h-9 text-xs font-medium rounded-md bg-primary hover:bg-primary/90 text-white"
@@ -151,7 +155,9 @@ export function ProductCard({
             e.preventDefault();
             e.stopPropagation();
             const msg = encodeURIComponent(
-              `Hi! I'd like to order "${name}" — Rs. ${price.toLocaleString()}`
+              settings.hide_prices 
+                ? `Hi! I'd like to order "${name}"`
+                : `Hi! I'd like to order "${name}" — Rs. ${price.toLocaleString()}`
             )
             window.open(`https://wa.me/${settings.whatsapp_number}?text=${msg}`, "_blank")
           }}

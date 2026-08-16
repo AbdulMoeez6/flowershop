@@ -121,21 +121,23 @@ export function ProductDetailClient({ product }: { product: ProductData }) {
             {product.name}
           </h1>
 
-          <div className="flex items-center gap-3 mt-4">
-            <span className="text-2xl font-semibold text-foreground">
-              Rs. {effectivePrice.toLocaleString()}
-            </span>
-            {product.compare_at_price && product.compare_at_price > product.base_price && (
-              <span className="text-lg text-muted-foreground line-through">
-                Rs. {product.compare_at_price.toLocaleString()}
+          {!settings.hide_prices && (
+            <div className="flex items-center gap-3 mt-4">
+              <span className="text-2xl font-semibold text-foreground">
+                Rs. {effectivePrice.toLocaleString()}
               </span>
-            )}
-            {product.compare_at_price && product.compare_at_price > product.base_price && (
-              <span className="text-xs font-semibold text-white bg-rose px-2.5 py-1 rounded-full">
-                Save {Math.round(((product.compare_at_price - product.base_price) / product.compare_at_price) * 100)}%
-              </span>
-            )}
-          </div>
+              {product.compare_at_price && product.compare_at_price > product.base_price && (
+                <span className="text-lg text-muted-foreground line-through">
+                  Rs. {product.compare_at_price.toLocaleString()}
+                </span>
+              )}
+              {product.compare_at_price && product.compare_at_price > product.base_price && (
+                <span className="text-xs font-semibold text-white bg-rose px-2.5 py-1 rounded-full">
+                  Save {Math.round(((product.compare_at_price - product.base_price) / product.compare_at_price) * 100)}%
+                </span>
+              )}
+            </div>
+          )}
 
           <p className="text-muted-foreground leading-relaxed mt-6">
             {product.short_description}
@@ -157,7 +159,7 @@ export function ProductDetailClient({ product }: { product: ProductData }) {
                     }`}
                   >
                     {variant.name}
-                    {variant.price_adjustment > 0 && (
+                    {!settings.hide_prices && variant.price_adjustment > 0 && (
                       <span className="text-xs text-muted-foreground ml-1.5">
                         (+Rs. {variant.price_adjustment.toLocaleString()})
                       </span>
@@ -172,35 +174,39 @@ export function ProductDetailClient({ product }: { product: ProductData }) {
           <div className="mt-8 space-y-4 border-t border-border pt-8">
             <div className="flex items-center gap-4">
               {/* Quantity selector */}
-              <div className="flex items-center border border-border rounded-lg h-12">
-                <button
-                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                  className="px-4 h-full text-muted-foreground hover:text-foreground transition-colors"
-                  aria-label="Decrease quantity"
-                >
-                  <Minus className="w-4 h-4" />
-                </button>
-                <span className="w-10 text-center font-medium text-sm">{quantity}</span>
-                <button
-                  onClick={() => setQuantity(quantity + 1)}
-                  className="px-4 h-full text-muted-foreground hover:text-foreground transition-colors"
-                  aria-label="Increase quantity"
-                >
-                  <Plus className="w-4 h-4" />
-                </button>
-              </div>
+              {!settings.hide_prices && (
+                <>
+                  <div className="flex items-center border border-border rounded-lg h-12">
+                    <button
+                      onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                      className="px-4 h-full text-muted-foreground hover:text-foreground transition-colors"
+                      aria-label="Decrease quantity"
+                    >
+                      <Minus className="w-4 h-4" />
+                    </button>
+                    <span className="w-10 text-center font-medium text-sm">{quantity}</span>
+                    <button
+                      onClick={() => setQuantity(quantity + 1)}
+                      className="px-4 h-full text-muted-foreground hover:text-foreground transition-colors"
+                      aria-label="Increase quantity"
+                    >
+                      <Plus className="w-4 h-4" />
+                    </button>
+                  </div>
 
-              {/* Add to cart button */}
-              <Button
-                onClick={handleAddToCart}
-                size="lg"
-                className={`flex-1 h-12 text-base font-medium rounded-lg transition-all ${
-                  addedToCart ? "bg-green-600 hover:bg-green-700" : ""
-                }`}
-              >
-                <ShoppingBag className="mr-2 h-5 w-5" />
-                {addedToCart ? "Added! ✓" : "Add to Cart"}
-              </Button>
+                  {/* Add to cart button */}
+                  <Button
+                    onClick={handleAddToCart}
+                    size="lg"
+                    className={`flex-1 h-12 text-base font-medium rounded-lg transition-all ${
+                      addedToCart ? "bg-green-600 hover:bg-green-700" : ""
+                    }`}
+                  >
+                    <ShoppingBag className="mr-2 h-5 w-5" />
+                    {addedToCart ? "Added! ✓" : "Add to Cart"}
+                  </Button>
+                </>
+              )}
 
               {/* Wishlist */}
               <Button variant="outline" size="icon" className="h-12 w-12 shrink-0 rounded-lg">
@@ -215,7 +221,9 @@ export function ProductDetailClient({ product }: { product: ProductData }) {
               className="w-full h-12 bg-[#25D366] text-white hover:bg-[#1ebe57] border-0 shadow-sm font-medium rounded-lg"
               onClick={() => {
                 const msg = encodeURIComponent(
-                  `Hi! I'd like to order "${product.name}" (${selectedVariant?.name ?? "Standard"}) — Rs. ${effectivePrice.toLocaleString()}`
+                  settings.hide_prices
+                    ? `Hi! I'd like to order "${product.name}" (${selectedVariant?.name ?? "Standard"})`
+                    : `Hi! I'd like to order "${product.name}" (${selectedVariant?.name ?? "Standard"}) — Rs. ${effectivePrice.toLocaleString()}`
                 )
                 window.open(`https://wa.me/${settings.whatsapp_number}?text=${msg}`, "_blank")
               }}

@@ -40,7 +40,25 @@ export function SettingsForm({ initialSettings }: { initialSettings: SiteSetting
       <div className="bg-card border rounded-xl shadow-sm p-6">
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-4">
-            <h2 className="text-lg font-medium">Contact & Social</h2>
+            <h2 className="text-lg font-medium">Store Preferences</h2>
+            
+            <div className="space-y-2 pb-4">
+              <label htmlFor="hide_prices" className="flex items-center space-x-2 text-sm font-medium cursor-pointer">
+                <input
+                  id="hide_prices"
+                  type="checkbox"
+                  className="w-4 h-4 text-primary rounded border-input"
+                  checked={settings.hide_prices}
+                  onChange={(e) => setSettings({ ...settings, hide_prices: e.target.checked })}
+                />
+                <span>Hide Product Prices & Disable Cart</span>
+              </label>
+              <p className="text-xs text-muted-foreground pl-6">
+                If checked, all product prices and checkout functionality will be hidden from the website. Customers can still order via WhatsApp.
+              </p>
+            </div>
+
+            <h2 className="text-lg font-medium pt-4 border-t">Contact & Social</h2>
             
             <div className="space-y-2">
               <label htmlFor="whatsapp_number" className="text-sm font-medium">
