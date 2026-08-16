@@ -4,6 +4,8 @@ import Link from "next/link"
 import Image from "next/image"
 import { MapPin, Phone, Mail, Clock } from "lucide-react"
 import { useSettings } from "@/components/providers/settings-provider"
+import { useState, useEffect } from "react"
+import { fetchCollections, fetchOccasions } from "@/app/actions/categories"
 
 const footerLinks = {
   shop: [
@@ -38,6 +40,43 @@ const footerLinks = {
 
 export function Footer() {
   const settings = useSettings()
+  
+  const [dynamicShopLinks, setDynamicShopLinks] = useState(footerLinks.shop)
+  const [dynamicOccasionLinks, setDynamicOccasionLinks] = useState(footerLinks.occasions)
+
+  useEffect(() => {
+    async function loadCategories() {
+      try {
+        const [collections, occasions] = await Promise.all([
+          fetchCollections(),
+          fetchOccasions()
+        ])
+        
+        if (collections && collections.length > 0) {
+          const shopLinks = [
+            { label: "All Products", href: "/shop" },
+            ...collections.slice(0, 5).map((c: any) => ({
+              label: c.name,
+              href: `/shop?category=${c.slug}`
+            }))
+          ]
+          setDynamicShopLinks(shopLinks)
+        }
+        
+        if (occasions && occasions.length > 0) {
+          const occLinks = occasions.slice(0, 5).map((o: any) => ({
+            label: o.name,
+            href: `/occasions#${o.slug}`
+          }))
+          setDynamicOccasionLinks(occLinks)
+        }
+      } catch (err) {
+        console.error("Failed to load footer categories", err)
+      }
+    }
+    
+    loadCategories()
+  }, [])
 
   return (
     <footer className="bg-primary text-primary-foreground">
@@ -94,7 +133,7 @@ export function Footer() {
           <div>
             <h3 className="font-serif text-lg font-medium text-white mb-5">Shop</h3>
             <ul className="space-y-3">
-              {footerLinks.shop.map((link) => (
+              {dynamicShopLinks.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
@@ -111,7 +150,7 @@ export function Footer() {
           <div>
             <h3 className="font-serif text-lg font-medium text-white mb-5">Occasions</h3>
             <ul className="space-y-3">
-              {footerLinks.occasions.map((link) => (
+              {dynamicOccasionLinks.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
