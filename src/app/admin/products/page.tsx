@@ -464,7 +464,7 @@ export default function AdminProductsPage() {
                   <div className="space-y-2 pl-6">
                     <p className="text-xs text-muted-foreground uppercase font-medium">Select Available Cities</p>
                     <div className="grid grid-cols-2 gap-2">
-                      {['islamabad', 'rawalpindi', 'lahore', 'karachi', 'peshawar', 'faisalabad'].map((city) => (
+                      {['islamabad', 'rawalpindi', 'lahore', 'karachi', 'peshawar'].map((city) => (
                         <label key={city} className="flex items-center gap-2 cursor-pointer hover:bg-muted/30 p-1.5 rounded transition-colors">
                           <input 
                             type="checkbox" 

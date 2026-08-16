@@ -14,7 +14,7 @@ export default function DeliveryPolicyPage() {
         <p>Last updated: {new Date().toLocaleDateString()}</p>
         
         <h2 className="text-xl font-serif mt-8 mb-4 text-foreground">1. Delivery Areas</h2>
-        <p>We offer delivery services to select areas in Islamabad, Rawalpindi, Lahore, Karachi, Peshawar, and Faisalabad. Delivery availability may vary depending on the specific location and the product selected.</p>
+        <p>We offer delivery services to select areas in Islamabad, Rawalpindi, Lahore, Karachi, and Peshawar. Delivery availability may vary depending on the specific location and the product selected.</p>
 
         <h2 className="text-xl font-serif mt-8 mb-4 text-foreground">2. Delivery Times</h2>
         <p>Our standard delivery times are between 9:00 AM and 9:00 PM. While we strive to deliver within the requested time frame, we cannot guarantee exact delivery times due to factors such as traffic, weather, and order volume.</p>

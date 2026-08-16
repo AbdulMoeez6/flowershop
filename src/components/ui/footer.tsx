@@ -33,7 +33,6 @@ const footerLinks = {
     { label: "Lahore", href: "/delivery/lahore" },
     { label: "Karachi", href: "/delivery/karachi" },
     { label: "Peshawar", href: "/delivery/peshawar" },
-    { label: "Faisalabad", href: "/delivery/faisalabad" },
   ],
 }
 

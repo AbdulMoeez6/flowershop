@@ -7,7 +7,6 @@ const CITIES = [
   "Lahore",
   "Karachi",
   "Peshawar",
-  "Faisalabad",
 ]
 
 export function DeliveryLocations() {

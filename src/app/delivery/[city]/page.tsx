@@ -10,17 +10,17 @@ const PREDEFINED_CITIES = [
   "lahore",
   "karachi",
   "peshawar",
-  "faisalabad",
 ]
 
 interface PageProps {
-  params: {
+  params: Promise<{
     city: string
-  }
+  }>
 }
 
 export async function generateMetadata({ params }: PageProps) {
-  const city = params.city.toLowerCase()
+  const resolvedParams = await params
+  const city = resolvedParams.city.toLowerCase()
   if (!PREDEFINED_CITIES.includes(city)) {
     return {
       title: "City Not Found | Fleur & Co.",
@@ -36,7 +36,8 @@ export async function generateMetadata({ params }: PageProps) {
 }
 
 export default async function CityDeliveryPage({ params }: PageProps) {
-  const city = params.city.toLowerCase()
+  const resolvedParams = await params
+  const city = resolvedParams.city.toLowerCase()
   
   if (!PREDEFINED_CITIES.includes(city)) {
     notFound()
