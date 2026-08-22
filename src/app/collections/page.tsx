@@ -30,39 +30,42 @@ export default async function CollectionsPage() {
 
         {/* Collections Grid */}
         <section className="py-20 md:py-32">
-          <div className="container mx-auto px-4 md:px-8 space-y-32">
+          <div className="container mx-auto px-4 md:px-8">
             {collections?.length > 0 ? (
-              collections.map((collection) => (
-                <div
-                  key={collection.id}
-                  className="group relative"
-                >
-                  <Link href={`/shop?category=${collection.slug}`} className="block relative w-full h-[60vh] md:h-[80vh] overflow-hidden rounded-xl shadow-2xl">
-                    <Image
-                      src={collection.image_url || "https://images.unsplash.com/photo-1582794543139-8ac9cb0f7b11?q=80&w=1200&auto=format&fit=crop"}
-                      alt={collection.name}
-                      fill
-                      className="object-cover transition-transform duration-[1.5s] group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
+                {collections.map((collection) => (
+                  <div
+                    key={collection.id}
+                    className="group relative"
+                  >
+                    <Link href={`/shop?category=${collection.slug}`} className="block relative w-full aspect-[4/5] md:aspect-[3/4] overflow-hidden rounded-2xl shadow-xl hover:shadow-2xl transition-all">
+                      <Image
+                        src={collection.image_url || "https://images.unsplash.com/photo-1582794543139-8ac9cb0f7b11?q=80&w=1200&auto=format&fit=crop"}
+                        alt={collection.name}
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        className="object-cover transition-transform duration-[1.5s] group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-500" />
 
-                    <div className="absolute bottom-0 left-0 right-0 p-8 md:p-16 flex flex-col md:flex-row justify-between items-end gap-6">
-                      <div className="space-y-4 max-w-xl">
-                        <h2 className="text-4xl md:text-5xl font-serif text-white">
-                          {collection.name}
-                        </h2>
-                        <p className="text-lg text-white/80 font-light">
-                          {collection.description}
-                        </p>
+                      <div className="absolute bottom-0 left-0 right-0 p-8 flex flex-col justify-end gap-3 h-full">
+                        <div className="space-y-3 transform translate-y-8 group-hover:translate-y-0 transition-transform duration-500 ease-out">
+                          <h2 className="text-3xl md:text-4xl font-serif text-white">
+                            {collection.name}
+                          </h2>
+                          <p className="text-sm text-white/90 font-light line-clamp-3 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                            {collection.description}
+                          </p>
+                          <div className="flex items-center text-white font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200">
+                            <span className="border-b border-white/40 pb-0.5">Explore Collection</span>
+                            <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-2" />
+                          </div>
+                        </div>
                       </div>
-                      <div className="flex items-center text-white font-medium hover:text-gold transition-colors shrink-0">
-                        Explore Collection
-                        <ArrowRight className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-2" />
-                      </div>
-                    </div>
-                  </Link>
-                </div>
-              ))
+                    </Link>
+                  </div>
+                ))}
+              </div>
             ) : (
               <div className="text-center py-20">
                 <p className="text-lg text-muted-foreground">No collections found.</p>
