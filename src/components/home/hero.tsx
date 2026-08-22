@@ -329,7 +329,7 @@ export function HeroSection() {
             opacity: { duration: 1.0, ease: "easeInOut" },
             x: { duration: 1.0, ease: "easeInOut" },
           }}
-          className="absolute inset-0 bg-[#2a2220]"
+          className="absolute inset-0"
         >
           {/* Desktop image (landscape) — hidden on mobile */}
           <Image
@@ -338,7 +338,7 @@ export function HeroSection() {
             fill
             priority={currentIndex === 0}
             sizes="100vw"
-            className="object-contain object-center hidden md:block"
+            className="object-cover object-center hidden md:block"
             quality={85}
           />
           {/* Mobile image (portrait) — hidden on desktop */}
@@ -348,7 +348,7 @@ export function HeroSection() {
             fill
             priority={currentIndex === 0}
             sizes="100vw"
-            className="object-contain object-center block md:hidden"
+            className="object-cover object-center block md:hidden"
             quality={80}
           />
         </motion.div>

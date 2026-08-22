@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { WhatsappButton } from "@/components/ui/whatsapp-button";
-import { getSettings } from "@/lib/data";
+import { WelcomeModal } from "@/components/ui/welcome-modal";
+import { getSettings, getCategories } from "@/lib/data";
 import { SettingsProvider } from "@/components/providers/settings-provider";
 
 export const metadata: Metadata = {
@@ -31,6 +32,7 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const settings = await getSettings();
+  const categories = await getCategories();
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -70,6 +72,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <SettingsProvider settings={settings}>
           {children}
           <WhatsappButton />
+          <WelcomeModal categories={categories} />
         </SettingsProvider>
       </body>
     </html>
