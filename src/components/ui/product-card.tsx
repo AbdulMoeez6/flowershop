@@ -62,7 +62,7 @@ export function ProductCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.5 }}
-      className={cn("group relative flex flex-col", className)}
+      className={cn("group relative flex flex-col h-full", className)}
     >
       {/* Image Container */}
       <Link href={productHref} className="relative aspect-[3/4] overflow-hidden rounded-2xl bg-cream block">
@@ -124,15 +124,16 @@ export function ProductCard({
       </Link>
 
       {/* Text content */}
-      <div className="flex flex-col mt-4 space-y-1.5">
+      <div className="flex flex-col mt-4 space-y-1.5 flex-1">
         {category && (
-          <span className="text-[11px] uppercase tracking-widest text-muted-foreground font-medium">
+          <span className="text-[11px] uppercase tracking-widest text-muted-foreground font-medium truncate">
             {category}
           </span>
         )}
         <Link
           href={productHref}
-          className="font-serif text-lg font-medium text-foreground hover:text-primary transition-colors leading-snug"
+          className="font-serif text-lg font-medium text-foreground hover:text-primary transition-colors leading-snug truncate block"
+          title={name}
         >
           {name}
         </Link>
@@ -148,6 +149,7 @@ export function ProductCard({
             )}
           </div>
         )}
+        <div className="flex-1" />
         <Button
           variant="default"
           className="w-full mt-3 h-9 text-xs font-medium rounded-md bg-primary hover:bg-primary/90 text-white"

@@ -9,3 +9,6 @@ export async function fetchOccasions() {
 export async function fetchCollections() {
   return await getCategories({ isCollection: true })
 }
+export async function fetchCategories() {
+  return await getCategories()
+}

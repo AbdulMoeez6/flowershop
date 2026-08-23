@@ -11,10 +11,20 @@ import { useCartStore } from "@/store/useCartStore"
 
 const navLinks = [
   { href: "/shop", label: "Shop" },
+  { href: "#", label: "Categories" },
   { href: "/collections", label: "Collections" },
   { href: "/occasions", label: "Occasions" },
+  { href: "#", label: "Location" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
+]
+
+const cities = [
+  { name: "Islamabad", slug: "islamabad" },
+  { name: "Rawalpindi", slug: "rawalpindi" },
+  { name: "Lahore", slug: "lahore" },
+  { name: "Karachi", slug: "karachi" },
+  { name: "Peshawar", slug: "peshawar" },
 ]
 
 interface NavbarProps {
@@ -24,9 +34,11 @@ interface NavbarProps {
 export function Navbar({ transparent = false }: NavbarProps) {
   const [scrolled, setScrolled] = React.useState(false)
   const [mobileOpen, setMobileOpen] = React.useState(false)
+  const [expandedMenu, setExpandedMenu] = React.useState<string | null>(null)
   const [searchOpen, setSearchOpen] = React.useState(false)
   const [searchQuery, setSearchQuery] = React.useState("")
   const [occasions, setOccasions] = React.useState<{id: string, name: string, slug: string}[]>([])
+  const [categories, setCategories] = React.useState<{id: string, name: string, slug: string}[]>([])
   const pathname = usePathname()
   const router = useRouter()
   const items = useCartStore((s) => s.items)
@@ -40,13 +52,20 @@ export function Navbar({ transparent = false }: NavbarProps) {
   }, [])
 
   React.useEffect(() => {
-    // Fetch occasions dynamically on mount
+    // Fetch categories and occasions dynamically on mount
     import("@/app/actions/categories").then((mod) => {
       mod.fetchOccasions().then((data) => {
         if (data && data.length > 0) {
           setOccasions(data)
         }
       })
+      if (mod.fetchCategories) {
+        mod.fetchCategories().then((data) => {
+          if (data && data.length > 0) {
+            setCategories(data)
+          }
+        })
+      }
     })
   }, [])
 
@@ -138,14 +157,24 @@ export function Navbar({ transparent = false }: NavbarProps) {
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center justify-center space-x-8 flex-1">
             {navLinks.map((link) => {
-              if (link.label === "Occasions") {
+              if (link.label === "Occasions" || link.label === "Categories" || link.label === "Location") {
+                const isLocation = link.label === "Location";
+                const isCategories = link.label === "Categories";
+                
+                const dropdownItems = isLocation 
+                  ? cities.map(c => ({ id: c.slug, name: c.name, href: `/delivery/${c.slug}` }))
+                  : isCategories 
+                    ? categories.map(c => ({ id: c.id, name: c.name, href: `/shop?category=${c.slug}` }))
+                    : occasions.map(o => ({ id: o.id, name: o.name, href: `/shop?category=${o.slug}` }));
+
                 return (
-                  <div key={link.href} className="relative group">
+                  <div key={link.label} className="relative group">
                     <Link
                       href={link.href}
+                      onClick={(e) => { if (link.href === "#") e.preventDefault() }}
                       className={`flex items-center text-sm font-medium transition-colors relative py-1 ${
                         showSolid
-                          ? pathname.startsWith(link.href)
+                          ? (link.href !== "#" && pathname.startsWith(link.href))
                             ? "text-primary"
                             : "text-foreground/70 hover:text-foreground"
                           : "text-white/80 hover:text-white"
@@ -155,22 +184,22 @@ export function Navbar({ transparent = false }: NavbarProps) {
                       <svg className="w-4 h-4 ml-1 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                       </svg>
-                      {pathname.startsWith(link.href) && (
+                      {link.href !== "#" && pathname.startsWith(link.href) && (
                         <span className="absolute -bottom-0.5 left-0 right-0 h-0.5 bg-gold rounded-full" />
                       )}
                     </Link>
                     
                     {/* Dropdown Menu */}
-                    {occasions.length > 0 && (
+                    {dropdownItems.length > 0 && (
                       <div className="absolute top-full left-1/2 -translate-x-1/2 pt-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                         <div className="bg-background shadow-lg rounded-md border border-border/40 py-2 min-w-[200px]">
-                          {occasions.map((occ) => (
+                          {dropdownItems.map((item) => (
                             <Link
-                              key={occ.id}
-                              href={`/shop?category=${occ.slug}`}
+                              key={item.id}
+                              href={item.href}
                               className="block px-4 py-2 text-sm text-foreground/80 hover:bg-muted hover:text-primary transition-colors"
                             >
-                              {occ.name}
+                              {item.name}
                             </Link>
                           ))}
                         </div>
@@ -313,20 +342,100 @@ export function Navbar({ transparent = false }: NavbarProps) {
                 </Button>
               </div>
               <nav className="flex-1 overflow-y-auto py-6 px-6 space-y-1">
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    onClick={() => setMobileOpen(false)}
-                    className={`block py-3 px-4 rounded-lg text-base font-medium transition-colors ${
-                      pathname === link.href
-                        ? "bg-primary/10 text-primary"
-                        : "text-foreground/70 hover:bg-muted hover:text-foreground"
-                    }`}
-                  >
-                    {link.label}
-                  </Link>
-                ))}
+                {navLinks.map((link) => {
+                  const hasDropdown = link.label === "Occasions" || link.label === "Categories" || link.label === "Location"
+                  
+                  if (hasDropdown) {
+                    const isLocation = link.label === "Location"
+                    const isCategories = link.label === "Categories"
+                    
+                    const dropdownItems = isLocation 
+                      ? cities.map(c => ({ id: c.slug, name: c.name, href: `/delivery/${c.slug}` }))
+                      : isCategories 
+                        ? categories.map(c => ({ id: c.id, name: c.name, href: `/shop?category=${c.slug}` }))
+                        : occasions.map(o => ({ id: o.id, name: o.name, href: `/shop?category=${o.slug}` }))
+
+                    const isExpanded = expandedMenu === link.label
+
+                    return (
+                      <div key={link.label} className="space-y-1">
+                        <div
+                          className={`w-full flex items-center justify-between py-2 px-4 rounded-lg transition-colors ${
+                            pathname.startsWith(link.href) && link.href !== "#"
+                              ? "bg-primary/10 text-primary"
+                              : "text-foreground/70 hover:bg-muted"
+                          }`}
+                        >
+                          <Link
+                            href={link.href}
+                            onClick={(e) => {
+                              if (link.href === "#") {
+                                e.preventDefault()
+                                setExpandedMenu(isExpanded ? null : link.label)
+                              } else {
+                                setMobileOpen(false)
+                              }
+                            }}
+                            className="flex-1 text-base font-medium py-1"
+                          >
+                            {link.label}
+                          </Link>
+                          <button
+                            onClick={() => setExpandedMenu(isExpanded ? null : link.label)}
+                            className="p-2 -mr-2"
+                            aria-label={`Toggle ${link.label} menu`}
+                          >
+                            <svg
+                              className={`w-4 h-4 transition-transform duration-200 ${isExpanded ? "rotate-180" : ""}`}
+                              fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                            >
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                            </svg>
+                          </button>
+                        </div>
+                        
+                        <AnimatePresence>
+                          {isExpanded && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: "auto", opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              className="overflow-hidden"
+                            >
+                              <div className="pl-6 py-1 space-y-1">
+                                {dropdownItems.map((item) => (
+                                  <Link
+                                    key={item.id}
+                                    href={item.href}
+                                    onClick={() => setMobileOpen(false)}
+                                    className="block py-2 px-4 rounded-lg text-sm text-foreground/70 hover:bg-muted hover:text-foreground transition-colors"
+                                  >
+                                    {item.name}
+                                  </Link>
+                                ))}
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    )
+                  }
+
+                  return (
+                    <Link
+                      key={link.label}
+                      href={link.href}
+                      onClick={() => setMobileOpen(false)}
+                      className={`block py-3 px-4 rounded-lg text-base font-medium transition-colors ${
+                        pathname === link.href
+                          ? "bg-primary/10 text-primary"
+                          : "text-foreground/70 hover:bg-muted hover:text-foreground"
+                      }`}
+                    >
+                      {link.label}
+                    </Link>
+                  )
+                })}
               </nav>
               <div className="p-6 border-t border-border space-y-3">
                 <Link
