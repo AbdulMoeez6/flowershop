@@ -14,6 +14,7 @@ import {
   FileText,
   LogOut,
   Layers,
+  MapPin,
   Menu,
   X,
 } from "lucide-react"
@@ -25,8 +26,10 @@ const navigation = [
   { name: "Orders", href: "/admin/orders", icon: ShoppingCart },
   { name: "Products", href: "/admin/products", icon: Package },
   { name: "Categories", href: "/admin/categories", icon: Layers },
+  { name: "Delivery Areas", href: "/admin/delivery-areas", icon: MapPin },
   { name: "Settings", href: "/admin/settings", icon: Settings },
 ]
+
 
 export default function AdminLayout({
   children,

@@ -367,3 +367,34 @@ export async function getSettings(): Promise<SiteSettings> {
 
   return defaultSettings
 }
+
+export type CityPlace = {
+  id: string
+  city_slug: string
+  name: string
+  slug: string
+  is_active: boolean
+}
+
+export async function getCityPlaces(citySlug: string): Promise<CityPlace[]> {
+  if (isSupabaseConfigured()) {
+    try {
+      const { createClient } = await import("@/utils/supabase/server")
+      const supabase = await createClient()
+
+      const { data, error } = await supabase
+        .from("city_places")
+        .select("id, city_slug, name, slug, is_active")
+        .eq("city_slug", citySlug)
+        .eq("is_active", true)
+        .order("name")
+      
+      if (!error && data) {
+        return data as CityPlace[]
+      }
+    } catch {
+      // Fall through to empty array
+    }
+  }
+  return []
+}
