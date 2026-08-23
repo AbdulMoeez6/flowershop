@@ -80,20 +80,20 @@ export function Navbar({ transparent = false }: NavbarProps) {
             >
               {/* First Set */}
               <div className="flex shrink-0">
-                <span className="font-medium text-sm px-8 tracking-wide">
-                  Enjoy fast, reliable, and premium same-day flower delivery across Islamabad and Rawalpindi! Order now to make someone's day special!
+                <span className="font-medium text-sm px-10 tracking-wide">
+                  Enjoy fast, reliable, and premium same-day flower delivery across Islamabad and Rawalpindi!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Order now to make someone's day special!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Delivery charges may vary according to the delivery area.
                 </span>
-                <span className="font-medium text-sm px-8 tracking-wide">
-                  Enjoy fast, reliable, and premium same-day flower delivery across Islamabad and Rawalpindi! Order now to make someone's day special!
+                <span className="font-medium text-sm px-10 tracking-wide">
+                  Enjoy fast, reliable, and premium same-day flower delivery across Islamabad and Rawalpindi!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Order now to make someone's day special!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Delivery charges may vary according to the delivery area.
                 </span>
               </div>
               {/* Second Set (Duplicate for seamless loop) */}
               <div className="flex shrink-0">
-                <span className="font-medium text-sm px-8 tracking-wide">
-                  Enjoy fast, reliable, and premium same-day flower delivery across Islamabad and Rawalpindi! Order now to make someone's day special!
+                <span className="font-medium text-sm px-10 tracking-wide">
+                  Enjoy fast, reliable, and premium same-day flower delivery across Islamabad and Rawalpindi!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Order now to make someone's day special!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Delivery charges may vary according to the delivery area.
                 </span>
-                <span className="font-medium text-sm px-8 tracking-wide">
-                  Enjoy fast, reliable, and premium same-day flower delivery across Islamabad and Rawalpindi! Order now to make someone's day special!
+                <span className="font-medium text-sm px-10 tracking-wide">
+                  Enjoy fast, reliable, and premium same-day flower delivery across Islamabad and Rawalpindi!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Order now to make someone's day special!&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Delivery charges may vary according to the delivery area.
                 </span>
               </div>
             </motion.div>
