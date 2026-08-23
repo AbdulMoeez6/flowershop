@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/admin/', '/account/'],
     },
-    sitemap: 'https://flowershopislamabad.com/sitemap.xml',
+    sitemap: 'https://floralvillageislamabad.com/sitemap.xml',
   }
 }

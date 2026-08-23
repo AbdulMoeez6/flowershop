@@ -44,7 +44,7 @@ export async function generateMetadata({ params }: LocalizedCategoryPageProps) {
   }
 
   return {
-    title: `Premium ${categoryName} Delivery in ${locationName} | Flower Shop`,
+    title: `Premium ${categoryName} Delivery in ${locationName} | Floral Village`,
     description: `Send the freshest ${categoryName} to your loved ones in ${locationName}. Enjoy same-day delivery for premium floral arrangements and gifts.`,
   }
 }

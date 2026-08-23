@@ -2,8 +2,8 @@ import React from 'react'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy - Flower Shop',
-  description: 'Privacy policy for Flower Shop',
+  title: 'Privacy Policy - Floral Village',
+  description: 'Privacy policy for Floral Village',
 }
 
 export default function PrivacyPolicyPage() {
@@ -26,7 +26,7 @@ export default function PrivacyPolicyPage() {
         <p>We implement a variety of security measures to maintain the safety of your personal information when you place an order or enter, submit, or access your personal information.</p>
 
         <h2 className="text-xl font-serif mt-8 mb-4 text-foreground">5. Contact Us</h2>
-        <p>If you have any questions about this Privacy Policy, please contact us at info@flowershopislamabad.com.</p>
+        <p>If you have any questions about this Privacy Policy, please contact us at info@floralvillageislamabad.com.</p>
       </div>
     </div>
   )

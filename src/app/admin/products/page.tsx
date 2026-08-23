@@ -116,7 +116,18 @@ export default function AdminProductsPage() {
   const handleSave = async () => {
     setFormError(null)
     setSaving(true)
-    const slug = formName.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "")
+    const baseSlug = formName.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "")
+    let slug = baseSlug
+
+    const { data: existingProducts } = await supabase
+      .from("products")
+      .select("id")
+      .eq("slug", slug)
+      
+    const isDuplicate = existingProducts && existingProducts.some(p => !editingProduct || p.id !== editingProduct.id)
+    if (isDuplicate) {
+      slug = `${baseSlug}-${Math.random().toString(36).substring(2, 7)}`
+    }
 
     let finalImageUrl = formFilePreview;
 
@@ -252,6 +263,22 @@ export default function AdminProductsPage() {
     fetchProducts()
   }
 
+  const handlePaste = (e: React.ClipboardEvent) => {
+    const items = e.clipboardData?.items;
+    if (!items) return;
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].type.indexOf("image") !== -1) {
+        const file = items[i].getAsFile();
+        if (file) {
+          setFormFile(file);
+          setFormImageUrl("");
+          setFormFilePreview(URL.createObjectURL(file));
+        }
+        break;
+      }
+    }
+  };
+
   const filteredProducts = products.filter((p) =>
     p.name.toLowerCase().includes(search.toLowerCase())
   )
@@ -376,7 +403,10 @@ export default function AdminProductsPage() {
       {showModal && (
         <>
           <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50" onClick={() => setShowModal(false)} />
-          <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 bg-card rounded-2xl shadow-xl border border-border w-full max-w-lg max-h-[90vh] overflow-y-auto">
+          <div 
+            className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 bg-card rounded-2xl shadow-xl border border-border w-full max-w-lg max-h-[90vh] overflow-y-auto"
+            onPaste={handlePaste}
+          >
             <div className="flex items-center justify-between p-6 border-b border-border">
               <h2 className="font-serif text-xl">{editingProduct ? "Edit Product" : "Add Product"}</h2>
               <button onClick={() => setShowModal(false)} className="text-muted-foreground hover:text-foreground">
@@ -415,7 +445,10 @@ export default function AdminProductsPage() {
                 </div>
               </div>
               <div className="space-y-1.5">
-                <label className="text-sm font-medium">Product Image</label>
+                <div className="flex items-center justify-between">
+                  <label className="text-sm font-medium">Product Image</label>
+                  <span className="text-[10px] text-muted-foreground bg-muted/50 px-2 py-0.5 rounded-full border border-border">Ctrl+V anywhere to paste</span>
+                </div>
                 <div className="grid grid-cols-1 gap-3">
                   <input
                     type="text"

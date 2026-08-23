@@ -118,7 +118,7 @@ export function ProductCard({
         {/* CSS Watermark */}
         <div className="absolute bottom-2 right-3 pointer-events-none opacity-70 z-10">
           <span className="text-white text-[10px] md:text-xs font-bold tracking-wide drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">
-            flowershop islamabad
+            floral village islamabad
           </span>
         </div>
       </Link>
@@ -154,10 +154,11 @@ export function ProductCard({
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
+            const productUrl = typeof window !== 'undefined' ? window.location.origin + productHref : '';
             const msg = encodeURIComponent(
               settings.hide_prices 
-                ? `Hi! I'd like to order "${name}"`
-                : `Hi! I'd like to order "${name}" — Rs. ${price.toLocaleString()}`
+                ? `Hi! I'd like to order "${name}"\n\nProduct Link: ${productUrl}`
+                : `Hi! I'd like to order "${name}" â€” Rs. ${price.toLocaleString()}\n\nProduct Link: ${productUrl}`
             )
             window.open(`https://wa.me/${settings.whatsapp_number}?text=${msg}`, "_blank")
           }}

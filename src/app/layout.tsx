@@ -7,22 +7,22 @@ import { SettingsProvider } from "@/components/providers/settings-provider";
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | Flower Shop Islamabad",
-    default: "Flower Shop Islamabad | Premium Florist in Pakistan",
+    template: "%s | Floral Village Islamabad",
+    default: "Floral Village Islamabad | Premium Florist in Pakistan",
   },
   description: "Luxury flower delivery in Islamabad, Rawalpindi, Lahore, and Karachi. Same-day delivery of premium floral arrangements, bouquets, and occasion flowers.",
-  metadataBase: new URL("https://flowershopislamabad.com"), // Setting back to their original domain
+  metadataBase: new URL("https://floralvillageislamabad.com"), // Setting back to their original domain
   openGraph: {
-    title: "Flower Shop Islamabad | Premium Florist",
+    title: "Floral Village Islamabad | Premium Florist",
     description: "Luxury flower delivery in Islamabad, Rawalpindi, Lahore, and Karachi.",
-    url: "https://flowershopislamabad.com",
-    siteName: "Flower Shop Islamabad",
+    url: "https://floralvillageislamabad.com",
+    siteName: "Floral Village Islamabad",
     locale: "en_PK",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Flower Shop Islamabad | Premium Florist",
+    title: "Floral Village Islamabad | Premium Florist",
     description: "Luxury flower delivery in Islamabad, Rawalpindi, Lahore, and Karachi.",
   },
   alternates: {
@@ -37,8 +37,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Florist",
-    "name": "Flower Shop Islamabad",
-    "url": "https://flowershopislamabad.com",
+    "name": "Floral Village Islamabad",
+    "url": "https://floralvillageislamabad.com",
     "description": "Premium Florist in Pakistan offering luxury flower delivery.",
     "address": {
       "@type": "PostalAddress",

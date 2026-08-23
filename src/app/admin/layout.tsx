@@ -75,7 +75,7 @@ export default function AdminLayout({
             created_at: new Date().toISOString()
           })
         } else {
-          // Non-admin trying to access admin area → redirect
+          // Non-admin trying to access admin area â†’ redirect
           router.push("/account")
           return
         }
@@ -126,11 +126,11 @@ export default function AdminLayout({
         <div className="h-16 flex items-center px-6 border-b border-border">
           <Link href="/admin" className="inline-flex items-center space-x-3">
             <div className="relative w-8 h-8 overflow-hidden rounded-full border border-primary/20 shadow-sm shrink-0">
-              <Image src="/logo.png" alt="Flower Shop Islamabad" fill className="object-cover" />
+              <Image src="/logo.png" alt="Floral Village Islamabad" fill className="object-cover" />
             </div>
             <div className="flex flex-col justify-center">
               <span className="font-[family-name:var(--font-parisienne)] text-[22px] leading-[1.1] text-foreground">
-                Flower Shop
+                Floral Village
               </span>
               <span className="font-[family-name:var(--font-tenor-sans)] text-[10px] tracking-[0.2em] uppercase mt-[2px] text-muted-foreground">
                 Admin
@@ -182,11 +182,11 @@ export default function AdminLayout({
           </button>
           <div className="inline-flex items-center space-x-2">
             <div className="relative w-8 h-8 overflow-hidden rounded-full border border-primary/20 shadow-sm shrink-0">
-              <Image src="/logo.png" alt="Flower Shop Islamabad" fill className="object-cover" />
+              <Image src="/logo.png" alt="Floral Village Islamabad" fill className="object-cover" />
             </div>
             <div className="flex flex-col justify-center">
               <span className="font-[family-name:var(--font-parisienne)] text-[18px] leading-[1.1] text-foreground">
-                Flower Shop
+                Floral Village
               </span>
               <span className="font-[family-name:var(--font-tenor-sans)] text-[8px] tracking-[0.2em] uppercase mt-[2px] text-muted-foreground">
                 Admin
@@ -207,11 +207,11 @@ export default function AdminLayout({
               <div className="h-16 flex items-center justify-between px-6 border-b border-border">
                 <div className="inline-flex items-center space-x-2">
                   <div className="relative w-8 h-8 overflow-hidden rounded-full border border-primary/20 shadow-sm shrink-0">
-                    <Image src="/logo.png" alt="Flower Shop Islamabad" fill className="object-cover" />
+                    <Image src="/logo.png" alt="Floral Village Islamabad" fill className="object-cover" />
                   </div>
                   <div className="flex flex-col justify-center">
                     <span className="font-[family-name:var(--font-parisienne)] text-[20px] leading-[1.1] text-foreground">
-                      Flower Shop
+                      Floral Village
                     </span>
                     <span className="font-[family-name:var(--font-tenor-sans)] text-[9px] tracking-[0.2em] uppercase mt-[2px] text-muted-foreground">
                       Admin

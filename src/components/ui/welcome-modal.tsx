@@ -65,7 +65,7 @@ export function WelcomeModal({ categories }: { categories: any[] }) {
                  <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1563241527-3004b7be0ffd?q=80&w=1000')] bg-cover bg-center opacity-30" />
                  <div className="absolute inset-0 bg-gradient-to-t from-white to-transparent" />
                  <div className="relative z-10 h-16 w-16 mb-4 rounded-full bg-white/80 p-2 shadow-sm backdrop-blur-sm flex items-center justify-center">
-                   <Image src="/logo.png" alt="Flower Shop Logo" width={48} height={48} className="object-contain" />
+                   <Image src="/logo.png" alt="Floral Village Logo" width={48} height={48} className="object-contain" />
                  </div>
               </div>
 
@@ -81,7 +81,7 @@ export function WelcomeModal({ categories }: { categories: any[] }) {
                       className="text-center"
                     >
                       <h2 className="mb-3 font-serif text-3xl font-semibold tracking-tight text-neutral-900">
-                        Welcome to Flower Shop
+                        Welcome to Floral Village
                       </h2>
                       <p className="mb-8 text-neutral-600 leading-relaxed">
                         Discover Islamabad's most premium floral arrangements. Handcrafted with love, delivered with care to make every moment unforgettable.

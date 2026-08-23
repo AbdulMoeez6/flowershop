@@ -11,7 +11,7 @@ const testimonials = [
     name: "Ayesha R.",
     role: "Local Guide",
     quote:
-      "The 'Midnight Romance' bouquet was absolutely stunning! My husband was blown away. The same-day delivery was a lifesaver — ordered at 4 PM and it arrived by 7 PM. Will definitely order again!",
+      "The 'Midnight Romance' bouquet was absolutely stunning! My husband was blown away. The same-day delivery was a lifesaver â€” ordered at 4 PM and it arrived by 7 PM. Will definitely order again!",
     rating: 5,
   },
   {
@@ -25,7 +25,7 @@ const testimonials = [
     name: "Sara M.",
     role: "Local Guide",
     quote:
-      "I've ordered flowers from many places in Islamabad, but Fleur & Co. is hands down the best. The Pastel Dream bouquet looked exactly like the photos — fresh, vibrant, and beautifully wrapped.",
+      "I've ordered flowers from many places in Islamabad, but Fleur & Co. is hands down the best. The Pastel Dream bouquet looked exactly like the photos â€” fresh, vibrant, and beautifully wrapped.",
     rating: 5,
   },
   {
@@ -80,9 +80,9 @@ export function Testimonials() {
           {/* Business Summary Card (Fixed) */}
           <div className="bg-primary text-primary-foreground rounded-3xl p-8 shadow-md flex flex-col items-center justify-center min-w-[320px] w-[320px] h-[320px] shrink-0 text-center relative overflow-hidden mx-auto lg:mx-0">
             <div className="relative w-20 h-20 mb-4 rounded-full overflow-hidden border-2 border-primary-foreground/20 shadow-sm bg-white">
-              <Image src="/logo.png" alt="Flower Shop Islamabad Logo" fill className="object-cover" />
+              <Image src="/logo.png" alt="Floral Village Islamabad Logo" fill className="object-cover" />
             </div>
-            <h3 className="font-serif text-xl font-semibold mb-2">Flower Shop Islamabad</h3>
+            <h3 className="font-serif text-xl font-semibold mb-2">Floral Village Islamabad</h3>
             <div className="flex items-center gap-1 mb-2">
               {Array.from({ length: 5 }).map((_, i) => (
                 <Star key={i} className="h-5 w-5 fill-gold text-gold" />

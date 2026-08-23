@@ -2,8 +2,8 @@ import React from 'react'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Terms of Service - Flower Shop',
-  description: 'Terms of Service for Flower Shop',
+  title: 'Terms of Service - Floral Village',
+  description: 'Terms of Service for Floral Village',
 }
 
 export default function TermsOfServicePage() {

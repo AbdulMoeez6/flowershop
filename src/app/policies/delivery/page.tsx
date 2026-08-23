@@ -2,8 +2,8 @@ import React from 'react'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Delivery Policy - Flower Shop',
-  description: 'Delivery Policy for Flower Shop',
+  title: 'Delivery Policy - Floral Village',
+  description: 'Delivery Policy for Floral Village',
 }
 
 export default function DeliveryPolicyPage() {

@@ -87,11 +87,11 @@ export function Footer() {
           <div className="col-span-2 lg:col-span-1 space-y-6">
             <Link href="/" className="inline-flex items-center space-x-3">
               <div className="relative w-14 h-14 md:w-16 md:h-16 overflow-hidden rounded-full border border-white/20 shadow-sm shrink-0 bg-white">
-                <Image src="/logo.png" alt="Flower Shop Islamabad" fill className="object-contain p-1" quality={100} sizes="64px" />
+                <Image src="/logo.png" alt="Floral Village Islamabad" fill className="object-contain p-1" quality={100} sizes="64px" />
               </div>
               <div className="flex flex-col justify-center">
                 <span className="font-[family-name:var(--font-parisienne)] text-[22px] md:text-[30px] leading-[1.1] text-white">
-                  Flower Shop
+                  Floral Village
                 </span>
                 <span className="font-[family-name:var(--font-tenor-sans)] text-[10px] md:text-[11.5px] tracking-[0.25em] md:tracking-[0.3em] uppercase mt-[2px] md:mt-[3px] text-white/90">
                   Islamabad
@@ -196,15 +196,15 @@ export function Footer() {
               </li>
               <li className="flex items-center gap-3 text-sm text-white/60">
                 <Mail className="h-4 w-4 shrink-0 text-gold" />
-                <a href="mailto:info@flowershopislamabad.com" className="hover:text-white transition-colors">
-                  info@flowershopislamabad.com
+                <a href="mailto:info@floralvillageislamabad.com" className="hover:text-white transition-colors">
+                  info@floralvillageislamabad.com
                 </a>
               </li>
               <li className="flex items-start gap-3 text-sm text-white/60">
                 <Clock className="h-4 w-4 mt-0.5 shrink-0 text-gold" />
                 <div>
-                  <p>Mon–Sat: 9:00 AM – 9:00 PM</p>
-                  <p>Sunday: 10:00 AM – 6:00 PM</p>
+                  <p>Monâ€“Sat: 9:00 AM â€“ 9:00 PM</p>
+                  <p>Sunday: 10:00 AM â€“ 6:00 PM</p>
                 </div>
               </li>
             </ul>
@@ -215,7 +215,7 @@ export function Footer() {
       {/* Bottom bar */}
       <div className="border-t border-white/10">
         <div className="container mx-auto px-4 md:px-8 py-6 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-white/40">
-          <p>© {new Date().getFullYear()} Flower Shop Islamabad. All rights reserved.</p>
+          <p>Â© {new Date().getFullYear()} Floral Village Islamabad. All rights reserved.</p>
           <div className="flex gap-6">
             {footerLinks.company.map((link) => (
               <Link

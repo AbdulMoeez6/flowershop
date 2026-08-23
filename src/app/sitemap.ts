@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next'
  
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://flowershopislamabad.com'
+  const baseUrl = 'https://floralvillageislamabad.com'
   
   // In a real app, you would fetch these dynamically from Supabase
   const staticRoutes = [

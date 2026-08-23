@@ -73,7 +73,7 @@ export function ProductDetailClient({ product }: { product: ProductData }) {
             {/* CSS Watermark */}
             <div className="absolute bottom-4 right-5 pointer-events-none opacity-70 z-10">
               <span className="text-white text-sm md:text-base font-bold tracking-wide drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">
-                flowershop islamabad
+                floral village islamabad
               </span>
             </div>
           </div>
@@ -203,7 +203,7 @@ export function ProductDetailClient({ product }: { product: ProductData }) {
                     }`}
                   >
                     <ShoppingBag className="mr-2 h-5 w-5" />
-                    {addedToCart ? "Added! ✓" : "Add to Cart"}
+                    {addedToCart ? "Added! âœ“" : "Add to Cart"}
                   </Button>
                 </>
               )}
@@ -220,10 +220,11 @@ export function ProductDetailClient({ product }: { product: ProductData }) {
               variant="accent"
               className="w-full h-12 bg-[#25D366] text-white hover:bg-[#1ebe57] border-0 shadow-sm font-medium rounded-lg"
               onClick={() => {
+                const productUrl = typeof window !== 'undefined' ? window.location.href : '';
                 const msg = encodeURIComponent(
                   settings.hide_prices
-                    ? `Hi! I'd like to order "${product.name}" (${selectedVariant?.name ?? "Standard"})`
-                    : `Hi! I'd like to order "${product.name}" (${selectedVariant?.name ?? "Standard"}) — Rs. ${effectivePrice.toLocaleString()}`
+                    ? `Hi! I'd like to order "${product.name}" (${selectedVariant?.name ?? "Standard"})\n\nProduct Link: ${productUrl}`
+                    : `Hi! I'd like to order "${product.name}" (${selectedVariant?.name ?? "Standard"}) â€” Rs. ${effectivePrice.toLocaleString()}\n\nProduct Link: ${productUrl}`
                 )
                 window.open(`https://wa.me/${settings.whatsapp_number}?text=${msg}`, "_blank")
               }}
