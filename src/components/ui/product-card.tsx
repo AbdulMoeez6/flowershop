@@ -70,7 +70,7 @@ export function ProductCard({
           src={imgError ? FALLBACK_IMAGE : imgSrc}
           alt={name}
           fill
-          className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+          className="object-contain transition-transform duration-700 ease-out group-hover:scale-110"
           sizes="(min-width: 1280px) 25vw, (min-width: 768px) 33vw, 50vw"
           placeholder="blur"
           blurDataURL={BLUR_DATA_URL}
