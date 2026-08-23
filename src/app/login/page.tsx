@@ -22,7 +22,7 @@ export default function LoginPage() {
     setLoading(true)
     setError(null)
     
-    const { error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     })
@@ -31,7 +31,18 @@ export default function LoginPage() {
       setError(error.message)
       setLoading(false)
     } else {
-      router.push("/account")
+      // Check if user is an admin by checking role_id
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('role_id')
+        .eq('id', data.user.id)
+        .single()
+        
+      if (profile?.role_id) {
+        router.push("/admin")
+      } else {
+        router.push("/account")
+      }
       router.refresh()
     }
   }

@@ -22,12 +22,14 @@ import { createClient } from "@/utils/supabase/client"
 import { Button } from "@/components/ui/button"
 
 const navigation = [
-  { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
-  { name: "Orders", href: "/admin/orders", icon: ShoppingCart },
-  { name: "Products", href: "/admin/products", icon: Package },
-  { name: "Categories", href: "/admin/categories", icon: Layers },
-  { name: "Delivery Areas", href: "/admin/delivery-areas", icon: MapPin },
-  { name: "Settings", href: "/admin/settings", icon: Settings },
+  { name: "Dashboard", href: "/admin", icon: LayoutDashboard, permission: null },
+  { name: "Orders", href: "/admin/orders", icon: ShoppingCart, permission: "manage_orders" },
+  { name: "Products", href: "/admin/products", icon: Package, permission: "manage_products" },
+  { name: "Categories", href: "/admin/categories", icon: Layers, permission: "manage_products" },
+  { name: "Delivery Areas", href: "/admin/delivery-areas", icon: MapPin, permission: "manage_settings" },
+  { name: "Users", href: "/admin/users", icon: Users, permission: "manage_users" },
+  { name: "Roles", href: "/admin/roles", icon: FileText, permission: "manage_roles" },
+  { name: "Settings", href: "/admin/settings", icon: Settings, permission: "manage_settings" },
 ]
 
 
@@ -41,6 +43,8 @@ export default function AdminLayout({
   const supabase = createClient()
   const [authorized, setAuthorized] = useState<boolean | null>(null)
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [userPermissions, setUserPermissions] = useState<string[]>([])
+  const [userRole, setUserRole] = useState<string | null>(null)
 
   useEffect(() => {
     const checkAdmin = async () => {
@@ -53,34 +57,55 @@ export default function AdminLayout({
         return
       }
 
+      // Check role from profiles table using new RBAC schema
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select(`
+          role:roles (
+            name,
+            role_permissions (
+              permissions (name)
+            )
+          )
+        `)
+        .eq("id", user.id)
+        .single()
+
+      const roleData = profile?.role as any
+      
       // Check if email is in the admin emails env list
       const adminEmails = process.env.NEXT_PUBLIC_ADMIN_EMAILS?.split(",") || []
       const isAdminEmail = user.email && adminEmails.includes(user.email)
 
-      // Check role from profiles table
-      const { data: profile } = await supabase
-        .from("profiles")
-        .select("role")
-        .eq("id", user.id)
-        .single()
-
-      if (profile?.role !== "admin") {
+      // If user has no role, they are a regular customer
+      if (!roleData) {
         if (isAdminEmail) {
-          // Auto-promote to admin in DB so RLS policies work
-          // Using upsert in case the profile row hasn't been created yet
-          await supabase.from("profiles").upsert({ 
-            id: user.id, 
-            role: "admin",
-            full_name: user.user_metadata?.full_name || "Admin",
-            created_at: new Date().toISOString()
-          })
-        } else {
-          // Non-admin trying to access admin area â†’ redirect
-          router.push("/account")
-          return
+          // Auto-promote to Super Admin if email is in the admin emails env list (failsafe)
+          const { data: superAdminRole } = await supabase.from('roles').select('id').eq('name', 'Super Admin').single();
+          if (superAdminRole) {
+            await supabase.from("profiles").upsert({ 
+              id: user.id, 
+              role_id: superAdminRole.id,
+              full_name: user.user_metadata?.full_name || "Admin",
+              created_at: new Date().toISOString()
+            })
+            setAuthorized(true)
+            setUserRole("Super Admin")
+            return
+          }
         }
+        
+        // Non-admin trying to access admin area -> redirect
+        router.push("/account")
+        return
       }
 
+      const permissions = roleData.role_permissions
+        ?.map((rp: any) => rp.permissions?.name)
+        .filter(Boolean) as string[] || [];
+
+      setUserRole(roleData.name)
+      setUserPermissions(permissions)
       setAuthorized(true)
     }
 
@@ -141,6 +166,11 @@ export default function AdminLayout({
 
         <nav className="flex-1 overflow-y-auto py-4 px-3 space-y-1">
           {navigation.map((item) => {
+            // Filter by permission
+            if (item.permission && userRole !== 'Super Admin' && !userPermissions.includes(item.permission)) {
+              return null;
+            }
+
             const isActive = pathname === item.href
             return (
               <Link
@@ -224,6 +254,11 @@ export default function AdminLayout({
               </div>
               <nav className="flex-1 overflow-y-auto py-4 px-3 space-y-1">
                 {navigation.map((item) => {
+                  // Filter by permission
+                  if (item.permission && userRole !== 'Super Admin' && !userPermissions.includes(item.permission)) {
+                    return null;
+                  }
+
                   const isActive = pathname === item.href
                   return (
                     <Link

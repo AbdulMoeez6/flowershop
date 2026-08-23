@@ -33,25 +33,40 @@ export async function updateSession(request: NextRequest) {
   } = await supabase.auth.getUser()
 
   // Protected routes logic
-  if (
-    !user &&
-    (request.nextUrl.pathname.startsWith('/account') ||
-      request.nextUrl.pathname.startsWith('/admin'))
-  ) {
+  const isAuthPage = request.nextUrl.pathname.startsWith('/login') || request.nextUrl.pathname.startsWith('/register')
+  const isAdminPage = request.nextUrl.pathname.startsWith('/admin')
+
+  if (!user && (request.nextUrl.pathname.startsWith('/account') || isAdminPage)) {
     const url = request.nextUrl.clone()
     url.pathname = '/login'
     return NextResponse.redirect(url)
   }
 
-  // Prevent logged in users from visiting auth pages
-  if (
-    user &&
-    (request.nextUrl.pathname.startsWith('/login') ||
-      request.nextUrl.pathname.startsWith('/register'))
-  ) {
-    const url = request.nextUrl.clone()
-    url.pathname = '/account'
-    return NextResponse.redirect(url)
+  // If user is logged in, check if they are an admin
+  if (user) {
+    let isStaff = false
+    
+    // We can query the DB directly in middleware using the SSR client
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role_id')
+      .eq('id', user.id)
+      .single()
+      
+    isStaff = !!profile?.role_id
+    
+    if (isAdminPage && !isStaff) {
+      // Non-staff trying to access admin
+      const url = request.nextUrl.clone()
+      url.pathname = '/account'
+      return NextResponse.redirect(url)
+    }
+
+    if (isAuthPage) {
+      const url = request.nextUrl.clone()
+      url.pathname = isStaff ? '/admin' : '/account'
+      return NextResponse.redirect(url)
+    }
   }
 
   return supabaseResponse
