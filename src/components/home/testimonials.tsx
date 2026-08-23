@@ -79,8 +79,8 @@ export function Testimonials() {
           
           {/* Business Summary Card (Fixed) */}
           <div className="bg-primary text-primary-foreground rounded-3xl p-8 shadow-md flex flex-col items-center justify-center min-w-[320px] w-[320px] h-[320px] shrink-0 text-center relative overflow-hidden mx-auto lg:mx-0">
-            <div className="relative w-20 h-20 mb-4 rounded-full overflow-hidden border-2 border-primary-foreground/20 shadow-sm bg-white">
-              <Image src="/logo.png" alt="Floral Village Islamabad Logo" fill className="object-cover" />
+            <div className="relative w-24 h-24 mb-4">
+              <Image src="/logo.png" alt="Floral Village Islamabad Logo" fill className="object-contain" quality={100} sizes="96px" />
             </div>
             <h3 className="font-serif text-xl font-semibold mb-2">Floral Village Islamabad</h3>
             <div className="flex items-center gap-1 mb-2">
