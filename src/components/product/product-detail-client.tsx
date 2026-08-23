@@ -224,7 +224,7 @@ export function ProductDetailClient({ product }: { product: ProductData }) {
                 const msg = encodeURIComponent(
                   settings.hide_prices
                     ? `Hi! I'd like to order "${product.name}" (${selectedVariant?.name ?? "Standard"})\n\nProduct Link: ${productUrl}`
-                    : `Hi! I'd like to order "${product.name}" (${selectedVariant?.name ?? "Standard"}) â€” Rs. ${effectivePrice.toLocaleString()}\n\nProduct Link: ${productUrl}`
+                    : `Hi! I'd like to order "${product.name}" (${selectedVariant?.name ?? "Standard"}) — Rs. ${effectivePrice.toLocaleString()}\n\nProduct Link: ${productUrl}`
                 )
                 window.open(`https://wa.me/${settings.whatsapp_number}?text=${msg}`, "_blank")
               }}

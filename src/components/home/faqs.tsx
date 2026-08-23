@@ -39,11 +39,11 @@ export function FAQs() {
       <div className="container mx-auto px-4 md:px-8 max-w-4xl relative z-10">
         
         <div className="text-center mb-12 flex items-center justify-center gap-3">
-          <span className="text-2xl">ðŸŒ¸</span>
+          <span className="text-2xl">🌸</span>
           <h2 className="text-3xl md:text-4xl font-serif text-primary">
-            FAQs â€“ Floral Village Islamabad
+            FAQs – Floral Village Islamabad
           </h2>
-          <span className="text-2xl">ðŸŒ¸</span>
+          <span className="text-2xl">🌸</span>
         </div>
 
         <div className="space-y-4">

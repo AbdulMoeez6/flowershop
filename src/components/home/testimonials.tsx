@@ -11,7 +11,7 @@ const testimonials = [
     name: "Ayesha R.",
     role: "Local Guide",
     quote:
-      "The 'Midnight Romance' bouquet was absolutely stunning! My husband was blown away. The same-day delivery was a lifesaver â€” ordered at 4 PM and it arrived by 7 PM. Will definitely order again!",
+      "The 'Midnight Romance' bouquet was absolutely stunning! My husband was blown away. The same-day delivery was a lifesaver — ordered at 4 PM and it arrived by 7 PM. Will definitely order again!",
     rating: 5,
   },
   {
@@ -25,7 +25,7 @@ const testimonials = [
     name: "Sara M.",
     role: "Local Guide",
     quote:
-      "I've ordered flowers from many places in Islamabad, but Fleur & Co. is hands down the best. The Pastel Dream bouquet looked exactly like the photos â€” fresh, vibrant, and beautifully wrapped.",
+      "I've ordered flowers from many places in Islamabad, but Fleur & Co. is hands down the best. The Pastel Dream bouquet looked exactly like the photos — fresh, vibrant, and beautifully wrapped.",
     rating: 5,
   },
   {

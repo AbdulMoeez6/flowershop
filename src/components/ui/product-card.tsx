@@ -158,7 +158,7 @@ export function ProductCard({
             const msg = encodeURIComponent(
               settings.hide_prices 
                 ? `Hi! I'd like to order "${name}"\n\nProduct Link: ${productUrl}`
-                : `Hi! I'd like to order "${name}" â€” Rs. ${price.toLocaleString()}\n\nProduct Link: ${productUrl}`
+                : `Hi! I'd like to order "${name}" — Rs. ${price.toLocaleString()}\n\nProduct Link: ${productUrl}`
             )
             window.open(`https://wa.me/${settings.whatsapp_number}?text=${msg}`, "_blank")
           }}

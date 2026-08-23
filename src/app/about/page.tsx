@@ -73,13 +73,13 @@ export default function AboutPage() {
                 <div>
                   <h3 className="text-2xl md:text-3xl font-serif text-foreground mb-4">Our Philosophy</h3>
                   <p className="text-muted-foreground leading-relaxed">
-                    At Floral Village Islamabad, we don't just sell flowers; we curate emotions. Founded on the belief that natureâ€™s most delicate creations can convey the most profound feelings, we meticulously source our blooms from the finest local and international growers. 
+                    At Floral Village Islamabad, we don't just sell flowers; we curate emotions. Founded on the belief that nature’s most delicate creations can convey the most profound feelings, we meticulously source our blooms from the finest local and international growers. 
                   </p>
                 </div>
                 <div>
                   <h3 className="text-2xl md:text-3xl font-serif text-foreground mb-4">The Floral Experience</h3>
                   <p className="text-muted-foreground leading-relaxed">
-                    Our team of artisan florists meticulously hand-crafts each bouquet, ensuring that every stem is perfectly placed. Whether itâ€™s a grand wedding, a subtle apology, or a joyous birthday, our luxurious wrapping and signature aesthetic elevate every occasion into an unforgettable memory.
+                    Our team of artisan florists meticulously hand-crafts each bouquet, ensuring that every stem is perfectly placed. Whether it’s a grand wedding, a subtle apology, or a joyous birthday, our luxurious wrapping and signature aesthetic elevate every occasion into an unforgettable memory.
                   </p>
                 </div>
               </motion.div>
