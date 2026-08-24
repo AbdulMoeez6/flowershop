@@ -30,6 +30,13 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
+
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const settings = await getSettings();
   const categories = await getCategories();
@@ -54,7 +61,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html
       lang="en"
-      className="h-full antialiased font-sans"
+      className="h-full antialiased font-sans overflow-x-hidden"
     >
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -68,7 +75,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col overflow-x-hidden">
         <SettingsProvider settings={settings}>
           {children}
           <WhatsappButton />
