@@ -99,7 +99,8 @@ export function UsersClient({ initialUsers, allRoles }: { initialUsers: any[], a
       </div>
 
       <div className="bg-card border rounded-lg overflow-hidden">
-        <table className="w-full text-sm text-left">
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm text-left">
           <thead className="bg-muted text-muted-foreground uppercase text-xs">
             <tr>
               <th className="px-6 py-4 font-medium">Name</th>
@@ -137,6 +138,7 @@ export function UsersClient({ initialUsers, allRoles }: { initialUsers: any[], a
             )}
           </tbody>
         </table>
+        </div>
       </div>
 
       {/* CREATE MODAL */}

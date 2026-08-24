@@ -122,7 +122,7 @@ export default function AdminDeliveryAreasPage() {
         </Button>
       </div>
 
-      <div className="flex gap-2 bg-card p-4 rounded-xl border border-border shadow-sm">
+      <div className="flex flex-wrap items-center gap-2 bg-card p-4 rounded-xl border border-border shadow-sm">
         <span className="text-sm font-medium flex items-center text-muted-foreground mr-2">Filter by City:</span>
         {PREDEFINED_CITIES.map(city => (
           <button 
@@ -140,7 +140,8 @@ export default function AdminDeliveryAreasPage() {
       </div>
 
       <div className="bg-card border border-border rounded-xl shadow-sm overflow-hidden">
-        <table className="w-full text-sm text-left">
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm text-left">
           <thead className="text-xs text-muted-foreground uppercase bg-muted/30">
             <tr>
               <th className="px-6 py-4 font-medium">Name</th>
@@ -176,6 +177,7 @@ export default function AdminDeliveryAreasPage() {
             )}
           </tbody>
         </table>
+        </div>
       </div>
 
       {showModal && (

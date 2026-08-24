@@ -84,7 +84,8 @@ export function RolesClient({ initialRoles, allPermissions }: { initialRoles: an
       </div>
 
       <div className="bg-card border rounded-lg overflow-hidden">
-        <table className="w-full text-sm text-left">
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm text-left">
           <thead className="bg-muted text-muted-foreground uppercase text-xs">
             <tr>
               <th className="px-6 py-4 font-medium">Role Name</th>
@@ -140,6 +141,7 @@ export function RolesClient({ initialRoles, allPermissions }: { initialRoles: an
             )}
           </tbody>
         </table>
+        </div>
       </div>
 
       {isModalOpen && (
