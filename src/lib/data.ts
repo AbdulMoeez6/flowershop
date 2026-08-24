@@ -126,7 +126,7 @@ export async function getCategories(options?: { isOccasion?: boolean, isCollecti
         query = query.eq("is_collection", options.isCollection)
       }
         
-      const { data, error } = await query.order("name")
+      const { data, error } = await query.order("sort_order", { ascending: true }).order("name")
 
       if (!error && data && data.length > 0) {
         return data.map((c: any) => ({

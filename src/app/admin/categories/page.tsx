@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import { createClient } from "@/utils/supabase/client"
 import { Button } from "@/components/ui/button"
-import { Plus, Edit, Trash2, X } from "lucide-react"
+import { Plus, Edit, Trash2, X, ArrowUp, ArrowDown } from "lucide-react"
 import Image from "next/image"
 import { uploadImage, deleteImage } from "@/app/actions/cloudinary"
 
@@ -23,6 +23,7 @@ interface Category {
   is_active: boolean
   is_occasion?: boolean
   is_collection?: boolean
+  sort_order?: number
 }
 
 export default function AdminCategoriesPage() {
@@ -47,6 +48,7 @@ export default function AdminCategoriesPage() {
     const { data } = await supabase
       .from("categories")
       .select("*")
+      .order("sort_order", { ascending: true })
       .order("name")
     if (data) setCategories(data)
     setLoading(false)
@@ -140,6 +142,29 @@ export default function AdminCategoriesPage() {
     fetchCategories()
   }
 
+  const moveCategory = async (index: number, direction: "up" | "down") => {
+    const newIndex = direction === "up" ? index - 1 : index + 1;
+    if (newIndex < 0 || newIndex >= categories.length) return;
+    
+    // Optimistic UI update
+    const newCategories = [...categories];
+    const temp = newCategories[index];
+    newCategories[index] = newCategories[newIndex];
+    newCategories[newIndex] = temp;
+    
+    setCategories(newCategories);
+
+    // Save order sequentially
+    const updates = newCategories.map((c, idx) => ({
+      id: c.id,
+      sort_order: idx
+    }));
+    
+    for (const update of updates) {
+      await supabase.from("categories").update({ sort_order: update.sort_order }).eq("id", update.id);
+    }
+  }
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -156,6 +181,7 @@ export default function AdminCategoriesPage() {
               <th className="px-6 py-4 font-medium">Name</th>
               <th className="px-6 py-4 font-medium">Slug</th>
               <th className="px-6 py-4 font-medium">Status</th>
+              <th className="px-6 py-4 font-medium text-center">Order</th>
               <th className="px-6 py-4 font-medium text-right">Actions</th>
             </tr>
           </thead>
@@ -179,6 +205,24 @@ export default function AdminCategoriesPage() {
                     <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ring-1 ring-inset ${cat.is_active ? "bg-green-50 text-green-700 ring-green-600/20" : "bg-red-50 text-red-700 ring-red-600/20"}`}>
                       {cat.is_active ? "Active" : "Inactive"}
                     </span>
+                  </td>
+                  <td className="px-6 py-4 text-center whitespace-nowrap">
+                    <div className="flex items-center justify-center gap-1">
+                      <button 
+                        onClick={() => moveCategory(categories.indexOf(cat), "up")}
+                        disabled={categories.indexOf(cat) === 0}
+                        className="p-1.5 text-muted-foreground hover:text-primary rounded-md hover:bg-muted disabled:opacity-30 disabled:hover:bg-transparent"
+                      >
+                        <ArrowUp className="w-4 h-4" />
+                      </button>
+                      <button 
+                        onClick={() => moveCategory(categories.indexOf(cat), "down")}
+                        disabled={categories.indexOf(cat) === categories.length - 1}
+                        className="p-1.5 text-muted-foreground hover:text-primary rounded-md hover:bg-muted disabled:opacity-30 disabled:hover:bg-transparent"
+                      >
+                        <ArrowDown className="w-4 h-4" />
+                      </button>
+                    </div>
                   </td>
                   <td className="px-6 py-4 text-right">
                     <button onClick={() => openEdit(cat)} className="p-2 text-muted-foreground hover:text-primary rounded-md hover:bg-muted"><Edit className="w-4 h-4" /></button>
