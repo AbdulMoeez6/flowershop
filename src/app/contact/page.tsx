@@ -113,35 +113,50 @@ export default function ContactPage() {
               className="bg-white rounded-3xl p-8 shadow-sm border border-border/50"
             >
               <h3 className="font-serif text-2xl text-foreground mb-6">Send a Message</h3>
-              <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
+              <form 
+                className="space-y-5" 
+                onSubmit={(e) => {
+                  e.preventDefault()
+                  const formData = new FormData(e.currentTarget)
+                  const firstName = formData.get("firstName")
+                  const lastName = formData.get("lastName")
+                  const email = formData.get("email")
+                  const subject = formData.get("subject")
+                  const message = formData.get("message")
+                  
+                  const text = `*New Contact Form Message*\n*Name:* ${firstName} ${lastName}\n*Email:* ${email}\n*Subject:* ${subject}\n\n*Message:*\n${message}`
+                  
+                  window.open(`https://wa.me/${settings.whatsapp_number}?text=${encodeURIComponent(text)}`, '_blank')
+                }}
+              >
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div className="space-y-1.5">
                     <label className="text-sm font-medium text-foreground/80">First Name</label>
-                    <input type="text" className="input-premium bg-cream/50" placeholder="Jane" />
+                    <input type="text" name="firstName" required className="input-premium bg-cream/50" placeholder="Jane" />
                   </div>
                   <div className="space-y-1.5">
                     <label className="text-sm font-medium text-foreground/80">Last Name</label>
-                    <input type="text" className="input-premium bg-cream/50" placeholder="Doe" />
+                    <input type="text" name="lastName" required className="input-premium bg-cream/50" placeholder="Doe" />
                   </div>
                 </div>
                 
                 <div className="space-y-1.5">
                   <label className="text-sm font-medium text-foreground/80">Email Address</label>
-                  <input type="email" className="input-premium bg-cream/50" placeholder="jane@example.com" />
+                  <input type="email" name="email" required className="input-premium bg-cream/50" placeholder="jane@example.com" />
                 </div>
 
                 <div className="space-y-1.5">
                   <label className="text-sm font-medium text-foreground/80">Subject</label>
-                  <input type="text" className="input-premium bg-cream/50" placeholder="How can we help?" />
+                  <input type="text" name="subject" required className="input-premium bg-cream/50" placeholder="How can we help?" />
                 </div>
 
                 <div className="space-y-1.5">
                   <label className="text-sm font-medium text-foreground/80">Message</label>
-                  <textarea rows={5} className="input-premium bg-cream/50 !h-auto resize-none" placeholder="Your message here..." />
+                  <textarea name="message" required rows={5} className="input-premium bg-cream/50 !h-auto resize-none" placeholder="Your message here..." />
                 </div>
 
-                <Button className="w-full rounded-xl py-6 mt-2 group">
-                  Send Message
+                <Button type="submit" className="w-full rounded-xl py-6 mt-2 group">
+                  Send via WhatsApp
                   <Send className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </form>
