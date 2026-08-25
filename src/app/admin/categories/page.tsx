@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import { createClient } from "@/utils/supabase/client"
 import { Button } from "@/components/ui/button"
-import { Plus, Edit, Trash2, X, ArrowUp, ArrowDown } from "lucide-react"
+import { Plus, Edit, Trash2, X, ArrowUp, ArrowDown, Eye, EyeOff } from "lucide-react"
 import Image from "next/image"
 import { uploadImage, deleteImage } from "@/app/actions/cloudinary"
 
@@ -40,6 +40,7 @@ export default function AdminCategoriesPage() {
   const [formFilePreview, setFormFilePreview] = useState("")
   const [formIsOccasion, setFormIsOccasion] = useState(false)
   const [formIsCollection, setFormIsCollection] = useState(false)
+  const [formIsActive, setFormIsActive] = useState(true)
   const [saving, setSaving] = useState(false)
   const [formError, setFormError] = useState<string | null>(null)
 
@@ -60,7 +61,7 @@ export default function AdminCategoriesPage() {
     setEditing(null)
     setFormName(""); setFormDescription(""); setFormImageUrl("")
     setFormFile(null); setFormFilePreview(""); setFormError(null)
-    setFormIsOccasion(false); setFormIsCollection(false)
+    setFormIsOccasion(false); setFormIsCollection(false); setFormIsActive(true)
     setShowModal(true)
   }
 
@@ -72,6 +73,7 @@ export default function AdminCategoriesPage() {
     setFormFilePreview(cat.image_url ?? "")
     setFormIsOccasion(cat.is_occasion ?? false)
     setFormIsCollection(cat.is_collection ?? false)
+    setFormIsActive(cat.is_active ?? true)
     setFormFile(null)
     setFormError(null)
     setShowModal(true)
@@ -120,7 +122,7 @@ export default function AdminCategoriesPage() {
       slug, 
       description: formDescription || null, 
       image_url: finalImageUrl || null, 
-      is_active: true,
+      is_active: formIsActive,
       is_occasion: formIsOccasion,
       is_collection: formIsCollection
     }
@@ -140,6 +142,12 @@ export default function AdminCategoriesPage() {
     if (!confirm("Delete this category?")) return
     await supabase.from("categories").delete().eq("id", id)
     fetchCategories()
+  }
+
+  const toggleVisibility = async (cat: Category) => {
+    const newStatus = !cat.is_active
+    setCategories(categories.map(c => c.id === cat.id ? { ...c, is_active: newStatus } : c))
+    await supabase.from("categories").update({ is_active: newStatus }).eq("id", cat.id)
   }
 
   const moveCategory = async (index: number, direction: "up" | "down") => {
@@ -202,9 +210,14 @@ export default function AdminCategoriesPage() {
                   </td>
                   <td className="px-6 py-4 text-muted-foreground">{cat.slug}</td>
                   <td className="px-6 py-4">
-                    <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ring-1 ring-inset ${cat.is_active ? "bg-green-50 text-green-700 ring-green-600/20" : "bg-red-50 text-red-700 ring-red-600/20"}`}>
-                      {cat.is_active ? "Active" : "Inactive"}
-                    </span>
+                    <button 
+                      onClick={() => toggleVisibility(cat)}
+                      className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium ring-1 ring-inset transition-colors ${cat.is_active ? "bg-green-50 text-green-700 ring-green-600/20 hover:bg-green-100" : "bg-red-50 text-red-700 ring-red-600/20 hover:bg-red-100"}`}
+                      title={cat.is_active ? "Click to hide from website" : "Click to show on website"}
+                    >
+                      {cat.is_active ? <Eye className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />}
+                      {cat.is_active ? "Active" : "Hidden"}
+                    </button>
                   </td>
                   <td className="px-6 py-4 text-center whitespace-nowrap">
                     <div className="flex items-center justify-center gap-1">
@@ -297,6 +310,10 @@ export default function AdminCategoriesPage() {
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input type="checkbox" checked={formIsCollection} onChange={(e) => setFormIsCollection(e.target.checked)} className="rounded border-border text-primary focus:ring-primary h-4 w-4" />
                   <span className="text-sm font-medium">Mark as Collection</span>
+                </label>
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input type="checkbox" checked={formIsActive} onChange={(e) => setFormIsActive(e.target.checked)} className="rounded border-border text-primary focus:ring-primary h-4 w-4" />
+                  <span className="text-sm font-medium text-foreground">Visible on Website</span>
                 </label>
               </div>
               <div className="flex gap-3 pt-4">
