@@ -71,7 +71,7 @@ export function ProductDetailClient({ product }: { product: ProductData }) {
               blurDataURL={BLUR_DATA_URL}
             />
             {/* CSS Watermark */}
-            <div className="absolute bottom-4 right-5 pointer-events-none opacity-70 z-10">
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-50 z-10">
               <span className="text-white text-sm md:text-base font-bold tracking-wide drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">
                 floral village islamabad
               </span>
