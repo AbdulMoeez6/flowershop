@@ -47,14 +47,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     "name": "Floral Village Islamabad",
     "url": "https://floralvillageislamabad.com",
     "description": "Premium Florist in Pakistan offering luxury flower delivery.",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "Office No 4, 1st Floor, VIP Plaza, I-8 Markaz",
-      "addressLocality": "Islamabad",
-      "addressRegion": "ICT",
-      "addressCountry": "PK"
-    },
-    "telephone": "+92-344-5130554",
     "priceRange": "$$"
   };
 

@@ -150,23 +150,25 @@ export function ProductCard({
           </div>
         )}
         <div className="flex-1" />
-        <Button
-          variant="default"
-          className="w-full mt-3 h-9 text-xs font-medium rounded-md bg-primary hover:bg-primary/90 text-white"
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            const productUrl = typeof window !== 'undefined' ? window.location.origin + productHref : '';
-            const msg = encodeURIComponent(
-              settings.hide_prices 
-                ? `Hi! I'd like to order "${name}"\n\nProduct Link: ${productUrl}`
-                : `Hi! I'd like to order "${name}" — Rs. ${price.toLocaleString()}\n\nProduct Link: ${productUrl}`
-            )
-            window.open(`https://wa.me/${settings.whatsapp_number}?text=${msg}`, "_blank")
-          }}
-        >
-          Order via WhatsApp
-        </Button>
+        {!settings.hide_phone_number && (
+          <Button
+            variant="default"
+            className="w-full mt-3 h-9 text-xs font-medium rounded-md bg-primary hover:bg-primary/90 text-white"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              const productUrl = typeof window !== 'undefined' ? window.location.origin + productHref : '';
+              const msg = encodeURIComponent(
+                settings.hide_prices 
+                  ? `Hi! I'd like to order "${name}"\n\nProduct Link: ${productUrl}`
+                  : `Hi! I'd like to order "${name}" — Rs. ${price.toLocaleString()}\n\nProduct Link: ${productUrl}`
+              )
+              window.open(`https://wa.me/${settings.whatsapp_number}?text=${msg}`, "_blank")
+            }}
+          >
+            Order via WhatsApp
+          </Button>
+        )}
       </div>
     </motion.div>
   )

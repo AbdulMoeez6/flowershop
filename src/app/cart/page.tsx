@@ -129,17 +129,19 @@ export default function CartPage() {
                     <p className="text-sm text-rose font-medium text-center bg-rose/10 py-2 rounded-lg">
                       Online checkout is temporarily disabled.
                     </p>
-                    <Button
-                      variant="accent"
-                      className="w-full h-12 bg-[#25D366] text-white hover:bg-[#1ebe57] border-0 shadow-sm font-medium rounded-lg"
-                      onClick={() => {
-                        const productList = items.map(i => `${i.quantity}x ${i.name}`).join(", ")
-                        const msg = encodeURIComponent(`Hi! I'd like to order these items from my cart: ${productList}`)
-                        window.open(`https://wa.me/${settings.whatsapp_number}?text=${msg}`, "_blank")
-                      }}
-                    >
-                      Order via WhatsApp
-                    </Button>
+                    {!settings.hide_phone_number && (
+                      <Button
+                        variant="accent"
+                        className="w-full h-12 bg-[#25D366] text-white hover:bg-[#1ebe57] border-0 shadow-sm font-medium rounded-lg"
+                        onClick={() => {
+                          const productList = items.map(i => `${i.quantity}x ${i.name}`).join(", ")
+                          const msg = encodeURIComponent(`Hi! I'd like to order these items from my cart: ${productList}`)
+                          window.open(`https://wa.me/${settings.whatsapp_number}?text=${msg}`, "_blank")
+                        }}
+                      >
+                        Order via WhatsApp
+                      </Button>
+                    )}
                   </div>
                 ) : (
                   <Button asChild className="w-full h-12 text-base font-medium rounded-lg">

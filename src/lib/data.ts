@@ -330,6 +330,7 @@ export type SiteSettings = {
   facebook_url: string
   instagram_url: string
   hide_prices: boolean
+  hide_phone_number: boolean
 }
 
 export async function getSettings(): Promise<SiteSettings> {
@@ -338,6 +339,7 @@ export async function getSettings(): Promise<SiteSettings> {
     facebook_url: "#",
     instagram_url: "#",
     hide_prices: true,
+    hide_phone_number: true,
   }
 
   if (isSupabaseConfigured()) {
@@ -358,6 +360,7 @@ export async function getSettings(): Promise<SiteSettings> {
           facebook_url: settings.facebook_url || defaultSettings.facebook_url,
           instagram_url: settings.instagram_url || defaultSettings.instagram_url,
           hide_prices: settings.hide_prices !== undefined ? String(settings.hide_prices) === "true" : defaultSettings.hide_prices,
+          hide_phone_number: settings.hide_phone_number !== undefined ? String(settings.hide_phone_number) === "true" : defaultSettings.hide_phone_number,
         }
       }
     } catch {

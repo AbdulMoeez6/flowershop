@@ -7,6 +7,8 @@ import { useSettings } from "@/components/providers/settings-provider"
 export function WhatsappButton() {
   const settings = useSettings()
 
+  if (settings.hide_phone_number) return null;
+
   return (
     <motion.div 
       initial={{ scale: 0, opacity: 0 }}

@@ -58,6 +58,22 @@ export function SettingsForm({ initialSettings }: { initialSettings: SiteSetting
               </p>
             </div>
 
+            <div className="space-y-2 pb-4">
+              <label htmlFor="hide_phone_number" className="flex items-center space-x-2 text-sm font-medium cursor-pointer">
+                <input
+                  id="hide_phone_number"
+                  type="checkbox"
+                  className="w-4 h-4 text-primary rounded border-input"
+                  checked={settings.hide_phone_number}
+                  onChange={(e) => setSettings({ ...settings, hide_phone_number: e.target.checked })}
+                />
+                <span>Hide Phone Number</span>
+              </label>
+              <p className="text-xs text-muted-foreground pl-6">
+                If checked, the phone number and WhatsApp button will be hidden from the website.
+              </p>
+            </div>
+
             <h2 className="text-lg font-medium pt-4 border-t">Contact & Social</h2>
             
             <div className="space-y-2">

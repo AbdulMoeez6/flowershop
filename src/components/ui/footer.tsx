@@ -184,16 +184,15 @@ export function Footer() {
           <div>
             <h3 className="font-serif text-lg font-medium text-white mb-5">Contact</h3>
             <ul className="space-y-4">
-              <li className="flex items-start gap-3 text-sm text-white/60">
-                <MapPin className="h-4 w-4 mt-0.5 shrink-0 text-gold" />
-                <span>Office No 4, 1st Floor, VIP Plaza, I-8 Markaz, Islamabad, Pakistan</span>
-              </li>
-              <li className="flex items-center gap-3 text-sm text-white/60">
-                <Phone className="h-4 w-4 shrink-0 text-gold" />
-                <a href={`tel:+${settings.whatsapp_number}`} className="hover:text-white transition-colors">
-                  +{settings.whatsapp_number}
-                </a>
-              </li>
+              {/* Removed hardcoded address for now */}
+              {!settings.hide_phone_number && (
+                <li className="flex items-center gap-3 text-sm text-white/60">
+                  <Phone className="h-4 w-4 shrink-0 text-gold" />
+                  <a href={`tel:+${settings.whatsapp_number}`} className="hover:text-white transition-colors">
+                    +{settings.whatsapp_number}
+                  </a>
+                </li>
+              )}
               <li className="flex items-center gap-3 text-sm text-white/60">
                 <Mail className="h-4 w-4 shrink-0 text-gold" />
                 <a href="mailto:info@floralvillageislamabad.com" className="hover:text-white transition-colors">

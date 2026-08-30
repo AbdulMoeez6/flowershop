@@ -216,21 +216,23 @@ export function ProductDetailClient({ product }: { product: ProductData }) {
             </div>
 
             {/* WhatsApp order */}
-            <Button
-              variant="accent"
-              className="w-full h-12 bg-[#25D366] text-white hover:bg-[#1ebe57] border-0 shadow-sm font-medium rounded-lg"
-              onClick={() => {
-                const productUrl = typeof window !== 'undefined' ? window.location.href : '';
-                const msg = encodeURIComponent(
-                  settings.hide_prices
-                    ? `Hi! I'd like to order "${product.name}" (${selectedVariant?.name ?? "Standard"})\n\nProduct Link: ${productUrl}`
-                    : `Hi! I'd like to order "${product.name}" (${selectedVariant?.name ?? "Standard"}) — Rs. ${effectivePrice.toLocaleString()}\n\nProduct Link: ${productUrl}`
-                )
-                window.open(`https://wa.me/${settings.whatsapp_number}?text=${msg}`, "_blank")
-              }}
-            >
-              Order via WhatsApp
-            </Button>
+            {!settings.hide_phone_number && (
+              <Button
+                variant="accent"
+                className="w-full h-12 bg-[#25D366] text-white hover:bg-[#1ebe57] border-0 shadow-sm font-medium rounded-lg"
+                onClick={() => {
+                  const productUrl = typeof window !== 'undefined' ? window.location.href : '';
+                  const msg = encodeURIComponent(
+                    settings.hide_prices
+                      ? `Hi! I'd like to order "${product.name}" (${selectedVariant?.name ?? "Standard"})\n\nProduct Link: ${productUrl}`
+                      : `Hi! I'd like to order "${product.name}" (${selectedVariant?.name ?? "Standard"}) — Rs. ${effectivePrice.toLocaleString()}\n\nProduct Link: ${productUrl}`
+                  )
+                  window.open(`https://wa.me/${settings.whatsapp_number}?text=${msg}`, "_blank")
+                }}
+              >
+                Order via WhatsApp
+              </Button>
+            )}
           </div>
 
           {/* Info badges */}

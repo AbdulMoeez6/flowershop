@@ -55,31 +55,22 @@ export default function ContactPage() {
                 <h3 className="font-serif text-2xl text-foreground">Our Boutique</h3>
                 
                 <div className="space-y-6">
-                  <div className="flex gap-4">
-                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                      <MapPin className="w-5 h-5 text-primary" />
-                    </div>
-                    <div>
-                      <p className="font-medium text-foreground mb-1">Address</p>
-                      <p className="text-sm text-muted-foreground leading-relaxed">
-                        Shop #4, Ground Floor, Beverly Centre<br/>
-                        Blue Area, Islamabad, 44000
-                      </p>
-                    </div>
-                  </div>
+                  {/* Removed hardcoded address for now */}
 
-                  <div className="flex gap-4">
-                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                      <Phone className="w-5 h-5 text-primary" />
+                  {!settings.hide_phone_number && (
+                    <div className="flex gap-4">
+                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                        <Phone className="w-5 h-5 text-primary" />
+                      </div>
+                      <div>
+                        <p className="font-medium text-foreground mb-1">Phone & WhatsApp</p>
+                        <p className="text-sm text-muted-foreground">+{settings.whatsapp_number}</p>
+                        <a href={`https://wa.me/${settings.whatsapp_number}`} target="_blank" rel="noopener noreferrer" className="text-sm text-primary hover:underline flex items-center gap-1 mt-1">
+                          Click to chat on WhatsApp
+                        </a>
+                      </div>
                     </div>
-                    <div>
-                      <p className="font-medium text-foreground mb-1">Phone & WhatsApp</p>
-                      <p className="text-sm text-muted-foreground">+{settings.whatsapp_number}</p>
-                      <a href={`https://wa.me/${settings.whatsapp_number}`} target="_blank" rel="noopener noreferrer" className="text-sm text-primary hover:underline flex items-center gap-1 mt-1">
-                        Click to chat on WhatsApp
-                      </a>
-                    </div>
-                  </div>
+                  )}
 
                   <div className="flex gap-4">
                     <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
