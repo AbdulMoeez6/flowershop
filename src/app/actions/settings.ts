@@ -24,7 +24,7 @@ export async function updateSettings(settings: Record<string, string>) {
   for (const [key, value] of Object.entries(settings)) {
     const { error } = await supabase
       .from("settings")
-      .upsert({ key, value }, { onConflict: "key" })
+      .upsert({ key, value: String(value) }, { onConflict: "key" })
   }
   
   revalidatePath("/", "layout")

@@ -124,7 +124,7 @@ export function Navbar({ transparent = false }: NavbarProps) {
           <Button
             variant="ghost"
             size="icon"
-            className="md:hidden mr-2"
+            className={`md:hidden mr-2 ${showSolid ? "" : "text-primary hover:bg-primary/10"}`}
             onClick={() => setMobileOpen(true)}
             aria-label="Open menu"
           >
@@ -139,14 +139,14 @@ export function Navbar({ transparent = false }: NavbarProps) {
             <div className="flex flex-col justify-center">
               <span
                 className={`font-[family-name:var(--font-parisienne)] text-[22px] md:text-[30px] leading-[1.1] transition-colors ${
-                  showSolid ? "text-[#3A2A2C]" : "text-white"
+                  showSolid ? "text-[#3A2A2C]" : "text-primary"
                 }`}
               >
                 Floral Village
               </span>
               <span
                 className={`font-[family-name:var(--font-tenor-sans)] text-[10px] md:text-[11.5px] tracking-[0.25em] md:tracking-[0.3em] uppercase mt-[2px] md:mt-[3px] transition-colors ${
-                  showSolid ? "text-[#8A7A72]" : "text-white/90"
+                  showSolid ? "text-[#8A7A72]" : "text-primary/80"
                 }`}
               >
                 Islamabad
@@ -177,7 +177,7 @@ export function Navbar({ transparent = false }: NavbarProps) {
                           ? (link.href !== "#" && pathname.startsWith(link.href))
                             ? "text-primary"
                             : "text-foreground/70 hover:text-foreground"
-                          : "text-white/80 hover:text-white"
+                          : "text-primary hover:text-primary/80"
                       }`}
                     >
                       {link.label}
@@ -218,7 +218,7 @@ export function Navbar({ transparent = false }: NavbarProps) {
                       ? pathname === link.href
                         ? "text-primary"
                         : "text-foreground/70 hover:text-foreground"
-                      : "text-white/80 hover:text-white"
+                      : "text-primary hover:text-primary/80"
                   }`}
                 >
                   {link.label}
@@ -235,7 +235,7 @@ export function Navbar({ transparent = false }: NavbarProps) {
             <Button
               variant="ghost"
               size="icon"
-              className={showSolid ? "" : "text-white/80 hover:text-white hover:bg-white/10"}
+              className={showSolid ? "" : "text-primary hover:text-primary/80 hover:bg-primary/10"}
               onClick={() => setSearchOpen(true)}
             >
               <Search className="h-5 w-5" />
@@ -245,7 +245,7 @@ export function Navbar({ transparent = false }: NavbarProps) {
               <Button
                 variant="ghost"
                 size="icon"
-                className={showSolid ? "" : "text-white/80 hover:text-white hover:bg-white/10"}
+                className={showSolid ? "" : "text-primary hover:text-primary/80 hover:bg-primary/10"}
               >
                 <User className="h-5 w-5" />
                 <span className="sr-only">Account</span>
@@ -255,7 +255,7 @@ export function Navbar({ transparent = false }: NavbarProps) {
               <Button
                 variant="ghost"
                 size="icon"
-                className={`relative ${showSolid ? "" : "text-white/80 hover:text-white hover:bg-white/10"}`}
+                className={`relative ${showSolid ? "" : "text-primary hover:text-primary/80 hover:bg-primary/10"}`}
               >
                 <ShoppingBag className="h-5 w-5" />
                 {itemCount > 0 && (
@@ -464,7 +464,9 @@ export function Navbar({ transparent = false }: NavbarProps) {
       </AnimatePresence>
 
       {/* Spacer for fixed navbar — only when NOT transparent (non-hero pages) */}
-      {!transparent && <div className="h-16 md:h-20" />}
+      {!transparent && (
+        <div className={pathname === "/" ? "h-[100px] md:h-[116px]" : "h-16 md:h-20"} />
+      )}
     </>
   )
 }

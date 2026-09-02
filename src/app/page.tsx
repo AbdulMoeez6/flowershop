@@ -22,7 +22,7 @@ export default async function HomePage() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <Navbar transparent />
+      <Navbar />
 
       <main className="flex-1">
         {/* Hero */}

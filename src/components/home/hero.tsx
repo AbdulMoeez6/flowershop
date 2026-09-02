@@ -12,64 +12,21 @@ import { ChevronLeft, ChevronRight } from "lucide-react"
    ─────────────────────────────────────────── */
 interface HeroSlide {
   image: string
-  imageMobile: string
-  headline: string
-  subheadline: string
-  ctaText: string
-  ctaLink: string
+  imageMobile?: string
+  headline?: string
+  subheadline?: string
+  ctaText?: string
+  ctaLink?: string
   ctaSecondaryText?: string
   ctaSecondaryLink?: string
 }
 
 const slides: HeroSlide[] = [
-  {
-    image: "/hero-slide-1.jpg",
-    imageMobile: "/hero-slide-1-mobile.jpg",
-    headline: "Fresh Flowers,\nDelivered Today",
-    subheadline: "Handcrafted bouquets made with love for every moment that matters",
-    ctaText: "Shop Now",
-    ctaLink: "/shop",
-    ctaSecondaryText: "Browse Collections",
-    ctaSecondaryLink: "/collections",
-  },
-  {
-    image: "/hero-slide-2.jpg",
-    imageMobile: "/hero-slide-2-mobile.jpg",
-    headline: "Weddings,\nBeautifully Arranged",
-    subheadline: "From bridal bouquets to grand centerpieces — your dream day, in bloom",
-    ctaText: "Shop Wedding Flowers",
-    ctaLink: "/shop?category=wedding-flowers",
-    ctaSecondaryText: "View Gallery",
-    ctaSecondaryLink: "/collections",
-  },
-  {
-    image: "/hero-slide-3.jpg",
-    imageMobile: "/hero-slide-3-mobile.jpg",
-    headline: "Same-Day Delivery,\nEvery Time",
-    subheadline: "Order by 2 PM and let us bring joy to their doorstep — same day, guaranteed",
-    ctaText: "Order for Today",
-    ctaLink: "/shop",
-    ctaSecondaryText: "Delivery Areas",
-    ctaSecondaryLink: "/delivery",
-  },
-  {
-    image: "/hero-slide-4.jpg",
-    imageMobile: "/hero-slide-4-mobile.jpg",
-    headline: "The Art of\na Single Stem",
-    subheadline: "Sometimes, one perfect flower says everything",
-    ctaText: "Shop Premium Roses",
-    ctaLink: "/shop?category=premium-roses",
-  },
-  {
-    image: "/hero-slide-5.jpg",
-    imageMobile: "/hero-slide-5-mobile.jpg",
-    headline: "Bouquets for\nEvery Occasion",
-    subheadline: "Birthdays, anniversaries, celebrations — we craft the perfect arrangement",
-    ctaText: "Shop by Occasion",
-    ctaLink: "/shop?category=occasions",
-    ctaSecondaryText: "Explore All",
-    ctaSecondaryLink: "/shop",
-  },
+  { image: "/hero-1.jpg" },
+  { image: "/hero-2.jpg" },
+  { image: "/hero-3.jpg" },
+  { image: "/hero-4.jpg" },
+  { image: "/hero-5.jpg" },
 ]
 
 const AUTO_ADVANCE_MS = 6500
@@ -298,7 +255,7 @@ export function HeroSection() {
     <section
       ref={sectionRef}
       id="hero-carousel"
-      className="relative h-screen min-h-[600px] max-h-[920px] flex items-center justify-center overflow-hidden bg-black pt-24 md:pt-0"
+      className="relative w-full aspect-[3136/1344] flex items-center justify-center overflow-hidden bg-background"
       onMouseEnter={handlePause}
       onMouseLeave={handleResume}
       onMouseMove={handleMouseMove}
@@ -331,142 +288,137 @@ export function HeroSection() {
           }}
           className="absolute inset-0"
         >
-          {/* Desktop image (landscape) — hidden on mobile */}
           <Image
             src={slide.image}
-            alt={slide.headline.replace("\n", " ")}
+            alt={slide.headline?.replace("\n", " ") || "Hero banner"}
             fill
             priority={currentIndex === 0}
             sizes="100vw"
-            className="object-cover object-center hidden md:block"
+            className="object-cover object-center"
             quality={85}
-          />
-          {/* Mobile image (portrait) — hidden on desktop */}
-          <Image
-            src={slide.imageMobile}
-            alt={slide.headline.replace("\n", " ")}
-            fill
-            priority={currentIndex === 0}
-            sizes="100vw"
-            className="object-cover object-center block md:hidden"
-            quality={80}
           />
         </motion.div>
       </AnimatePresence>
 
-      {/* ─── Gradient overlays for legibility ─── */}
-      {/* Desktop overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-black/55 pointer-events-none z-[1] hidden md:block" />
-      {/* Mobile overlay — stronger for contrast on light images */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/45 to-black/60 pointer-events-none z-[1] block md:hidden" />
+      {slide.headline && (
+        <>
+          {/* ─── Gradient overlays for legibility ─── */}
+          {/* Desktop overlay */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-black/55 pointer-events-none z-[1] hidden md:block" />
+          {/* Mobile overlay — stronger for contrast on light images */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/45 to-black/60 pointer-events-none z-[1] block md:hidden" />
 
-      {/* Localized text backdrop — stronger for legibility */}
-      <div className="absolute inset-0 z-[2] pointer-events-none flex items-center justify-center">
-        <div
-          className="w-full max-w-4xl h-[65%] rounded-3xl"
-          style={{
-            background: "radial-gradient(ellipse at center, rgba(0,0,0,0.45) 0%, transparent 70%)",
-          }}
-        />
-      </div>
-
-      {/* ─── Slide text content (staggered fade-in per slide) ─── */}
-      <div className="relative z-10 text-center px-14 md:px-4 w-full max-w-3xl mx-auto flex flex-col items-center">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={`content-${currentIndex}`}
-            className="space-y-5"
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-            variants={{
-              hidden: {},
-              visible: { transition: { staggerChildren: 0.15 } },
-              exit: { transition: { staggerChildren: 0.05 } },
-            }}
-          >
-            {/* Headline */}
-            <motion.h1
-              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif text-white leading-[1.08] tracking-tight whitespace-pre-line"
+          {/* Localized text backdrop — stronger for legibility */}
+          <div className="absolute inset-0 z-[2] pointer-events-none flex items-center justify-center">
+            <div
+              className="w-full max-w-4xl h-[65%] rounded-3xl"
               style={{
-                fontFamily: "'Playfair Display', 'Cormorant Garamond', serif",
-                textShadow: "0 4px 20px rgba(0,0,0,0.7), 0 2px 8px rgba(0,0,0,0.5)",
+                background: "radial-gradient(ellipse at center, rgba(0,0,0,0.45) 0%, transparent 70%)",
               }}
-              variants={{
-                hidden: { opacity: 0, y: 30, filter: "blur(4px)" },
-                visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.7, ease: "easeOut" } },
-                exit: { opacity: 0, y: -15, transition: { duration: 0.35 } },
-              }}
-            >
-              {slide.headline}
-            </motion.h1>
+            />
+          </div>
 
-            {/* Subheadline — prominent burgundy/pink accent */}
-            <motion.p
-              className="text-lg sm:text-xl md:text-2xl max-w-2xl mx-auto leading-relaxed font-medium"
-              style={{
-                fontFamily: "'Playfair Display', 'Cormorant Garamond', serif",
-                fontStyle: "italic",
-                color: "#f5c6c0",
-                textShadow: "0 2px 12px rgba(0,0,0,0.8), 0 1px 4px rgba(0,0,0,0.6)",
-                letterSpacing: "0.01em",
-              }}
-              variants={{
-                hidden: { opacity: 0, y: 25 },
-                visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
-                exit: { opacity: 0, y: -10, transition: { duration: 0.3 } },
-              }}
-            >
-              {slide.subheadline}
-            </motion.p>
-
-            {/* CTA buttons */}
-            <motion.div
-              className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4"
-              variants={{
-                hidden: { opacity: 0, y: 20 },
-                visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
-                exit: { opacity: 0, y: -10, transition: { duration: 0.25 } },
-              }}
-            >
-              <Button
-                asChild
-                size="lg"
-                className="rounded-full px-10 py-7 text-base md:text-lg font-medium bg-primary hover:bg-primary/90 text-primary-foreground shadow-xl transition-all border-none"
+          {/* ─── Slide text content (staggered fade-in per slide) ─── */}
+          <div className="relative z-10 text-center px-14 md:px-4 w-full max-w-3xl mx-auto flex flex-col items-center">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={`content-${currentIndex}`}
+                className="space-y-5"
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+                variants={{
+                  hidden: {},
+                  visible: { transition: { staggerChildren: 0.15 } },
+                  exit: { transition: { staggerChildren: 0.05 } },
+                }}
               >
-                <Link href={slide.ctaLink}>{slide.ctaText}</Link>
-              </Button>
-              {slide.ctaSecondaryText && slide.ctaSecondaryLink && (
-                <Button
-                  asChild
-                  variant="outline"
-                  size="lg"
-                  className="rounded-full px-10 py-7 text-base md:text-lg font-medium border-white/60 text-white hover:bg-white hover:text-primary bg-transparent shadow-xl transition-all"
+                {/* Headline */}
+                <motion.h1
+                  className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif text-white leading-[1.08] tracking-tight whitespace-pre-line"
+                  style={{
+                    fontFamily: "'Playfair Display', 'Cormorant Garamond', serif",
+                    textShadow: "0 4px 20px rgba(0,0,0,0.7), 0 2px 8px rgba(0,0,0,0.5)",
+                  }}
+                  variants={{
+                    hidden: { opacity: 0, y: 30, filter: "blur(4px)" },
+                    visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.7, ease: "easeOut" } },
+                    exit: { opacity: 0, y: -15, transition: { duration: 0.35 } },
+                  }}
                 >
-                  <Link href={slide.ctaSecondaryLink}>{slide.ctaSecondaryText}</Link>
-                </Button>
-              )}
-            </motion.div>
-          </motion.div>
-        </AnimatePresence>
-      </div>
+                  {slide.headline}
+                </motion.h1>
+
+                {/* Subheadline — prominent burgundy/pink accent */}
+                <motion.p
+                  className="text-lg sm:text-xl md:text-2xl max-w-2xl mx-auto leading-relaxed font-medium"
+                  style={{
+                    fontFamily: "'Playfair Display', 'Cormorant Garamond', serif",
+                    fontStyle: "italic",
+                    color: "#f5c6c0",
+                    textShadow: "0 2px 12px rgba(0,0,0,0.8), 0 1px 4px rgba(0,0,0,0.6)",
+                    letterSpacing: "0.01em",
+                  }}
+                  variants={{
+                    hidden: { opacity: 0, y: 25 },
+                    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+                    exit: { opacity: 0, y: -10, transition: { duration: 0.3 } },
+                  }}
+                >
+                  {slide.subheadline}
+                </motion.p>
+
+                {/* CTA buttons */}
+                {slide.ctaLink && slide.ctaText && (
+                  <motion.div
+                    className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4"
+                    variants={{
+                      hidden: { opacity: 0, y: 20 },
+                      visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+                      exit: { opacity: 0, y: -10, transition: { duration: 0.25 } },
+                    }}
+                  >
+                    <Button
+                      asChild
+                      size="lg"
+                      className="rounded-full px-10 py-7 text-base md:text-lg font-medium bg-primary hover:bg-primary/90 text-primary-foreground shadow-xl transition-all border-none"
+                    >
+                      <Link href={slide.ctaLink}>{slide.ctaText}</Link>
+                    </Button>
+                    {slide.ctaSecondaryText && slide.ctaSecondaryLink && (
+                      <Button
+                        asChild
+                        variant="outline"
+                        size="lg"
+                        className="rounded-full px-10 py-7 text-base md:text-lg font-medium border-white/60 text-white hover:bg-white hover:text-primary bg-transparent shadow-xl transition-all"
+                      >
+                        <Link href={slide.ctaSecondaryLink}>{slide.ctaSecondaryText}</Link>
+                      </Button>
+                    )}
+                  </motion.div>
+                )}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </>
+      )}
 
       {/* ─── Arrow controls ─── */}
       <button
         id="hero-prev"
         onClick={() => { goPrev(); handlePause(); handleResume() }}
-        className="absolute left-3 md:left-6 top-1/2 -translate-y-1/2 z-30 w-11 h-11 md:w-12 md:h-12 rounded-full border border-white/30 flex items-center justify-center text-white/60 hover:text-white hover:border-white/70 hover:bg-white/10 transition-all duration-300 backdrop-blur-sm cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+        className="absolute left-3 md:left-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 md:w-14 md:h-14 rounded-full border border-primary/10 bg-white/85 hidden md:flex items-center justify-center text-primary shadow-lg hover:bg-white hover:scale-105 hover:shadow-xl transition-all duration-300 backdrop-blur-md cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
         aria-label="Previous slide"
       >
-        <ChevronLeft className="h-5 w-5 md:h-6 md:w-6" />
+        <ChevronLeft className="h-6 w-6 md:h-7 md:w-7" />
       </button>
       <button
         id="hero-next"
         onClick={() => { goNext(); handlePause(); handleResume() }}
-        className="absolute right-3 md:right-6 top-1/2 -translate-y-1/2 z-30 w-11 h-11 md:w-12 md:h-12 rounded-full border border-white/30 flex items-center justify-center text-white/60 hover:text-white hover:border-white/70 hover:bg-white/10 transition-all duration-300 backdrop-blur-sm cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+        className="absolute right-3 md:right-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 md:w-14 md:h-14 rounded-full border border-primary/10 bg-white/85 hidden md:flex items-center justify-center text-primary shadow-lg hover:bg-white hover:scale-105 hover:shadow-xl transition-all duration-300 backdrop-blur-md cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
         aria-label="Next slide"
       >
-        <ChevronRight className="h-5 w-5 md:h-6 md:w-6" />
+        <ChevronRight className="h-6 w-6 md:h-7 md:w-7" />
       </button>
 
       {/* ─── Slide indicator dots ─── */}
@@ -499,7 +451,7 @@ export function HeroSection() {
 
       {/* ─── Live region for screen readers ─── */}
       <div className="sr-only" aria-live="polite" aria-atomic="true">
-        Slide {currentIndex + 1} of {slides.length}: {slide.headline.replace("\n", " ")}
+        Slide {currentIndex + 1} of {slides.length}
       </div>
     </section>
   )
