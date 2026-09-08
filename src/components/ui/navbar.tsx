@@ -95,7 +95,7 @@ export function Navbar({ transparent = false }: NavbarProps) {
             <motion.div 
               className="whitespace-nowrap flex items-center min-w-max"
               animate={{ x: ["0%", "-50%"] }}
-              transition={{ repeat: Infinity, duration: 25, ease: "linear" }}
+              transition={{ repeat: Infinity, duration: 60, ease: "linear" }}
             >
               {/* First Set */}
               <div className="flex shrink-0">

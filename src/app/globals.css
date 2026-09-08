@@ -212,3 +212,26 @@ html {
   white-space: nowrap;
   border-width: 0;
 }
+
+/* ── Continuous Marquee Carousel ── */
+@keyframes continuous-marquee {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-continuous-marquee {
+  display: flex;
+  width: max-content;
+  animation: continuous-marquee var(--marquee-duration, 75s) linear infinite;
+  will-change: transform;
+}
+
+.animate-continuous-marquee:hover,
+.animate-continuous-marquee.is-paused {
+  animation-play-state: paused !important;
+}
+

@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { ProductCard } from "@/components/ui/product-card"
+import { ProductCarousel } from "@/components/home/product-carousel"
 
 interface ProductData {
   id: string
@@ -23,37 +23,28 @@ export function CategorySection({ title, slug, products }: CategorySectionProps)
   }
 
   return (
-    <section className="py-12 border-b border-border/40 last:border-b-0">
+    <section className="py-10 md:py-14 border-b border-border/40 last:border-b-0 overflow-hidden">
       <div className="container mx-auto px-4 md:px-8">
-        <div className="flex flex-row justify-between items-center mb-6 md:mb-8">
-          <div className="space-y-2">
+        <div className="flex flex-row justify-between items-end mb-6 md:mb-8">
+          <div>
+            <span className="text-[11px] uppercase tracking-[0.2em] text-gold font-medium block mb-1">
+              Curated Blooms
+            </span>
             <h2 className="text-2xl md:text-3xl font-serif text-foreground text-primary">
               {title}
             </h2>
           </div>
           <Link
             href={`/shop?category=${slug}`}
-            className="shrink-0 text-xs md:text-sm font-medium text-white bg-primary px-4 py-2 md:px-6 rounded-md hover:bg-primary/90 transition-colors"
+            className="shrink-0 text-xs md:text-sm font-medium text-white bg-primary px-4 py-2 md:px-6 rounded-full hover:bg-primary/90 transition-colors shadow-sm"
           >
             View All
           </Link>
         </div>
-        
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
-          {products.map((product) => (
-            <ProductCard
-              key={product.id}
-              id={product.id}
-              name={product.name}
-              slug={product.slug}
-              price={product.base_price}
-              compareAtPrice={product.compare_at_price}
-              image={product.image}
-              category={product.category}
-            />
-          ))}
-        </div>
       </div>
+
+      {/* Continuously Moving Product Carousel */}
+      <ProductCarousel products={products} />
     </section>
   )
 }

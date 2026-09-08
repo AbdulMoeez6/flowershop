@@ -74,6 +74,23 @@ export function SettingsForm({ initialSettings }: { initialSettings: SiteSetting
               </p>
             </div>
 
+            <div className="space-y-2 pb-4">
+              <label htmlFor="cakes_sort_order" className="text-sm font-medium">
+                Cakes Category Default Display Order
+              </label>
+              <input
+                id="cakes_sort_order"
+                type="text"
+                className="input-premium"
+                placeholder="cakes, sundaes, cup cakes, donuts"
+                value={settings.cakes_sort_order || "cakes, sundaes, cup cakes, donuts"}
+                onChange={(e) => setSettings({ ...settings, cakes_sort_order: e.target.value })}
+              />
+              <p className="text-xs text-muted-foreground">
+                Comma-separated priority list. Without any filter, products in the Cakes category will automatically sort in this order (e.g. Cakes first, then Sundaes, Cup Cakes, Donuts).
+              </p>
+            </div>
+
             <h2 className="text-lg font-medium pt-4 border-t">Contact & Social</h2>
             
             <div className="space-y-2">

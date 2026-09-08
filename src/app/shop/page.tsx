@@ -2,6 +2,7 @@ import { Navbar } from "@/components/ui/navbar"
 import { Footer } from "@/components/ui/footer"
 import { ProductCard } from "@/components/ui/product-card"
 import { getAllProducts, getCategories } from "@/lib/data"
+import { isCakesCategory } from "@/lib/dynamic-sorter"
 import Link from "next/link"
 
 interface ShopPageProps {
@@ -37,20 +38,24 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
     return `/shop?${p.toString()}`
   }
 
+  const isCakes = isCakesCategory(params.category)
+
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <Navbar />
 
       <main className="flex-1 container mx-auto px-4 md:px-8 py-10">
         {/* Header */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 gap-4">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
           <div className="space-y-2">
             <h1 className="text-4xl md:text-5xl font-serif text-foreground">
-              {params.q ? `Search Results for "${params.q}"` : "The Collection"}
+              {params.q ? `Search Results for "${params.q}"` : isCakes ? "Cakes & Confections" : "The Collection"}
             </h1>
             <p className="text-muted-foreground max-w-xl">
               {params.q 
                 ? `Showing ${total} products matching your search.`
+                : isCakes
+                ? "Explore our gourmet artisan cakes, chilled sundaes, freshly baked cup cakes, and decadent donuts."
                 : "Browse our curated selection of fresh, premium blooms crafted for every occasion."}
             </p>
           </div>
@@ -60,7 +65,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
             {/* Category links */}
             <div className="flex gap-2 flex-wrap">
               <Link
-                href={buildUrl({ category: undefined, page: undefined })}
+                href={buildUrl({ category: undefined, page: undefined, q: undefined })}
                 className={`px-4 py-2 rounded-full text-sm font-medium border transition-colors ${
                   !params.category
                     ? "bg-primary text-white border-primary"
@@ -72,7 +77,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
               {categories.map((cat) => (
                 <Link
                   key={cat.id}
-                  href={buildUrl({ category: cat.slug, page: undefined })}
+                  href={buildUrl({ category: cat.slug, page: undefined, q: undefined })}
                   className={`px-4 py-2 rounded-full text-sm font-medium border transition-colors ${
                     params.category === cat.slug
                       ? "bg-primary text-white border-primary"
@@ -85,6 +90,38 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
             </div>
           </div>
         </div>
+
+        {/* Sub-type quick filter for Cakes */}
+        {isCakes && (
+          <div className="flex items-center gap-2 overflow-x-auto pb-3 mb-6 scrollbar-none">
+            <span className="text-xs text-muted-foreground font-medium uppercase tracking-wider mr-1 shrink-0">
+              Browse by:
+            </span>
+            {[
+              { label: "All Treats", query: undefined },
+              { label: "Cakes", query: "cake" },
+              { label: "Sundaes", query: "sundae" },
+              { label: "Cup Cakes", query: "cup" },
+              { label: "Donuts", query: "donut" },
+              { label: "Cookies & Treats", query: "cookie" },
+            ].map((sub) => {
+              const isActive = (!sub.query && !params.q) || (sub.query && params.q?.toLowerCase() === sub.query)
+              return (
+                <Link
+                  key={sub.label}
+                  href={buildUrl({ q: sub.query, page: undefined })}
+                  className={`text-xs px-3.5 py-1.5 rounded-full border transition-all shrink-0 ${
+                    isActive
+                      ? "bg-primary text-white font-medium border-primary shadow-xs"
+                      : "border-border/70 text-muted-foreground hover:text-foreground hover:border-primary/40 bg-card/60"
+                  }`}
+                >
+                  {sub.label}
+                </Link>
+              )
+            })}
+          </div>
+        )}
 
         {/* Sort bar */}
         <div className="flex justify-between items-center mb-8">

@@ -16,7 +16,7 @@ export default async function HomePage() {
   
   // Fetch products for all categories in parallel
   const categoryProductsPromises = categories.map((cat: any) => 
-    getProductsByCategorySlug(cat.slug, 4)
+    getProductsByCategorySlug(cat.slug, 10)
   )
   const productsArrays = await Promise.all(categoryProductsPromises)
 

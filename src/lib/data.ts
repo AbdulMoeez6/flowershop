@@ -3,6 +3,7 @@
  */
 
 import { getWatermarkedUrl } from "@/lib/utils"
+import { isCakesCategory, sortBakeryProducts, sortProductsByCategoryHierarchy } from "@/lib/dynamic-sorter"
 
 // Helper: Check if Supabase is configured with real credentials
 function isSupabaseConfigured(): boolean {
@@ -25,6 +26,7 @@ interface ProductData {
   stock: number
   image: string
   category: string
+  created_at?: string
   images?: string[]
   long_description?: string
   variants?: { id: string; name: string; price_adjustment: number; stock: number }[]
@@ -73,6 +75,41 @@ export async function getProductsByCategorySlug(slug: string, limit: number = 4)
     try {
       const { createClient } = await import("@/utils/supabase/server")
       const supabase = await createClient()
+
+      // For Cakes category, fetch all active items and dynamically prioritize: Cakes -> Sundaes -> Cup Cakes -> Donuts -> Others
+      if (isCakesCategory(slug)) {
+        const { data, error } = await supabase
+          .from("products")
+          .select(`
+            id, name, slug, short_description, base_price, compare_at_price, stock, created_at,
+            product_images (url, alt_text, sort_order),
+            product_categories!inner (
+              categories!inner (name, slug)
+            )
+          `)
+          .eq("is_active", true)
+          .eq("product_categories.categories.slug", slug)
+          .order("created_at", { ascending: false })
+
+        if (!error && data && data.length > 0) {
+          const mapped = data.map((p: any) => ({
+            id: p.id,
+            name: p.name,
+            slug: p.slug,
+            short_description: p.short_description ?? "",
+            base_price: Number(p.base_price),
+            compare_at_price: p.compare_at_price ? Number(p.compare_at_price) : null,
+            stock: p.stock ?? 0,
+            image: getWatermarkedUrl(p.product_images?.[0]?.url),
+            category: p.product_categories?.[0]?.categories?.name ?? "",
+            created_at: p.created_at,
+          }))
+
+          const sorted = sortBakeryProducts(mapped)
+          return sorted.slice(0, limit)
+        }
+      }
+
       const { data, error } = await supabase
         .from("products")
         .select(`
@@ -156,6 +193,93 @@ export async function getAllProducts(options?: {
       const categorySelect = options?.category
         ? `product_categories!inner (categories!inner (name, slug))`
         : `product_categories (categories (name, slug))`
+
+      const isCakes = isCakesCategory(options?.category)
+      const hasExplicitSort = options?.sort === "price-asc" || options?.sort === "price-desc"
+
+      // In Cakes category without an explicit sort filter, dynamically prioritize: Cakes -> Sundaes -> Cup Cakes -> Donuts -> Others
+      if (isCakes && !hasExplicitSort) {
+        let query = supabase
+          .from("products")
+          .select(`
+            id, name, slug, short_description, base_price, compare_at_price, stock, created_at,
+            product_images (url, alt_text, sort_order),
+            ${categorySelect}
+          `, { count: "exact" })
+          .eq("is_active", true)
+
+        if (options?.search) {
+          query = query.ilike("name", `%${options.search}%`)
+        }
+
+        if (options?.category) {
+          query = query.eq("product_categories.categories.slug", options.category)
+        }
+
+        query = query.order("created_at", { ascending: false })
+
+        const { data, error, count } = await query
+
+        if (!error && data) {
+          const mapped = data.map((p: any) => ({
+            id: p.id,
+            name: p.name,
+            slug: p.slug,
+            short_description: p.short_description ?? "",
+            base_price: Number(p.base_price),
+            compare_at_price: p.compare_at_price ? Number(p.compare_at_price) : null,
+            stock: p.stock ?? 0,
+            image: getWatermarkedUrl(p.product_images?.[0]?.url),
+            category: p.product_categories?.[0]?.categories?.name ?? "",
+            created_at: p.created_at,
+          }))
+
+          const sorted = sortBakeryProducts(mapped)
+          const limit = options?.limit ?? 12
+          const offset = options?.offset ?? 0
+          const paginated = sorted.slice(offset, offset + limit)
+
+          return { products: paginated, total: count ?? mapped.length }
+        }
+      }
+
+      // When viewing "All" (no category selected) without an explicit price sort or search query,
+      // sort products by category sort_order: Flower Bouquet -> Single Stem Flowers -> Combo Deals -> etc.
+      if (!options?.category && !hasExplicitSort && !options?.search) {
+        const { data, error, count } = await supabase
+          .from("products")
+          .select(`
+            id, name, slug, short_description, base_price, compare_at_price, stock, created_at,
+            product_images (url, alt_text, sort_order),
+            product_categories (
+              categories (id, name, slug, sort_order)
+            )
+          `, { count: "exact" })
+          .eq("is_active", true)
+
+        if (!error && data) {
+          const mapped = data.map((p: any) => ({
+            id: p.id,
+            name: p.name,
+            slug: p.slug,
+            short_description: p.short_description ?? "",
+            base_price: Number(p.base_price),
+            compare_at_price: p.compare_at_price ? Number(p.compare_at_price) : null,
+            stock: p.stock ?? 0,
+            image: getWatermarkedUrl(p.product_images?.[0]?.url),
+            category: p.product_categories?.[0]?.categories?.name ?? "",
+            created_at: p.created_at,
+            product_categories: p.product_categories,
+          }))
+
+          const sorted = sortProductsByCategoryHierarchy(mapped)
+          const limit = options?.limit ?? 12
+          const offset = options?.offset ?? 0
+          const paginated = sorted.slice(offset, offset + limit)
+
+          return { products: paginated, total: count ?? mapped.length }
+        }
+      }
 
       let query = supabase
         .from("products")
@@ -303,6 +427,7 @@ export async function getLocalizedProducts(citySlug: string, categorySlug?: stri
           stock: p.stock ?? 0,
           image: getWatermarkedUrl(p.product_images?.[0]?.url),
           category: p.product_categories?.[0]?.categories?.name ?? "",
+          created_at: p.created_at,
         }))
         
         if (categorySlug) {
@@ -312,6 +437,10 @@ export async function getLocalizedProducts(citySlug: string, categorySlug?: stri
               d.product_categories?.some((pc: any) => pc.categories?.slug === categorySlug)
             )
           )
+        }
+
+        if (isCakesCategory(categorySlug)) {
+          mapped = sortBakeryProducts(mapped)
         }
         
         return mapped
@@ -331,6 +460,7 @@ export type SiteSettings = {
   instagram_url: string
   hide_prices: boolean
   hide_phone_number: boolean
+  cakes_sort_order?: string
 }
 
 export async function getSettings(): Promise<SiteSettings> {
@@ -340,6 +470,7 @@ export async function getSettings(): Promise<SiteSettings> {
     instagram_url: "#",
     hide_prices: true,
     hide_phone_number: true,
+    cakes_sort_order: "cakes, sundaes, cup cakes, donuts",
   }
 
   if (isSupabaseConfigured()) {
@@ -361,6 +492,7 @@ export async function getSettings(): Promise<SiteSettings> {
           instagram_url: settings.instagram_url || defaultSettings.instagram_url,
           hide_prices: settings.hide_prices !== undefined ? String(settings.hide_prices) === "true" : defaultSettings.hide_prices,
           hide_phone_number: settings.hide_phone_number !== undefined ? String(settings.hide_phone_number) === "true" : defaultSettings.hide_phone_number,
+          cakes_sort_order: settings.cakes_sort_order || defaultSettings.cakes_sort_order,
         }
       }
     } catch {

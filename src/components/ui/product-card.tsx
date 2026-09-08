@@ -26,6 +26,7 @@ interface ProductCardProps {
   image: string
   category?: string
   className?: string
+  animateOnView?: boolean
 }
 
 export function ProductCard({
@@ -37,6 +38,7 @@ export function ProductCard({
   image,
   category,
   className,
+  animateOnView = true,
 }: ProductCardProps) {
   const [imgSrc, setImgSrc] = React.useState(image)
   const [imgError, setImgError] = React.useState(false)
@@ -56,12 +58,21 @@ export function ProductCard({
 
   const productHref = slug ? `/product/${slug}` : `/product/${id}`
 
+  const motionProps = animateOnView
+    ? {
+        initial: { opacity: 0, y: 20 },
+        whileInView: { opacity: 1, y: 0 },
+        viewport: { once: true, margin: "-50px" },
+        transition: { duration: 0.5 },
+      }
+    : {
+        initial: false,
+        animate: { opacity: 1, y: 0 },
+      }
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.5 }}
+      {...motionProps}
       className={cn("group relative flex flex-col h-full", className)}
     >
       {/* Image Container */}
@@ -70,7 +81,7 @@ export function ProductCard({
           src={imgError ? FALLBACK_IMAGE : imgSrc}
           alt={name}
           fill
-          className="object-contain transition-transform duration-700 ease-out group-hover:scale-110"
+          className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
           sizes="(min-width: 1280px) 25vw, (min-width: 768px) 33vw, 50vw"
           placeholder="blur"
           blurDataURL={BLUR_DATA_URL}
@@ -124,26 +135,26 @@ export function ProductCard({
       </Link>
 
       {/* Text content */}
-      <div className="flex flex-col mt-4 space-y-1.5 flex-1">
+      <div className="flex flex-col mt-3 sm:mt-4 space-y-1 sm:space-y-1.5 flex-1">
         {category && (
-          <span className="text-[11px] uppercase tracking-widest text-muted-foreground font-medium truncate">
+          <span className="text-[10px] sm:text-[11px] uppercase tracking-widest text-muted-foreground font-medium truncate">
             {category}
           </span>
         )}
         <Link
           href={productHref}
-          className="font-serif text-lg font-medium text-foreground hover:text-primary transition-colors leading-snug truncate block"
+          className="font-serif text-sm sm:text-base md:text-lg font-medium text-foreground hover:text-primary transition-colors leading-snug truncate block"
           title={name}
         >
           {name}
         </Link>
         {!settings.hide_prices && (
-          <div className="flex items-center gap-2">
-            <span className="text-sm font-semibold text-foreground">
+          <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
+            <span className="text-xs sm:text-sm font-semibold text-foreground">
               Rs. {price.toLocaleString()}
             </span>
             {compareAtPrice && compareAtPrice > price && (
-              <span className="text-xs text-muted-foreground line-through">
+              <span className="text-[10px] sm:text-xs text-muted-foreground line-through">
                 Rs. {compareAtPrice.toLocaleString()}
               </span>
             )}
@@ -153,7 +164,7 @@ export function ProductCard({
         {!settings.hide_phone_number && (
           <Button
             variant="default"
-            className="w-full mt-3 h-9 text-xs font-medium rounded-md bg-primary hover:bg-primary/90 text-white"
+            className="w-full mt-2 sm:mt-3 h-8 sm:h-9 text-[11px] sm:text-xs font-medium rounded-md bg-primary hover:bg-primary/90 text-white px-2 shadow-sm"
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
