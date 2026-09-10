@@ -11,7 +11,8 @@ export function CloudImage({ src, ...props }: CloudImageProps) {
     return <div className={`bg-muted ${props.className || ''}`} />
   }
 
-  const isCloudinary = typeof src === "string" && src.includes("res.cloudinary.com")
+  const hasCloudinaryEnv = Boolean(process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME)
+  const isCloudinary = hasCloudinaryEnv && typeof src === "string" && src.includes("res.cloudinary.com")
 
   if (isCloudinary) {
     // CldImage supports all next/image props, but we need to ensure type compatibility
