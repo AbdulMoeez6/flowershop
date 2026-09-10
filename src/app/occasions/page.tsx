@@ -1,6 +1,6 @@
 import { Navbar } from "@/components/ui/navbar"
 import { Footer } from "@/components/ui/footer"
-import Image from "next/image"
+import { CloudImage as Image } from "@/components/ui/cloud-image"
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 import { fetchOccasions } from "@/app/actions/categories"

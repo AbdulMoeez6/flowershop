@@ -5,7 +5,7 @@ import { Navbar } from "@/components/ui/navbar"
 import { Footer } from "@/components/ui/footer"
 import { Button } from "@/components/ui/button"
 import { useSettings } from "@/components/providers/settings-provider"
-import Image from "next/image"
+import { CloudImage as Image } from "@/components/ui/cloud-image"
 import Link from "next/link"
 import { Minus, Plus, Trash2, ShoppingBag } from "lucide-react"
 

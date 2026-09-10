@@ -1,5 +1,5 @@
 import Link from "next/link"
-import Image from "next/image"
+import { CloudImage as Image } from "@/components/ui/cloud-image"
 import { Navbar } from "@/components/ui/navbar"
 import { Footer } from "@/components/ui/footer"
 import { HeroSection } from "@/components/home/hero"

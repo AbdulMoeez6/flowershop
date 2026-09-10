@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import Image from "next/image"
+import { CloudImage as Image } from "@/components/ui/cloud-image"
 import { motion } from "framer-motion"
 
 interface Category {

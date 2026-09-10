@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import Image from "next/image"
+import { CloudImage as Image } from "@/components/ui/cloud-image"
 import { Button } from "@/components/ui/button"
 import { useCartStore } from "@/store/useCartStore"
 import { useSettings } from "@/components/providers/settings-provider"

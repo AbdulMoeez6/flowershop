@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react"
 
 import { motion } from "framer-motion"
 import { Star, ChevronRight } from "lucide-react"
-import Image from "next/image"
+import { CloudImage as Image } from "@/components/ui/cloud-image"
 
 const testimonials = [
   {

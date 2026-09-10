@@ -3,7 +3,7 @@
 import { Navbar } from "@/components/ui/navbar"
 import { Footer } from "@/components/ui/footer"
 import { motion } from "framer-motion"
-import Image from "next/image"
+import { CloudImage as Image } from "@/components/ui/cloud-image"
 
 export default function AboutPage() {
   return (

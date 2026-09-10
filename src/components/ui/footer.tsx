@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import Image from "next/image"
+import { CloudImage as Image } from "@/components/ui/cloud-image"
 import { MapPin, Phone, Mail, Clock } from "lucide-react"
 import { useSettings } from "@/components/providers/settings-provider"
 import { useState, useEffect } from "react"

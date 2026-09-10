@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
-import Image from "next/image"
+import { CloudImage as Image } from "@/components/ui/cloud-image"
 import {
   LayoutDashboard,
   Package,

@@ -10,7 +10,7 @@ import { Navbar } from "@/components/ui/navbar"
 import { Footer } from "@/components/ui/footer"
 import { Button } from "@/components/ui/button"
 import { createOrder } from "@/app/actions/checkout"
-import Image from "next/image"
+import { CloudImage as Image } from "@/components/ui/cloud-image"
 import Link from "next/link"
 import { CheckCircle, ShoppingBag, CreditCard, Truck } from "lucide-react"
 

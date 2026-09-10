@@ -3,7 +3,7 @@
 import * as React from "react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
-import Image from "next/image"
+import { CloudImage as Image } from "@/components/ui/cloud-image"
 import { Search, ShoppingBag, Menu, User, X, Heart } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "./button"

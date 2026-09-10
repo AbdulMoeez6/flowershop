@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { createClient } from "@/utils/supabase/client"
 import { Button } from "@/components/ui/button"
 import { Plus, Search, Edit, Trash2, X, Upload } from "lucide-react"
-import Image from "next/image"
+import { CloudImage as Image } from "@/components/ui/cloud-image"
 import { uploadImage, deleteImage } from "@/app/actions/cloudinary"
 
 interface Product {

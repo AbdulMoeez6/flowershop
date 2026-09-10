@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { createClient } from "@/utils/supabase/client"
 import { Button } from "@/components/ui/button"
 import { Plus, Edit, Trash2, X, ArrowUp, ArrowDown, Eye, EyeOff } from "lucide-react"
-import Image from "next/image"
+import { CloudImage as Image } from "@/components/ui/cloud-image"
 import { uploadImage, deleteImage } from "@/app/actions/cloudinary"
 
 function getCloudinaryPublicId(url: string) {

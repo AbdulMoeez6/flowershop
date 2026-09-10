@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { X, ChevronRight } from "lucide-react"
 import Link from "next/link"
-import Image from "next/image"
+import { CloudImage as Image } from "@/components/ui/cloud-image"
 import { Button } from "@/components/ui/button"
 
 export function WelcomeModal({ categories }: { categories: any[] }) {

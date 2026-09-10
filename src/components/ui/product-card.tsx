@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import Image from "next/image"
+import { CloudImage as Image } from "@/components/ui/cloud-image"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { ShoppingBag, Heart } from "lucide-react"
