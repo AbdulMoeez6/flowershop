@@ -1,3 +1,5 @@
+"use client"
+
 import React from "react"
 import Image, { ImageProps } from "next/image"
 import { CldImage, CldImageProps } from "next-cloudinary"
